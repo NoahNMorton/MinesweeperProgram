@@ -19,7 +19,7 @@ public class MS_Map {
         createMap(clickedRow, clickedCol);
     }
 
-<<<<<<< HEAD
+
     /**
      * Method to get the value of the provided location.
      *
@@ -29,18 +29,12 @@ public class MS_Map {
      */
     MS_Square getSquare(int c, int r) {
         if ((c < numColsM && c >= 0) && (r < numRowsM && r >= 0))
-=======
-
-    MS_Square getSquare(int c, int r) {
-        //todo get square >check
-        if ((c < numColsM && c > 0) && (r < numRowsM && r > 0))
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
             return grid[r][c];
         else
             return null;
     }
 
-<<<<<<< HEAD
+
     /**
      * Method to generate the game map.
      *
@@ -50,11 +44,8 @@ public class MS_Map {
     private void createMap(int clickedRow, int clickedCol) {
         //make the array
         grid = new MS_Square[numRowsM][numColsM];
-=======
 
-    private void createMap(int clickedRow, int clickedCol) {
-        //make the array todo >check
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
+
         for (int y = 0; y < numRowsM; y++) {
             for (int x = 0; x < numColsM; x++) {
                 grid[y][x] = new MS_Square();
@@ -64,7 +55,7 @@ public class MS_Map {
         Logger.logCodeMessage("Setting mines...");
         for (int m = 0; m < numMinesM; m++) {
             int randomY = (int) (Math.random() * numRowsM), randomX = (int) (Math.random() * numColsM);
-<<<<<<< HEAD
+
             if (randomX != clickedCol && randomY != clickedRow)  //does not allow clicked to be a mine
                 grid[randomY][randomX].setMine(true);
             else
@@ -73,12 +64,6 @@ public class MS_Map {
         Logger.logCodeMessage("Mines set Success. Number of mines is " + numMinesM);
         //todo set numbers
 
-=======
-            if (randomX != clickedCol || randomY != clickedRow)  //does not allow clicked to be a mine
-                grid[randomY][randomX].setMine(true);
-        }
-        Logger.logCodeMessage("Mines set Success. Number of mines is " + numMinesM);
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
     }
 
 

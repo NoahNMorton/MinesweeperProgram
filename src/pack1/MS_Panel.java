@@ -15,38 +15,30 @@ import java.io.File;
  *         Part of Project: MineSweeper
  */
 
-<<<<<<< HEAD
 public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener, Runnable {
 
-=======
-public class MS_Panel extends JFrame implements MouseListener, MouseMotionListener, Runnable {
-
-    MS_Game game;
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
+    public static final int GUIEXTRAHEIGHT = 130;
     int numColsP;
     int numRowsP;
     Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
             digitFour, digitThree, digitHyphen, digitTwo, digitOne, digitZero, eight, seven, six, five, four, three,
             two, one, empty, unclicked, flag, question, mine, incorrectFlag, exploded;
-<<<<<<< HEAD
-    private MS_Game game;
-=======
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
 
+    private MS_Game game;
 
     public MS_Panel(int numCols, int numRows, int numMines) {
 
-<<<<<<< HEAD
-        setSize(numCols * 16, numRows * 16 + 130); //todo extract 130 to additionalHeight variable.
+
+        setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT); //todo extract 130 to additionalHeight variable.
         this.numColsP = numCols;
         this.numRowsP = numRows;
         game = new MS_Game(numRows, numCols, numMines);
-=======
+
         setSize(numCols * 16, numRows * 16);
         this.numColsP = numCols;
         this.numRowsP = numRows;
 
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
+
         try {
 
             dead = ImageIO.read((new File("Dead.png")));
@@ -107,7 +99,7 @@ public class MS_Panel extends JFrame implements MouseListener, MouseMotionListen
     }
 
     public void paint(Graphics g) {
-<<<<<<< HEAD
+
         //paint game
         g.setColor(Color.WHITE);
         //todo make gui at top of screen
@@ -116,18 +108,13 @@ public class MS_Panel extends JFrame implements MouseListener, MouseMotionListen
             for (int c = 0; c < game.getNumColsG(); c++) {
                 MS_Map m = game.getMap();
                 if (m.getSquare(c, r).isMine()) {
-                    g.drawImage(mine, c * 16, r * 16 + 130, null);
+                    g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                 } else
-                    g.drawImage(empty, c * 16, r * 16 + 130, null);
+                    g.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
             }
 
         }
 
-=======
-        //paint game todo help not printing
-        //g.setColor(Color.black);
-        // g.fillRect(0,0,20,50);
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
 
     }
 

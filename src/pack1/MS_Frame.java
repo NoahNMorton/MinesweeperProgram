@@ -12,9 +12,9 @@ import java.awt.*;
 public class MS_Frame extends JFrame {
 
     public MS_Frame(int rows, int cols, int mines) {
-<<<<<<< HEAD
 
-        super("MineSweeper");
+
+            super("MineSweeper");
 
 
         // Sets the close button to exit the program
@@ -43,22 +43,9 @@ public class MS_Frame extends JFrame {
         pack();
         // shows the frame
         setVisible(true);
-=======
-        //todo adjust size
-        super("MineSweeper");
-        new MS_Panel(rows, cols, mines);
 
-        pack();
-        setPreferredSize(new Dimension(cols * 16, (rows * 16) + 150)); //sets a size appropriate to the board size
-        Logger.logOtherMessage("Window", "Window size is: " + cols * 16 + "," + rows * 16);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
-        setFocusable(true);
-        pack();
-        setVisible(true);
-        Logger.logOtherMessage("Window", "Window Created.");
 
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
+            Logger.logOtherMessage("Window", "Window Created.");
 
     }
 

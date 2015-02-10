@@ -15,12 +15,9 @@ public class Logger {
     private static File f;
 
     public Logger() {
-<<<<<<< HEAD
-        f = new File("programLog.log");
-=======
-        f = new File("programLog.log"); //todo check if it is in the right dir
 
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
+        f = new File("programLog.log");
+
     }
 
 

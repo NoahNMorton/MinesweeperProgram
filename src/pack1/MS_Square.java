@@ -10,11 +10,9 @@ public class MS_Square {
     public static final int SHOWN = 0, UP = 1, FLAG = 2, QUESTION = 3;
 
     boolean mine;
-<<<<<<< HEAD
+
     private int numRowsS, numColsS, numMinesS, state, number; //todo num rows and cols might not be needed.
-=======
-    private int numRowsS, numColsS, numMinesS, state, number;
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
+
 
     public MS_Square() {
         mine = false;

@@ -20,10 +20,9 @@ public class MS_Game {
         this.numMinesG = numMines;
         numMarked = 0;
         state = NOT_STARTED;
-<<<<<<< HEAD
+
         makeGame(numCols, numRows);
-=======
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
+
     }
 
     public int getNumRowsG() {
@@ -75,11 +74,8 @@ public class MS_Game {
     }
 
     void makeGame(int c, int r) {
-<<<<<<< HEAD
-
-=======
         //todo makes the game, does not set mine at provided >check
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
+
         map = new MS_Map(numColsG, numRowsG, numMinesG, c, r);
 
     }
@@ -88,13 +84,11 @@ public class MS_Game {
         //todo updates game
 
 
-<<<<<<< HEAD
     }
 }
-=======
-        }
-    }
->>>>>>> b2d33d5fc9757c4cf108a8d01fdf70114f58d8de
+
+
+
 
 
 
