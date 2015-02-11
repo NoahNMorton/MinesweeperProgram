@@ -51,7 +51,7 @@ public class MS_Map {
                 grid[y][x] = new MS_Square();
             }
         }
-        //set mines
+        //set mines ---------------------
         Logger.logCodeMessage("Setting mines...");
         for (int m = 0; m < numMinesM; m++) {
             int randomY = (int) (Math.random() * numRowsM), randomX = (int) (Math.random() * numColsM);
@@ -62,8 +62,8 @@ public class MS_Map {
                 m--;
         }
         Logger.logCodeMessage("Mines set Success. Number of mines is " + numMinesM);
-        //todo set numbers
-
+        //todo set numbers use getMineCounter
+        //set numbers -----------------------
     }
 
 

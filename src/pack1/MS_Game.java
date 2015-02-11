@@ -19,7 +19,7 @@ public class MS_Game {
         this.numRowsG = numRows;
         this.numMinesG = numMines;
         numMarked = 0;
-        state = NOT_STARTED;
+        state = NOT_STARTED; //todo might need to set to playing. >ask teach
         startTime = System.nanoTime();
         makeGame(numCols, numRows);
 
@@ -55,7 +55,7 @@ public class MS_Game {
 
     public long getSeconds(long startTime) {
         if (getState() == PLAYING) {
-            return (System.nanoTime() - startTime) / 100000000;
+            return (System.nanoTime() - startTime) / 100000000; //divide by 1 billion
         } else
             return 0;
     }
@@ -76,10 +76,22 @@ public class MS_Game {
         return 0; //todo get mine counter
     }
 
+    /**
+     * Recursive AI method to reveal squares when clicked.
+     *
+     * @param c the column to start at, ie clicked
+     * @param r the row to start at, ie clicked
+     */
     void reveal(int c, int r) {
         //todo recursive AI method to reveal squares
     }
 
+    /**
+     * Method to create the game, and initialise the map.
+     *
+     * @param c number of columns selected
+     * @param r number of rows selected
+     */
     void makeGame(int c, int r) {
         //todo makes the game, does not set mine at provided >check
 

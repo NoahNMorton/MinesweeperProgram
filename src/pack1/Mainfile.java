@@ -28,17 +28,30 @@ public class Mainfile {
         } catch (Exception ignored) { //if args are not valid, simply skip them
         }
 
-        if (!argValid) { //if args are not valid, will get names from user todo add checks to make sure is valid
+        if (!argValid) { //if args are not valid, will get names from user
             Logger.logCodeMessage("Initialising, Asking user for data...");
-            System.out.println("Please enter the number of columns.");
+            System.out.println("Please enter the number of columns. 10-20");
             cols = scanner.nextByte();
+            if (cols < 10) cols = 10;
+            if (cols > 20) cols = 20;
             Logger.logUserMessage("Cols: " + cols);
-            System.out.println("Please enter the number of rows.");
+            System.out.println("Please enter the number of rows. 10-20");
             rows = scanner.nextByte();
+            if (rows < 10) rows = 10;
+            if (rows > 20) rows = 20;
             Logger.logUserMessage("Rows: " + rows);
-            System.out.println("Please enter the number of mines.");
+            System.out.println("Please enter the number of mines. ");
             mines = scanner.nextByte();
             Logger.logUserMessage("Mines: " + mines);
+            if (cols != rows) {
+                System.out.println("Shape of board is rectangular. Setting cols equal to rows.");
+                Logger.logErrorMessage("Shape of board was rectangular, fixing...");
+                if (cols < rows)
+                    cols = rows;
+                else
+                    rows = cols;
+                Logger.logCodeMessage("Shape of board fixed successfully.");
+            }
         }
 
 

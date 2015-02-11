@@ -29,7 +29,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     public MS_Panel(int numCols, int numRows, int numMines) {
 
 
-        setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT); //todo extract 130 to additionalHeight variable.
+        setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT);
         this.numColsP = numCols;
         this.numRowsP = numRows;
         game = new MS_Game(numRows, numCols, numMines);
@@ -37,39 +37,39 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
         try {
 
-            dead = ImageIO.read((new File("Dead.png")));
-            oh = ImageIO.read((new File("Oh.png")));
-            down = ImageIO.read((new File("Down.png")));
-            happy = ImageIO.read((new File("Happy.png")));
-            happyDown = ImageIO.read((new File("Happy_Down.png")));
-            shades = ImageIO.read((new File("Shades.png")));
-            digitNine = ImageIO.read((new File("Digit_Nine.png")));
-            digitEmpty = ImageIO.read((new File("Digit_Empty.png")));
-            digitEight = ImageIO.read((new File("Digit_Eight.png")));
-            digitSeven = ImageIO.read((new File("Digit_Seven.png")));
-            digitSix = ImageIO.read((new File("Digit_Six.png")));
-            digitFive = ImageIO.read((new File("Digit_Five.png")));
-            digitFour = ImageIO.read((new File("Digit_Four.png")));
-            digitThree = ImageIO.read((new File("Digit_Three.png")));
-            digitHyphen = ImageIO.read((new File("Digit_Hyphen.png")));
-            digitTwo = ImageIO.read((new File("Digit_Two.png")));
-            digitOne = ImageIO.read((new File("Digit_One.png")));
-            digitZero = ImageIO.read((new File("Digit_Zero.png")));
-            eight = ImageIO.read((new File("Eight.png")));
-            seven = ImageIO.read((new File("Seven.png")));
-            six = ImageIO.read((new File("Six.png")));
-            five = ImageIO.read((new File("Five.png")));
-            four = ImageIO.read((new File("Four.png")));
-            three = ImageIO.read((new File("Three.png")));
-            two = ImageIO.read((new File("Two.png")));
-            one = ImageIO.read((new File("One.png")));
-            empty = ImageIO.read((new File("Empty.png")));
-            unclicked = ImageIO.read((new File("Unclicked.png")));
-            flag = ImageIO.read((new File("Flag.png")));
-            question = ImageIO.read((new File("Question.png")));
-            mine = ImageIO.read((new File("Mine.png")));
-            incorrectFlag = ImageIO.read((new File("IncorrectFlag.png")));
-            exploded = ImageIO.read((new File("Exploded.png")));
+            dead = ImageIO.read((new File("resource/Dead.png")));
+            oh = ImageIO.read((new File("resource/Oh.png")));
+            down = ImageIO.read((new File("resource/Down.png")));
+            happy = ImageIO.read((new File("resource/Happy.png")));
+            happyDown = ImageIO.read((new File("resource/Happy_Down.png")));
+            shades = ImageIO.read((new File("resource/Shades.png")));
+            digitNine = ImageIO.read((new File("resource/Digit_Nine.png")));
+            digitEmpty = ImageIO.read((new File("resource/Digit_Empty.png")));
+            digitEight = ImageIO.read((new File("resource/Digit_Eight.png")));
+            digitSeven = ImageIO.read((new File("resource/Digit_Seven.png")));
+            digitSix = ImageIO.read((new File("resource/Digit_Six.png")));
+            digitFive = ImageIO.read((new File("resource/Digit_Five.png")));
+            digitFour = ImageIO.read((new File("resource/Digit_Four.png")));
+            digitThree = ImageIO.read((new File("resource/Digit_Three.png")));
+            digitHyphen = ImageIO.read((new File("resource/Digit_Hyphen.png")));
+            digitTwo = ImageIO.read((new File("resource/Digit_Two.png")));
+            digitOne = ImageIO.read((new File("resource/Digit_One.png")));
+            digitZero = ImageIO.read((new File("resource/Digit_Zero.png")));
+            eight = ImageIO.read((new File("resource/Eight.png")));
+            seven = ImageIO.read((new File("resource/Seven.png")));
+            six = ImageIO.read((new File("resource/Six.png")));
+            five = ImageIO.read((new File("resource/Five.png")));
+            four = ImageIO.read((new File("resource/Four.png")));
+            three = ImageIO.read((new File("resource/Three.png")));
+            two = ImageIO.read((new File("resource/Two.png")));
+            one = ImageIO.read((new File("resource/One.png")));
+            empty = ImageIO.read((new File("resource/Empty.png")));
+            unclicked = ImageIO.read((new File("resource/Unclicked.png")));
+            flag = ImageIO.read((new File("resource/Flag.png")));
+            question = ImageIO.read((new File("resource/Question.png")));
+            mine = ImageIO.read((new File("resource/Mine.png")));
+            incorrectFlag = ImageIO.read((new File("resource/IncorrectFlag.png")));
+            exploded = ImageIO.read((new File("resource/Exploded.png")));
             Logger.logOtherMessage("ImageLoader", "Succeeded.");
         } catch (Exception e) {
             System.err.println("Error Loading Images: " + e.getMessage());
@@ -95,7 +95,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void paint(Graphics g) {
-
+        final int faceX = (getWidth() / 2) - 11, faceY = (GUIEXTRAHEIGHT / 2) - 10; //determines place of face
         //paint game
         g.setColor(Color.WHITE);
         //todo make gui at top of screen
@@ -103,7 +103,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         //GUI ---------------------------------
 
         g.drawRect(0, 0, getWidth(), GUIEXTRAHEIGHT);
-        g.drawImage(happy, (getWidth() / 2) - 11, (GUIEXTRAHEIGHT / 2) - 10, null);
+        g.drawImage(happy, faceX, faceY, null); //draw the initial happy face
 
 
         //Items -------------------------
@@ -113,7 +113,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                 MS_Map m = game.getMap();
                 if (m.getSquare(c, r).isMine()) {
                     g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                } else if (!m.getSquare(c, r).isMine()) {
+                } else {
                     switch (m.getSquare(c, r).getNumber()) {
                         case 1:
                             g.drawImage(one, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
@@ -142,9 +142,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
                         default:
                             g.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
                     }
-                } else {
-                    g.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                 }
 
             }
