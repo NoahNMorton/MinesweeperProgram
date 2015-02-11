@@ -34,10 +34,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         this.numRowsP = numRows;
         game = new MS_Game(numRows, numCols, numMines);
 
-        setSize(numCols * 16, numRows * 16);
-        this.numColsP = numCols;
-        this.numRowsP = numRows;
-
 
         try {
 
@@ -104,13 +100,53 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         g.setColor(Color.WHITE);
         //todo make gui at top of screen
 
+        //GUI ---------------------------------
+
+        g.drawRect(0, 0, getWidth(), GUIEXTRAHEIGHT);
+        g.drawImage(happy, (getWidth() / 2) - 11, (GUIEXTRAHEIGHT / 2) - 10, null);
+
+
+        //Items -------------------------
+
         for (int r = 0; r < game.getNumRowsG(); r++) {
             for (int c = 0; c < game.getNumColsG(); c++) {
                 MS_Map m = game.getMap();
                 if (m.getSquare(c, r).isMine()) {
                     g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                } else
+                } else if (!m.getSquare(c, r).isMine()) {
+                    switch (m.getSquare(c, r).getNumber()) {
+                        case 1:
+                            g.drawImage(one, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 2:
+                            g.drawImage(two, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 3:
+                            g.drawImage(three, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 4:
+                            g.drawImage(four, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 5:
+                            g.drawImage(five, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 6:
+                            g.drawImage(six, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 7:
+                            g.drawImage(seven, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 8:
+                            g.drawImage(eight, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+
+                        default:
+                            g.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                    }
+                } else {
                     g.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                }
+
             }
 
         }

@@ -28,7 +28,7 @@ public class Mainfile {
         } catch (Exception ignored) { //if args are not valid, simply skip them
         }
 
-        if (!argValid) { //if args are not valid, will get names from user
+        if (!argValid) { //if args are not valid, will get names from user todo add checks to make sure is valid
             Logger.logCodeMessage("Initialising, Asking user for data...");
             System.out.println("Please enter the number of columns.");
             cols = scanner.nextByte();
