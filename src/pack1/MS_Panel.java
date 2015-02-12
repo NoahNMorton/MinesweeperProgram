@@ -96,6 +96,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     public void paint(Graphics g) {
         final int faceX = (getWidth() / 2) - 11, faceY = (GUIEXTRAHEIGHT / 2) - 10; //determines place of face
+        long time = game.getSeconds(game.getStartTime());
         //paint game
         g.setColor(Color.WHITE);
         //todo make gui at top of screen
@@ -105,9 +106,9 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         g.drawRect(0, 0, getWidth(), GUIEXTRAHEIGHT);
         g.drawImage(happy, faceX, faceY, null); //draw the initial happy face
 
-
+        showNumbers(this.getGraphics(), time);
+        //todo check to see if displaying properly.
         //Items -------------------------
-
         for (int r = 0; r < game.getNumRowsG(); r++) {
             for (int c = 0; c < game.getNumColsG(); c++) {
                 MS_Map m = game.getMap();
@@ -245,6 +246,106 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
         }
         return null;
+    }
+
+    /**
+     * Method to show the timer.
+     *
+     * @param g    Graphics from paint
+     * @param time current game time.
+     */
+    private void showNumbers(Graphics g, long time) {
+
+        int ones = (int) ((time) % 10);
+        int tens = (int) ((time) % 100) / 10;
+        int hundreds = (int) time / 100;
+        switch (ones) {
+            case 1:
+                g.drawImage(digitOne, 50, 50, null);
+                break;
+            case 2:
+                g.drawImage(digitTwo, 50, 50, null);
+                break;
+            case 3:
+                g.drawImage(digitThree, 50, 50, null);
+                break;
+            case 4:
+                g.drawImage(digitFour, 50, 50, null);
+                break;
+            case 5:
+                g.drawImage(digitFive, 50, 50, null);
+                break;
+            case 6:
+                g.drawImage(digitSix, 50, 50, null);
+                break;
+            case 7:
+                g.drawImage(digitSeven, 50, 50, null);
+                break;
+            case 8:
+                g.drawImage(digitEight, 50, 50, null);
+                break;
+            case 9:
+                g.drawImage(digitNine, 50, 50, null);
+                break;
+        }
+        switch (tens) {
+            case 1:
+                g.drawImage(digitOne, 30, 50, null);
+                break;
+            case 2:
+                g.drawImage(digitTwo, 30, 50, null);
+                break;
+            case 3:
+                g.drawImage(digitThree, 30, 50, null);
+                break;
+            case 4:
+                g.drawImage(digitFour, 30, 50, null);
+                break;
+            case 5:
+                g.drawImage(digitFive, 30, 50, null);
+                break;
+            case 6:
+                g.drawImage(digitSix, 30, 50, null);
+                break;
+            case 7:
+                g.drawImage(digitSeven, 30, 50, null);
+                break;
+            case 8:
+                g.drawImage(digitEight, 30, 50, null);
+                break;
+            case 9:
+                g.drawImage(digitNine, 30, 50, null);
+                break;
+        }
+        switch (hundreds) {
+            case 1:
+                g.drawImage(digitOne, 10, 50, null);
+                break;
+            case 2:
+                g.drawImage(digitTwo, 10, 50, null);
+                break;
+            case 3:
+                g.drawImage(digitThree, 10, 50, null);
+                break;
+            case 4:
+                g.drawImage(digitFour, 10, 50, null);
+                break;
+            case 5:
+                g.drawImage(digitFive, 10, 50, null);
+                break;
+            case 6:
+                g.drawImage(digitSix, 10, 50, null);
+                break;
+            case 7:
+                g.drawImage(digitSeven, 10, 50, null);
+                break;
+            case 8:
+                g.drawImage(digitEight, 10, 50, null);
+                break;
+            case 9:
+                g.drawImage(digitNine, 10, 50, null);
+                break;
+        }
     }
 
 

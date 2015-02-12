@@ -72,8 +72,21 @@ public class MS_Game {
         return map;
     }
 
+    /**
+     * Method to determine how many mines are marked.
+     *
+     * @return
+     */
     int getMineCounter() {
-        return 0; //todo get mine counter
+        int amtFlagged = 0;
+        for (int r = 0; r < numRowsG; r++) {
+            for (int c = 0; c < numColsG; c++) {
+                if (map.getSquare(c, r).getState() == MS_Square.FLAG) {
+                    amtFlagged++;
+                }
+            }
+        }
+        return amtFlagged;
     }
 
     /**

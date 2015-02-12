@@ -13,6 +13,7 @@ public class Mainfile {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         new Logger();
+        Logger.logCodeMessage("\n");
 
         byte rows = 0, cols = 0, mines = 0;
         boolean argValid = false;
