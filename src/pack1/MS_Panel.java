@@ -33,6 +33,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         this.numColsP = numCols;
         this.numRowsP = numRows;
         game = new MS_Game(numRows, numCols, numMines);
+        game.setState(MS_Game.PLAYING); //todo fix to be on button press
 
 
         try {
@@ -77,7 +78,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             System.exit(-1); //if loading fails, end the program.
         }
         addMouseListener(this);
-        addNotify();
 
 
     }
@@ -96,7 +96,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     public void paint(Graphics g) {
         final int faceX = (getWidth() / 2) - 11, faceY = (GUIEXTRAHEIGHT / 2) - 10; //determines place of face
-        long time = game.getSeconds(game.getStartTime());
+        long time = game.getSeconds(game.getStartTime()); //todo not returning proper number
+
         //paint game
         g.setColor(Color.WHITE);
         //todo make gui at top of screen
@@ -106,8 +107,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         g.drawRect(0, 0, getWidth(), GUIEXTRAHEIGHT);
         g.drawImage(happy, faceX, faceY, null); //draw the initial happy face
 
-        showNumbers(this.getGraphics(), time);
+        showNumbers(g, time);
         //todo check to see if displaying properly.
+        showFlagNumbers(g);
+
+
         //Items -------------------------
         for (int r = 0; r < game.getNumRowsG(); r++) {
             for (int c = 0; c < game.getNumColsG(); c++) {
@@ -151,12 +155,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
         }
 
-
     }
 
     public void addNotify() {
         super.addNotify();
-        Thread a = new Thread();
+        Thread a = new Thread(this);
         a.start();
         Logger.logCodeMessage("Thread Created Successfully.");
     }
@@ -254,12 +257,45 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
      * @param g    Graphics from paint
      * @param time current game time.
      */
-    private void showNumbers(Graphics g, long time) {
+    private void showNumbers(Graphics g, /*love you*/ long time) {
 
         int ones = (int) ((time) % 10);
         int tens = (int) ((time) % 100) / 10;
         int hundreds = (int) time / 100;
+
+
         switch (ones) {
+            case 1:
+                g.drawImage(digitOne, 70, 50, null);
+                break;
+            case 2:
+                g.drawImage(digitTwo, 70, 50, null);
+                break;
+            case 3:
+                g.drawImage(digitThree, 70, 50, null);
+                break;
+            case 4:
+                g.drawImage(digitFour, 70, 50, null);
+                break;
+            case 5:
+                g.drawImage(digitFive, 70, 50, null);
+                break;
+            case 6:
+                g.drawImage(digitSix, 70, 50, null);
+                break;
+            case 7:
+                g.drawImage(digitSeven, 70, 50, null);
+                break;
+            case 8:
+                g.drawImage(digitEight, 70, 50, null);
+                break;
+            case 9:
+                g.drawImage(digitNine, 70, 50, null);
+                break;
+            default:
+                g.drawImage(digitZero, 70, 50, null);
+        }
+        switch (tens) {
             case 1:
                 g.drawImage(digitOne, 50, 50, null);
                 break;
@@ -287,8 +323,10 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             case 9:
                 g.drawImage(digitNine, 50, 50, null);
                 break;
+            default:
+                g.drawImage(digitZero, 50, 50, null);
         }
-        switch (tens) {
+        switch (hundreds) {
             case 1:
                 g.drawImage(digitOne, 30, 50, null);
                 break;
@@ -316,36 +354,79 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             case 9:
                 g.drawImage(digitNine, 30, 50, null);
                 break;
+            default:
+                g.drawImage(digitZero, 30, 50, null);
         }
-        switch (hundreds) {
+    }
+
+    private void showFlagNumbers(Graphics g) {
+        int ones = 1, tens = 1;
+
+
+        switch (ones) {
             case 1:
-                g.drawImage(digitOne, 10, 50, null);
+                g.drawImage(digitOne, 70, 50, null);
                 break;
             case 2:
-                g.drawImage(digitTwo, 10, 50, null);
+                g.drawImage(digitTwo, 70, 50, null);
                 break;
             case 3:
-                g.drawImage(digitThree, 10, 50, null);
+                g.drawImage(digitThree, 70, 50, null);
                 break;
             case 4:
-                g.drawImage(digitFour, 10, 50, null);
+                g.drawImage(digitFour, 70, 50, null);
                 break;
             case 5:
-                g.drawImage(digitFive, 10, 50, null);
+                g.drawImage(digitFive, 70, 50, null);
                 break;
             case 6:
-                g.drawImage(digitSix, 10, 50, null);
+                g.drawImage(digitSix, 70, 50, null);
                 break;
             case 7:
-                g.drawImage(digitSeven, 10, 50, null);
+                g.drawImage(digitSeven, 70, 50, null);
                 break;
             case 8:
-                g.drawImage(digitEight, 10, 50, null);
+                g.drawImage(digitEight, 70, 50, null);
                 break;
             case 9:
-                g.drawImage(digitNine, 10, 50, null);
+                g.drawImage(digitNine, 70, 50, null);
                 break;
+            default:
+                g.drawImage(digitZero, 70, 50, null);
         }
+        switch (tens) {
+            case 1:
+                g.drawImage(digitOne, 50, 50, null);
+                break;
+            case 2:
+                g.drawImage(digitTwo, 50, 50, null);
+                break;
+            case 3:
+                g.drawImage(digitThree, 50, 50, null);
+                break;
+            case 4:
+                g.drawImage(digitFour, 50, 50, null);
+                break;
+            case 5:
+                g.drawImage(digitFive, 50, 50, null);
+                break;
+            case 6:
+                g.drawImage(digitSix, 50, 50, null);
+                break;
+            case 7:
+                g.drawImage(digitSeven, 50, 50, null);
+                break;
+            case 8:
+                g.drawImage(digitEight, 50, 50, null);
+                break;
+            case 9:
+                g.drawImage(digitNine, 50, 50, null);
+                break;
+            default:
+                g.drawImage(digitZero, 50, 50, null);
+        }
+
+
     }
 
 

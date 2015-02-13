@@ -8,7 +8,7 @@ package pack1;
 
 public class MS_Game {
 
-    private static final int PLAYING = 0, WIN = 1, LOSE = 2, NOT_STARTED = 3;
+    public static final int PLAYING = 0, WIN = 1, LOSE = 2, NOT_STARTED = 3;
     MS_Map map;
     private int numRowsG, numColsG, numMinesG, numMarked, state;
     private long startTime = 0; //todo stores starting time
@@ -53,9 +53,15 @@ public class MS_Game {
         this.state = state;
     }
 
+    /**
+     * Method to return current time in seconds
+     *
+     * @param startTime the time the game was started
+     * @return seconds in long format.
+     */
     public long getSeconds(long startTime) {
         if (getState() == PLAYING) {
-            return (System.nanoTime() - startTime) / 100000000; //divide by 1 billion
+            return (System.nanoTime() - startTime) / 1000000000; //divide by 1000000000
         } else
             return 0;
     }
@@ -75,7 +81,7 @@ public class MS_Game {
     /**
      * Method to determine how many mines are marked.
      *
-     * @return
+     * @return amt of mines marked.
      */
     int getMineCounter() {
         int amtFlagged = 0;
