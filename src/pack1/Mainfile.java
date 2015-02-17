@@ -13,7 +13,7 @@ public class Mainfile {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         new Logger();
-        Logger.logCodeMessage("\n");
+        Logger.logOtherMessage("", "\n");
 
         byte rows = 0, cols = 0, mines = 0;
         boolean argValid = false;
@@ -54,7 +54,6 @@ public class Mainfile {
                 Logger.logCodeMessage("Shape of board fixed successfully.");
             }
         }
-
 
 
         new MS_Frame(rows, cols, mines);

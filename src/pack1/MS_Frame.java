@@ -14,7 +14,7 @@ public class MS_Frame extends JFrame {
     public MS_Frame(int rows, int cols, int mines) {
 
 
-            super("MineSweeper");
+        super("MineSweeper");
 
 
         // Sets the close button to exit the program
@@ -45,7 +45,7 @@ public class MS_Frame extends JFrame {
         setVisible(true);
 
 
-            Logger.logOtherMessage("Window", "Window Created.");
+        Logger.logOtherMessage("Window", "Window Created.");
 
     }
 

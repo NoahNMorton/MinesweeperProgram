@@ -8,7 +8,6 @@ import java.io.FileWriter;
  * should theoretically work, with a few tweaks here and there.
  *
  * @author Noah Morton
- *
  */
 
 public class Logger {

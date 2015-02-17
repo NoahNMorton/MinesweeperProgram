@@ -83,6 +83,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void run() {
+        //noinspection InfiniteLoopStatement
         while (true) {
             paint(this.getGraphics());
             try {
@@ -201,10 +202,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
      * @return returns if the provided coords are within the grid.
      */
     public boolean isInGrid(int x, int y) {
-        if ((x <= numColsP && x > 0) && (y <= numRowsP && y > 0)) //todo check
-            return true;
-        else
-            return false;
+        //todo check
+        return (x <= numColsP && x > 0) && (y <= numRowsP && y > 0);
     }
 
     /**
@@ -262,7 +261,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         int ones = (int) ((time) % 10);
         int tens = (int) ((time) % 100) / 10;
         int hundreds = (int) time / 100;
-
 
         switch (ones) {
             case 1:
@@ -360,74 +358,119 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     private void showFlagNumbers(Graphics g) {
-        int ones = 1, tens = 1;
+        int ones, tens = 0;
+        int numMarked = game.getNumMarked();
 
+        if (numMarked < 10) {
+            String number = "" + numMarked;
+            char tOnes = number.charAt(0);
+            String tOnes2 = "" + tOnes;
+            ones = Integer.parseInt(tOnes2);
+            switch (ones) {
+                case 1:
+                    g.drawImage(digitOne, 270, 50, null);
+                    break;
+                case 2:
+                    g.drawImage(digitTwo, 270, 50, null);
+                    break;
+                case 3:
+                    g.drawImage(digitThree, 270, 50, null);
+                    break;
+                case 4:
+                    g.drawImage(digitFour, 270, 50, null);
+                    break;
+                case 5:
+                    g.drawImage(digitFive, 270, 50, null);
+                    break;
+                case 6:
+                    g.drawImage(digitSix, 270, 50, null);
+                    break;
+                case 7:
+                    g.drawImage(digitSeven, 270, 50, null);
+                    break;
+                case 8:
+                    g.drawImage(digitEight, 270, 50, null);
+                    break;
+                case 9:
+                    g.drawImage(digitNine, 270, 50, null);
+                    break;
+                default:
+                    g.drawImage(digitZero, 270, 50, null);
+            }
+            g.drawImage(digitZero, 250, 50, null); //draw the tens place
 
+        } else { //if above 10 - you gotta do what you gotta do. Int to char, to string, and back to int. such hack
+            String number = "" + numMarked;
+            char tTens = number.charAt(0);
+            char tOnes = number.charAt(1);
+            String tOnes2 = "" + tOnes;
+            String tTens2 = "" + tTens;
+
+            ones = Integer.parseInt(tOnes2);
+            tens = Integer.parseInt(tTens2);
+        }
         switch (ones) {
             case 1:
-                g.drawImage(digitOne, 70, 50, null);
+                g.drawImage(digitOne, 270, 50, null);
                 break;
             case 2:
-                g.drawImage(digitTwo, 70, 50, null);
+                g.drawImage(digitTwo, 270, 50, null);
                 break;
             case 3:
-                g.drawImage(digitThree, 70, 50, null);
+                g.drawImage(digitThree, 270, 50, null);
                 break;
             case 4:
-                g.drawImage(digitFour, 70, 50, null);
+                g.drawImage(digitFour, 270, 50, null);
                 break;
             case 5:
-                g.drawImage(digitFive, 70, 50, null);
+                g.drawImage(digitFive, 270, 50, null);
                 break;
             case 6:
-                g.drawImage(digitSix, 70, 50, null);
+                g.drawImage(digitSix, 270, 50, null);
                 break;
             case 7:
-                g.drawImage(digitSeven, 70, 50, null);
+                g.drawImage(digitSeven, 270, 50, null);
                 break;
             case 8:
-                g.drawImage(digitEight, 70, 50, null);
+                g.drawImage(digitEight, 270, 50, null);
                 break;
             case 9:
-                g.drawImage(digitNine, 70, 50, null);
+                g.drawImage(digitNine, 270, 50, null);
                 break;
             default:
-                g.drawImage(digitZero, 70, 50, null);
+                g.drawImage(digitZero, 270, 50, null);
         }
         switch (tens) {
             case 1:
-                g.drawImage(digitOne, 50, 50, null);
+                g.drawImage(digitOne, 250, 50, null);
                 break;
             case 2:
-                g.drawImage(digitTwo, 50, 50, null);
+                g.drawImage(digitTwo, 250, 50, null);
                 break;
             case 3:
-                g.drawImage(digitThree, 50, 50, null);
+                g.drawImage(digitThree, 250, 50, null);
                 break;
             case 4:
-                g.drawImage(digitFour, 50, 50, null);
+                g.drawImage(digitFour, 250, 50, null);
                 break;
             case 5:
-                g.drawImage(digitFive, 50, 50, null);
+                g.drawImage(digitFive, 250, 50, null);
                 break;
             case 6:
-                g.drawImage(digitSix, 50, 50, null);
+                g.drawImage(digitSix, 250, 50, null);
                 break;
             case 7:
-                g.drawImage(digitSeven, 50, 50, null);
+                g.drawImage(digitSeven, 250, 50, null);
                 break;
             case 8:
-                g.drawImage(digitEight, 50, 50, null);
+                g.drawImage(digitEight, 250, 50, null);
                 break;
             case 9:
-                g.drawImage(digitNine, 50, 50, null);
+                g.drawImage(digitNine, 250, 50, null);
                 break;
             default:
-                g.drawImage(digitZero, 50, 50, null);
+                g.drawImage(digitZero, 250, 50, null);
         }
-
-
     }
-
 
 }
