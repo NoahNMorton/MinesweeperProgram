@@ -114,6 +114,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
 
         //Items -------------------------
+        //Numbers -------------------------
         for (int r = 0; r < game.getNumRowsG(); r++) {
             for (int c = 0; c < game.getNumColsG(); c++) {
                 MS_Map m = game.getMap();
@@ -155,7 +156,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             }
 
         }
-
     }
 
     public void addNotify() {
@@ -399,6 +399,44 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             }
             g.drawImage(digitZero, 250, 50, null); //draw the tens place
 
+        } else if (numMarked < 0) //if marked is negative
+        {
+            String number = "" + numMarked;
+            char tOnes = number.charAt(0);
+            String tOnes2 = "" + tOnes;
+            ones = Integer.parseInt(tOnes2);
+            switch (ones) {
+                case 1:
+                    g.drawImage(digitOne, 270, 50, null);
+                    break;
+                case 2:
+                    g.drawImage(digitTwo, 270, 50, null);
+                    break;
+                case 3:
+                    g.drawImage(digitThree, 270, 50, null);
+                    break;
+                case 4:
+                    g.drawImage(digitFour, 270, 50, null);
+                    break;
+                case 5:
+                    g.drawImage(digitFive, 270, 50, null);
+                    break;
+                case 6:
+                    g.drawImage(digitSix, 270, 50, null);
+                    break;
+                case 7:
+                    g.drawImage(digitSeven, 270, 50, null);
+                    break;
+                case 8:
+                    g.drawImage(digitEight, 270, 50, null);
+                    break;
+                case 9:
+                    g.drawImage(digitNine, 270, 50, null);
+                    break;
+                default:
+                    g.drawImage(digitZero, 270, 50, null);
+            }
+            g.drawImage(digitHyphen, 250, 50, null); //draw the negative place
         } else { //if above 10 - you gotta do what you gotta do. Int to char, to string, and back to int. such hack
             String number = "" + numMarked;
             char tTens = number.charAt(0);

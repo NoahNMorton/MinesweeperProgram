@@ -92,7 +92,7 @@ public class MS_Game {
                 }
             }
         }
-        return amtFlagged;
+        return numMinesG - amtFlagged;
     }
 
     /**
@@ -112,10 +112,7 @@ public class MS_Game {
      * @param r number of rows selected
      */
     void makeGame(int c, int r) {
-        //todo makes the game, does not set mine at provided >check
-
-        map = new MS_Map(numColsG, numRowsG, numMinesG, c, r);
-
+        map = new MS_Map(numColsG, numRowsG, numMinesG, c, r); //makes the game, does not set mine at provided
     }
 
     void check() {
