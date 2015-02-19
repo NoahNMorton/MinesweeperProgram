@@ -65,19 +65,24 @@ public class MS_Map {
         //todo set numbers
         //set numbers -----------------------
         int numOfMines = 0;
-        /*
-        ooo todo finish writing mine checks.
-        xox
-        xxx
-         */
-        for (int y = 0; y < numRowsM; y++) {
-            for (int x = 0; x < numColsM; x++) {
-                if (grid[y][x].isMine() || grid[y - 1][x - 1].isMine() || grid[y - 1][x].isMine() || grid[y - 1][x + 1].isMine() || grid[y][x].isMine()
-                        || grid[y][x].isMine() || grid[y][x].isMine() || grid[y][x].isMine() || grid[y][x].isMine()) {
-                    numOfMines++;
+
+        for (int y1 = 0; y1 < numRowsM; y1++) {
+            for (int x1 = 0; x1 < numColsM; x1++) {
+
+                for (int y = 0; y < numRowsM; y++) {
+                    for (int x = 0; x < numColsM; x++) {
+
+
+                    }
                 }
+                if (numOfMines > 0) {
+                    grid[y1][x1].setNumber(numOfMines);
+                }
+
             }
         }
+
+        Logger.logCodeMessage("Numbers set Success.");
 
     }
 

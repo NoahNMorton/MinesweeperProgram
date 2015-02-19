@@ -20,6 +20,7 @@ public class MS_Square {
         state = UP;
     }
 
+
     public boolean isMine() {
         return mine;
     }
