@@ -1,4 +1,4 @@
-package pack1;
+package mslogic;
 
 /**
  * @author othscs120
@@ -11,7 +11,7 @@ public class MS_Game {
     public static final int PLAYING = 0, WIN = 1, LOSE = 2, NOT_STARTED = 3;
     MS_Map map;
     private int numRowsG, numColsG, numMinesG, numMarked, state;
-    private long startTime = 0; //todo stores starting time
+    private long startTime = System.nanoTime();
     private int deadSeconds; //todo stores time of stop
 
     public MS_Game(int numCols, int numRows, int numMines) {
@@ -79,9 +79,9 @@ public class MS_Game {
     }
 
     /**
-     * Method to determine how many mines are marked.
+     * Method to determine how many mines are unmarked.
      *
-     * @return amt of mines marked.
+     * @return amt of mines unmarked.
      */
     int getMineCounter() {
         int amtFlagged = 0;

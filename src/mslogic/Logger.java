@@ -1,4 +1,4 @@
-package pack1;
+package mslogic;
 
 import java.io.File;
 import java.io.FileWriter;

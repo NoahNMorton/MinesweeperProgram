@@ -1,4 +1,6 @@
-package pack1;
+package mslogic;
+
+import mswindow.MS_Frame;
 
 import java.util.Scanner;
 

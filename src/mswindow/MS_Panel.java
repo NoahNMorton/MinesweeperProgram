@@ -1,4 +1,9 @@
-package pack1;
+package mswindow;
+
+import mslogic.Logger;
+import mslogic.MS_Game;
+import mslogic.MS_Map;
+import mslogic.MS_Square;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -97,19 +102,30 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     public void paint(Graphics g) {
         final int faceX = (getWidth() / 2) - 11, faceY = (GUIEXTRAHEIGHT / 2) - 10; //determines place of face
-        long time = game.getSeconds(game.getStartTime()); //todo not returning proper number
+        long time = game.getSeconds(game.getStartTime());
 
         //paint game
         g.setColor(Color.WHITE);
-        //todo make gui at top of screen
+
 
         //GUI ---------------------------------
 
         g.drawRect(0, 0, getWidth(), GUIEXTRAHEIGHT);
-        g.drawImage(happy, faceX, faceY, null); //draw the initial happy face
+        //draw the face in the gui
+        switch (game.getState()) {
+            case MS_Game.LOSE:
+                g.drawImage(dead, faceX, faceY, null);
+                break;
+            case MS_Game.WIN:
+                g.drawImage(shades, faceX, faceY, null);
+                break;
+            default:
+                g.drawImage(happy, faceX, faceY, null);
+                break;
+        }
 
         showNumbers(g, time);
-        //todo check to see if displaying properly.
+
         showFlagNumbers(g);
 
 
@@ -358,6 +374,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         }
     }
 
+    /**
+     * Method to show the amount of squares flagged in the gui
+     *
+     * @param g graphics from paint method
+     */
     private void showFlagNumbers(Graphics g) {
         int ones, tens = 0;
         int numMarked = game.getNumMarked();

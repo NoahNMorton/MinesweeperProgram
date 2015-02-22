@@ -1,4 +1,6 @@
-package pack1;
+package mswindow;
+
+import mslogic.Logger;
 
 import javax.swing.*;
 import java.awt.*;

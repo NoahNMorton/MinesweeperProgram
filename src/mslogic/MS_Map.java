@@ -1,4 +1,4 @@
-package pack1;
+package mslogic;
 
 /**
  * @author othscs120
@@ -27,7 +27,7 @@ public class MS_Map {
      * @param r the row to check
      * @return data at the provided coord.
      */
-    MS_Square getSquare(int c, int r) {
+    public MS_Square getSquare(int c, int r) {
         if ((c < numColsM && c >= 0) && (r < numRowsM && r >= 0))
             return grid[r][c];
         else
@@ -42,6 +42,8 @@ public class MS_Map {
      * @param clickedCol the col that was clicked on.
      */
     private void createMap(int clickedRow, int clickedCol) {
+        Logger.logCodeMessage("Creating map.");
+
         //make the array
         grid = new MS_Square[numRowsM][numColsM];
 
@@ -83,7 +85,7 @@ public class MS_Map {
         }
 
         Logger.logCodeMessage("Numbers set Success.");
-
+        Logger.logCodeMessage("Map creation success");
     }
 
 
