@@ -34,6 +34,18 @@ public class MS_Map {
             return null;
     }
 
+    /**
+     * Method to determine if the provided coords are within the user-set grid size.
+     *
+     * @param x column
+     * @param y row
+     * @return returns if the provided coords are within the grid.
+     */
+    public boolean isInGrid(int x, int y) {
+        //todo check
+        return (x < numColsM && x >= 0) && (y < numRowsM && y >= 0);
+    }
+
 
     /**
      * Method to generate the game map.
@@ -71,16 +83,37 @@ public class MS_Map {
         for (int y1 = 0; y1 < numRowsM; y1++) {
             for (int x1 = 0; x1 < numColsM; x1++) {
 
-                for (int y = 0; y < numRowsM; y++) {
-                    for (int x = 0; x < numColsM; x++) {
 
-
-                    }
+                if (isInGrid(x1 - 1, y1 - 1) && grid[y1 - 1][x1 - 1].isMine()) { //top left
+                    numOfMines++;
                 }
+                if (isInGrid(x1, y1 - 1) && grid[y1 - 1][x1].isMine()) {
+                    numOfMines++;
+                }
+                if (isInGrid(x1 + 1, y1 - 1) && grid[y1 - 1][x1 + 1].isMine()) {
+                    numOfMines++;
+                }
+                if (isInGrid(x1 - 1, y1) && grid[y1][x1 - 1].isMine()) {
+                    numOfMines++;
+                }
+                if (isInGrid(x1 + 1, y1) && grid[y1][x1 + 1].isMine()) {
+                    numOfMines++;
+                }
+                if (isInGrid(x1 - 1, y1 + 1) && grid[y1 + 1][x1 - 1].isMine()) {
+                    numOfMines++;
+                }
+                if (isInGrid(x1, y1 + 1) && grid[y1 + 1][x1].isMine()) {
+                    numOfMines++;
+                }
+                if (isInGrid(x1 + 1, y1 + 1) && grid[y1 + 1][x1 + 1].isMine()) {
+                    numOfMines++;
+                }
+
+
                 if (numOfMines > 0) {
                     grid[y1][x1].setNumber(numOfMines);
+                    numOfMines = 0;
                 }
-
             }
         }
 

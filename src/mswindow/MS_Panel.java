@@ -125,7 +125,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         }
 
         showNumbers(g, time);
-
         showFlagNumbers(g);
 
 
@@ -162,7 +161,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                         case 8:
                             g.drawImage(eight, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                             break;
-
                         default:
                             g.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                             break;
@@ -194,17 +192,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         //not used
     }
 
-    /**
-     * Method to determine if the provided coords are within the user-set grid size.
-     *
-     * @param x column
-     * @param y row
-     * @return returns if the provided coords are within the grid.
-     */
-    public boolean isInGrid(int x, int y) {
-        //todo check
-        return (x <= numColsP && x > 0) && (y <= numRowsP && y > 0);
-    }
 
     public void mouseEntered(MouseEvent e) {
 
