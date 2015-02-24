@@ -23,6 +23,7 @@ import java.io.File;
 public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener, Runnable {
 
     public static final int GUIEXTRAHEIGHT = 130;
+    public static final boolean DEBUG = false;
     int numColsP;
     int numRowsP;
     Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
@@ -133,7 +134,12 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         for (int r = 0; r < game.getNumRowsG(); r++) {
             for (int c = 0; c < game.getNumColsG(); c++) {
                 MS_Map m = game.getMap();
-                if (m.getSquare(c, r).isMine()) {
+                //noinspection ConstantConditions,PointlessBooleanExpression
+                if (m.getSquare(c, r).getState() == MS_Square.UP && !DEBUG) {
+                    g.drawImage(unclicked, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                } else if (m.getSquare(c, r).getState() == MS_Square.FLAG) {
+                    g.drawImage(flag, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                } else if (m.getSquare(c, r).isMine()) {
                     g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                 } else {
                     switch (m.getSquare(c, r).getNumber()) {

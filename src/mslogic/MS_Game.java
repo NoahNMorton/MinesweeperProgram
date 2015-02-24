@@ -104,6 +104,24 @@ public class MS_Game {
      */
     void reveal(int c, int r) {
         //todo recursive AI method to reveal squares
+        /*if valid spot and not reved
+                change to true
+                if not number
+                call rev on eight nearby by spots*/
+
+        if (map.isInGrid(c, r) && map.getSquare(c, r).getState() == MS_Square.UP) { //if valid, and not revealed
+            map.getSquare(c, r).setState(MS_Square.SHOWN); //set to be shown
+            if (map.getSquare(c, r).getNumber() == 0) { //if not number
+                reveal(c - 1, r - 1);
+                reveal(c, r - 1);
+                reveal(c + 1, r - 1);
+                reveal(c - 1, r);
+                reveal(c + 1, r);
+                reveal(c - 1, r + 1);
+                reveal(c, r + 1);
+                reveal(c + 1, r + 1);
+            }
+        }
     }
 
     /**

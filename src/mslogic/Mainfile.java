@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class Mainfile {
 
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
         new Logger();
         Logger.logOtherMessage("", "\n");

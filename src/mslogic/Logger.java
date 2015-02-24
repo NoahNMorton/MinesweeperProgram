@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 /**
- * This is a logging class written to log basic events within my code, for debug purposes. Everything
+ * This is a logging class written to log basic events within my code, for DEBUG purposes. Everything
  * should theoretically work, with a few tweaks here and there.
  *
  * @author Noah Morton
