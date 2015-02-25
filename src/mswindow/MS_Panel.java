@@ -187,11 +187,15 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     public void mousePressed(MouseEvent e) {
         //used for game features
+        //mr = (e.getY()-40)/16;
+
 
     }
 
     public void mouseReleased(MouseEvent e) {
-
+        System.out.println("User Released the mouse at " + e.getX() + "," + e.getY());
+        Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY());
+        game.reveal(e.getX(), e.getY());
     }
 
     public void mouseClicked(MouseEvent e) {

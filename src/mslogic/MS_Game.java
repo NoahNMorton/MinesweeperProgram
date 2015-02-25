@@ -102,8 +102,8 @@ public class MS_Game {
      * @param c the column to start at, ie clicked
      * @param r the row to start at, ie clicked
      */
-    void reveal(int c, int r) {
-        //todo recursive AI method to reveal squares
+    public void reveal(int c, int r) {
+
         /*if valid spot and not reved
                 change to true
                 if not number
