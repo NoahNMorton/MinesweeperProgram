@@ -22,8 +22,8 @@ import java.io.File;
 
 public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener, Runnable {
 
-    public static final int GUIEXTRAHEIGHT = 130;
-    public static final boolean DEBUG = false;
+    private static final int GUIEXTRAHEIGHT = 130;
+    private static final boolean DEBUG = false;
     int numColsP;
     int numRowsP;
     Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
@@ -187,7 +187,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     public void mousePressed(MouseEvent e) {
         //used for game features
-        //mr = (e.getY()-40)/16;
+        //
 
 
     }
@@ -195,7 +195,10 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     public void mouseReleased(MouseEvent e) {
         System.out.println("User Released the mouse at " + e.getX() + "," + e.getY());
         Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY());
-        game.reveal(e.getX(), e.getY());
+        int column, row;
+        row = (e.getY() - GUIEXTRAHEIGHT) / 16;
+        column = (e.getX() - GUIEXTRAHEIGHT) / 16;
+        game.reveal(column, row);
     }
 
     public void mouseClicked(MouseEvent e) {

@@ -27,6 +27,20 @@ public class Mainfile {
                 rows = Byte.parseByte(args[0]);
                 cols = Byte.parseByte(args[1]);
                 mines = Byte.parseByte(args[2]);
+                if (cols < 10) cols = 10; //validity checking
+                if (cols > 20) cols = 20;
+                if (rows < 10) rows = 10;
+                if (rows > 20) rows = 20;
+                if (cols != rows) {
+                    System.out.println("Shape of board is rectangular. Setting cols equal to rows.");
+                    Logger.logErrorMessage("Shape of board was rectangular, fixing...");
+                    if (cols < rows)
+                        cols = rows;
+                    else
+                        rows = cols;
+                    Logger.logCodeMessage("Shape of board fixed successfully.");
+                }
+
                 argValid = true;
             }
         } catch (Exception ignored) { //if args are not valid, simply skip them
@@ -35,8 +49,8 @@ public class Mainfile {
         if (!argValid) { //if args are not valid, will get names from user
             Logger.logCodeMessage("Initialising, Asking user for data...");
             System.out.println("Please enter the number of columns. 10-20");
-            cols = scanner.nextByte();
-            if (cols < 10) cols = 10;
+            cols = scanner.nextByte(); //get columns
+            if (cols < 10) cols = 10; //validity checking
             if (cols > 20) cols = 20;
             Logger.logUserMessage("Cols: " + cols);
             System.out.println("Please enter the number of rows. 10-20");
