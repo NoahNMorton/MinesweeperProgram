@@ -24,8 +24,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     private static final int GUIEXTRAHEIGHT = 130;
     private static final boolean DEBUG = false;
-    int numColsP;
-    int numRowsP;
+    public boolean mouseDown = false;
+    int numColsP, numRowsP, pressedX, pressedY;
     Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
             digitFour, digitThree, digitHyphen, digitTwo, digitOne, digitZero, eight, seven, six, five, four, three,
             two, one, empty, unclicked, flag, question, mine, incorrectFlag, exploded;
@@ -86,6 +86,14 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         addMouseListener(this);
 
 
+    }
+
+    public static int getColumnOffCoord(MouseEvent e) {
+        return (e.getX()) / 16;
+    }
+
+    public static int getRowOffCoord(MouseEvent e) {
+        return (e.getY() - GUIEXTRAHEIGHT) / 16;
     }
 
     public void run() {
@@ -186,8 +194,14 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mousePressed(MouseEvent e) {
-        //used for game features
-        //
+        mouseDown = true;
+        int column = getColumnOffCoord(e), row = getRowOffCoord(e);
+
+        if (column == column && row == row) //todo r = mr? what r?
+        {
+            //if(mouseDown && )
+
+        }
 
 
     }
@@ -195,16 +209,14 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     public void mouseReleased(MouseEvent e) {
         System.out.println("User Released the mouse at " + e.getX() + "," + e.getY());
         Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY());
-        int column, row;
-        row = (e.getY() - GUIEXTRAHEIGHT) / 16;
-        column = (e.getX() - GUIEXTRAHEIGHT) / 16;
+        int column = getColumnOffCoord(e), row = getRowOffCoord(e);
+
         game.reveal(column, row);
     }
 
     public void mouseClicked(MouseEvent e) {
         //not used
     }
-
 
     public void mouseEntered(MouseEvent e) {
 
@@ -221,7 +233,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     public void mouseDragged(MouseEvent e) {
         //game feat
     }
-
 
     /**
      * Analyses the provided square for what image to display.
