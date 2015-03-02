@@ -32,7 +32,7 @@ public class Mainfile {
                 if (rows < 10) rows = 10;
                 if (rows > 20) rows = 20;
                 if (cols != rows) {
-                    System.out.println("Shape of board is rectangular. Setting cols equal to rows.");
+                    System.err.println("Shape of board is rectangular. Setting cols equal to rows.");
                     Logger.logErrorMessage("Shape of board was rectangular, fixing...");
                     if (cols < rows)
                         cols = rows;
@@ -62,7 +62,7 @@ public class Mainfile {
             mines = scanner.nextByte();
             Logger.logUserMessage("Mines: " + mines);
             if (cols != rows) {
-                System.out.println("Shape of board is rectangular. Setting cols equal to rows.");
+                System.err.println("Shape of board is rectangular. Setting cols equal to rows.");
                 Logger.logErrorMessage("Shape of board was rectangular, fixing...");
                 if (cols < rows)
                     cols = rows;

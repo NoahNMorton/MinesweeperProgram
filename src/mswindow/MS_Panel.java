@@ -25,7 +25,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     private static final int GUIEXTRAHEIGHT = 130;
     private static final boolean DEBUG = false;
     public boolean mouseDown = false;
-    int numColsP, numRowsP, pressedX, pressedY;
+    int numColsP, numRowsP, columnP = -1, rowP = -1;
+
     Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
             digitFour, digitThree, digitHyphen, digitTwo, digitOne, digitZero, eight, seven, six, five, four, three,
             two, one, empty, unclicked, flag, question, mine, incorrectFlag, exploded;
@@ -88,10 +89,21 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     }
 
+    /**
+     * Method to get the column of the provided x.
+     *
+     * @param e used for getting x.
+     * @return the column clicked.
+     */
     public static int getColumnOffCoord(MouseEvent e) {
         return (e.getX()) / 16;
     }
 
+    /**
+     * Method to get the row of a coord.
+     * @param e used for getting y.
+     * @return the row clicked.
+     */
     public static int getRowOffCoord(MouseEvent e) {
         return (e.getY() - GUIEXTRAHEIGHT) / 16;
     }
@@ -142,47 +154,50 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         for (int r = 0; r < game.getNumRowsG(); r++) {
             for (int c = 0; c < game.getNumColsG(); c++) {
                 MS_Map m = game.getMap();
-                //noinspection ConstantConditions,PointlessBooleanExpression
-                if (m.getSquare(c, r).getState() == MS_Square.UP && !DEBUG) {
-                    g.drawImage(unclicked, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                } else if (m.getSquare(c, r).getState() == MS_Square.FLAG) {
-                    g.drawImage(flag, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                } else if (m.getSquare(c, r).isMine()) {
-                    g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+
+                if (r == rowP && c == columnP && m.getSquare(c, r).getState() == MS_Square.UP) { //draw the square being clicked as down
+                    g.drawImage(down, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                 } else {
-                    switch (m.getSquare(c, r).getNumber()) {
-                        case 1:
-                            g.drawImage(one, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            break;
-                        case 2:
-                            g.drawImage(two, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            break;
-                        case 3:
-                            g.drawImage(three, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            break;
-                        case 4:
-                            g.drawImage(four, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            break;
-                        case 5:
-                            g.drawImage(five, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            break;
-                        case 6:
-                            g.drawImage(six, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            break;
-                        case 7:
-                            g.drawImage(seven, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            break;
-                        case 8:
-                            g.drawImage(eight, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            break;
-                        default:
-                            g.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            break;
+                    //noinspection ConstantConditions,PointlessBooleanExpression
+                    if (m.getSquare(c, r).getState() == MS_Square.UP && !DEBUG) {
+                        g.drawImage(unclicked, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                    } else if (m.getSquare(c, r).getState() == MS_Square.FLAG) {
+                        g.drawImage(flag, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                    } else if (m.getSquare(c, r).isMine()) {
+                        g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                    } else {
+                        switch (m.getSquare(c, r).getNumber()) {
+                            case 1:
+                                g.drawImage(one, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                break;
+                            case 2:
+                                g.drawImage(two, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                break;
+                            case 3:
+                                g.drawImage(three, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                break;
+                            case 4:
+                                g.drawImage(four, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                break;
+                            case 5:
+                                g.drawImage(five, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                break;
+                            case 6:
+                                g.drawImage(six, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                break;
+                            case 7:
+                                g.drawImage(seven, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                break;
+                            case 8:
+                                g.drawImage(eight, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                break;
+                            default:
+                                g.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                break;
+                        }
                     }
                 }
-
             }
-
         }
     }
 
@@ -195,23 +210,19 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     public void mousePressed(MouseEvent e) {
         mouseDown = true;
-        int column = getColumnOffCoord(e), row = getRowOffCoord(e);
+        columnP = getColumnOffCoord(e);
+        rowP = getRowOffCoord(e);
 
-        if (column == column && row == row) //todo r = mr? what r?
-        {
-            //if(mouseDown && )
-
-        }
-
+        System.out.println("User Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
+        Logger.logUserMessage("Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
 
     }
 
     public void mouseReleased(MouseEvent e) {
-        System.out.println("User Released the mouse at " + e.getX() + "," + e.getY());
-        Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY());
-        int column = getColumnOffCoord(e), row = getRowOffCoord(e);
-
-        game.reveal(column, row);
+        int columnR = getColumnOffCoord(e), rowR = getRowOffCoord(e);
+        System.out.println("User Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
+        Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
+        game.reveal(columnR, rowR);
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -219,11 +230,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mouseEntered(MouseEvent e) {
-
+        //unused
     }
 
     public void mouseExited(MouseEvent e) {
-
+        //unused
     }
 
     public void mouseMoved(MouseEvent e) {

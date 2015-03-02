@@ -9,7 +9,7 @@ package mslogic;
 public class MS_Square {
     public static final int SHOWN = 0, UP = 1, FLAG = 2, QUESTION = 3;
 
-    boolean mine;
+    private boolean mine;
 
     private int numRowsS, numColsS, numMinesS, state, number; //todo num rows and cols might not be needed.
 

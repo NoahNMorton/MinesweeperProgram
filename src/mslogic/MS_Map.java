@@ -54,11 +54,10 @@ public class MS_Map {
      * @param clickedCol the col that was clicked on.
      */
     private void createMap(int clickedRow, int clickedCol) {
-        Logger.logCodeMessage("Creating map.");
+        Logger.logCodeMessage("Creating map. Number of cols is " + numColsM + " Number of rows is " + numRowsM);
 
         //make the array
         grid = new MS_Square[numRowsM][numColsM];
-
 
         for (int y = 0; y < numRowsM; y++) {
             for (int x = 0; x < numColsM; x++) {
@@ -76,14 +75,14 @@ public class MS_Map {
                 m--;
         }
         Logger.logCodeMessage("Mines set Success. Number of mines is " + numMinesM);
-        //todo set numbers
+
         //set numbers -----------------------
+        Logger.logCodeMessage("Setting numbers...");
         int numOfMines = 0;
+
 
         for (int y1 = 0; y1 < numRowsM; y1++) {
             for (int x1 = 0; x1 < numColsM; x1++) {
-
-
                 if (isInGrid(x1 - 1, y1 - 1) && grid[y1 - 1][x1 - 1].isMine()) { //top left
                     numOfMines++;
                 }
@@ -109,7 +108,6 @@ public class MS_Map {
                     numOfMines++;
                 }
 
-
                 if (numOfMines > 0) {
                     grid[y1][x1].setNumber(numOfMines);
                     numOfMines = 0;
@@ -118,7 +116,7 @@ public class MS_Map {
         }
 
         Logger.logCodeMessage("Numbers set Success.");
-        Logger.logCodeMessage("Map creation success");
+        Logger.logCodeMessage("Map creation success.");
     }
 
 
