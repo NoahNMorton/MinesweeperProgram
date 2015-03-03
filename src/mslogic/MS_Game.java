@@ -104,7 +104,7 @@ public class MS_Game {
      */
     public void reveal(int c, int r) {
 
-        /*if valid spot and not reved
+        /*if valid spot and not revealed
                 change to true
                 if not number
                 call rev on eight nearby by spots*/

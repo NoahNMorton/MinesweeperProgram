@@ -20,6 +20,8 @@ import java.io.File;
  *         Part of Project: MineSweeper
  */
 
+//todo fix buttons, right click is button 3
+
 public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener, Runnable {
 
     private static final int GUIEXTRAHEIGHT = 130;
@@ -85,7 +87,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             System.exit(-1); //if loading fails, end the program.
         }
         addMouseListener(this);
-
+        addMouseMotionListener(this);
 
     }
 
@@ -101,6 +103,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     /**
      * Method to get the row of a coord.
+     *
      * @param e used for getting y.
      * @return the row clicked.
      */
@@ -113,7 +116,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         while (true) {
             paint(this.getGraphics());
             try {
-                Thread.sleep(50);
+                Thread.sleep(35);
             } catch (Exception e) {
                 System.err.println("Error Sleeping.");
                 Logger.logErrorMessage("Error Sleeping Thread.");
@@ -163,6 +166,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                         g.drawImage(unclicked, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else if (m.getSquare(c, r).getState() == MS_Square.FLAG) {
                         g.drawImage(flag, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                    } else if (m.getSquare(c, r).getState() == MS_Square.QUESTION) {
+                        g.drawImage(question, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else if (m.getSquare(c, r).isMine()) {
                         g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else {
@@ -209,20 +214,43 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mousePressed(MouseEvent e) {
-        mouseDown = true;
-        columnP = getColumnOffCoord(e);
-        rowP = getRowOffCoord(e);
+        if (game.getState() == (MS_Game.LOSE)) {
+            //do nothing
+            Logger.logUserMessage("Disallowing clicking as game is over.");
+        } else if (e.getButton() == MouseEvent.BUTTON1) {
+            mouseDown = true;
+            columnP = getColumnOffCoord(e);
+            rowP = getRowOffCoord(e);
 
-        System.out.println("User Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
-        Logger.logUserMessage("Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
-
+            System.out.println("User Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
+            Logger.logUserMessage("Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
-        int columnR = getColumnOffCoord(e), rowR = getRowOffCoord(e);
-        System.out.println("User Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
-        Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
-        game.reveal(columnR, rowR);
+        if (game.getState() == (MS_Game.LOSE)) {
+            //do nothing
+        } else if (e.getButton() == MouseEvent.BUTTON1) {
+            int columnR = getColumnOffCoord(e), rowR = getRowOffCoord(e);
+            System.out.println("User Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
+            Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
+            game.reveal(columnR, rowR);
+
+            if (game.getMap().getSquare(columnR, rowR).isMine()) {
+                game.setState(MS_Game.LOSE);
+            }
+        } else {
+            if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP && e.getButton() == MouseEvent.BUTTON2) {
+
+                if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP)
+                    game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.FLAG);
+                else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.FLAG) {
+                    game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.QUESTION);
+                } else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.QUESTION) {
+                    game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.UP);
+                }
+            }
+        }
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -242,7 +270,13 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mouseDragged(MouseEvent e) {
-        //game feat
+        if (game.getState() == (MS_Game.LOSE)) {
+            //do nothing
+        } else if (e.getButton() == MouseEvent.BUTTON1) {
+            mouseDown = true;
+            columnP = getColumnOffCoord(e);
+            rowP = getRowOffCoord(e);
+        }
     }
 
     /**
