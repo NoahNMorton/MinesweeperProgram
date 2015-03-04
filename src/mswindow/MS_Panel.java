@@ -20,15 +20,14 @@ import java.io.File;
  *         Part of Project: MineSweeper
  */
 
-//todo fix buttons, right click is button 3
 
 public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener, Runnable {
 
     private static final int GUIEXTRAHEIGHT = 130;
     private static final boolean DEBUG = false;
+    final int faceX = (getWidth() / 2) - 11, faceY = (GUIEXTRAHEIGHT / 2) - 10; //determines place of face
     public boolean mouseDown = false;
     int numColsP, numRowsP, columnP = -1, rowP = -1;
-
     Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
             digitFour, digitThree, digitHyphen, digitTwo, digitOne, digitZero, eight, seven, six, five, four, three,
             two, one, empty, unclicked, flag, question, mine, incorrectFlag, exploded;
@@ -42,7 +41,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         this.numColsP = numCols;
         this.numRowsP = numRows;
         game = new MS_Game(numRows, numCols, numMines);
-        game.setState(MS_Game.PLAYING); //todo fix to be on button press
+        game.setState(MS_Game.NOT_STARTED);
 
 
         try {
@@ -125,7 +124,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void paint(Graphics g) {
-        final int faceX = (getWidth() / 2) - 11, faceY = (GUIEXTRAHEIGHT / 2) - 10; //determines place of face
+
         long time = game.getSeconds(game.getStartTime());
 
         //paint game
@@ -142,6 +141,9 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                 break;
             case MS_Game.WIN:
                 g.drawImage(shades, faceX, faceY, null);
+                break;
+            case MS_Game.NOT_STARTED:
+                g.drawImage(oh, faceX, faceY, null);
                 break;
             default:
                 g.drawImage(happy, faceX, faceY, null);
@@ -218,6 +220,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             //do nothing
             Logger.logUserMessage("Disallowing clicking as game is over.");
         } else if (e.getButton() == MouseEvent.BUTTON1) {
+            if (game.getState() == MS_Game.NOT_STARTED && (e.getX() >= faceX && e.getX() <= faceX + 16) && (e.getY() >= faceY && e.getY() <= faceY + 16)) {
+                game.setState(MS_Game.PLAYING);
+                Logger.logCodeMessage("Starting Game.");
+            }
+
             mouseDown = true;
             columnP = getColumnOffCoord(e);
             rowP = getRowOffCoord(e);
@@ -239,16 +246,14 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             if (game.getMap().getSquare(columnR, rowR).isMine()) {
                 game.setState(MS_Game.LOSE);
             }
-        } else {
-            if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP && e.getButton() == MouseEvent.BUTTON2) {
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
 
-                if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP)
-                    game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.FLAG);
-                else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.FLAG) {
-                    game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.QUESTION);
-                } else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.QUESTION) {
-                    game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.UP);
-                }
+            if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP)
+                game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.FLAG);
+            else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.FLAG) {
+                game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.QUESTION);
+            } else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.QUESTION) {
+                game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.UP);
             }
         }
     }
@@ -337,96 +342,96 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
         switch (ones) {
             case 1:
-                g.drawImage(digitOne, 70, 50, null);
+                g.drawImage(digitOne, (int) (getWidth() * 0.30), 50, null);
                 break;
             case 2:
-                g.drawImage(digitTwo, 70, 50, null);
+                g.drawImage(digitTwo, (int) (getWidth() * 0.30), 50, null);
                 break;
             case 3:
-                g.drawImage(digitThree, 70, 50, null);
+                g.drawImage(digitThree, (int) (getWidth() * 0.30), 50, null);
                 break;
             case 4:
-                g.drawImage(digitFour, 70, 50, null);
+                g.drawImage(digitFour, (int) (getWidth() * 0.30), 50, null);
                 break;
             case 5:
-                g.drawImage(digitFive, 70, 50, null);
+                g.drawImage(digitFive, (int) (getWidth() * 0.30), 50, null);
                 break;
             case 6:
-                g.drawImage(digitSix, 70, 50, null);
+                g.drawImage(digitSix, (int) (getWidth() * 0.30), 50, null);
                 break;
             case 7:
-                g.drawImage(digitSeven, 70, 50, null);
+                g.drawImage(digitSeven, (int) (getWidth() * 0.30), 50, null);
                 break;
             case 8:
-                g.drawImage(digitEight, 70, 50, null);
+                g.drawImage(digitEight, (int) (getWidth() * 0.30), 50, null);
                 break;
             case 9:
-                g.drawImage(digitNine, 70, 50, null);
+                g.drawImage(digitNine, (int) (getWidth() * 0.30), 50, null);
                 break;
             default:
-                g.drawImage(digitZero, 70, 50, null);
+                g.drawImage(digitZero, (int) (getWidth() * 0.30), 50, null);
         }
         switch (tens) {
             case 1:
-                g.drawImage(digitOne, 50, 50, null);
+                g.drawImage(digitOne, (int) (getWidth() * 0.20), 50, null);
                 break;
             case 2:
-                g.drawImage(digitTwo, 50, 50, null);
+                g.drawImage(digitTwo, (int) (getWidth() * 0.20), 50, null);
                 break;
             case 3:
-                g.drawImage(digitThree, 50, 50, null);
+                g.drawImage(digitThree, (int) (getWidth() * 0.20), 50, null);
                 break;
             case 4:
-                g.drawImage(digitFour, 50, 50, null);
+                g.drawImage(digitFour, (int) (getWidth() * 0.20), 50, null);
                 break;
             case 5:
-                g.drawImage(digitFive, 50, 50, null);
+                g.drawImage(digitFive, (int) (getWidth() * 0.20), 50, null);
                 break;
             case 6:
-                g.drawImage(digitSix, 50, 50, null);
+                g.drawImage(digitSix, (int) (getWidth() * 0.20), 50, null);
                 break;
             case 7:
-                g.drawImage(digitSeven, 50, 50, null);
+                g.drawImage(digitSeven, (int) (getWidth() * 0.20), 50, null);
                 break;
             case 8:
-                g.drawImage(digitEight, 50, 50, null);
+                g.drawImage(digitEight, (int) (getWidth() * 0.20), 50, null);
                 break;
             case 9:
-                g.drawImage(digitNine, 50, 50, null);
+                g.drawImage(digitNine, (int) (getWidth() * 0.20), 50, null);
                 break;
             default:
-                g.drawImage(digitZero, 50, 50, null);
+                g.drawImage(digitZero, (int) (getWidth() * 0.20), 50, null);
         }
         switch (hundreds) {
             case 1:
-                g.drawImage(digitOne, 30, 50, null);
+                g.drawImage(digitOne, (int) (getWidth() * 0.10), 50, null);
                 break;
             case 2:
-                g.drawImage(digitTwo, 30, 50, null);
+                g.drawImage(digitTwo, (int) (getWidth() * 0.10), 50, null);
                 break;
             case 3:
-                g.drawImage(digitThree, 30, 50, null);
+                g.drawImage(digitThree, (int) (getWidth() * 0.10), 50, null);
                 break;
             case 4:
-                g.drawImage(digitFour, 30, 50, null);
+                g.drawImage(digitFour, (int) (getWidth() * 0.10), 50, null);
                 break;
             case 5:
-                g.drawImage(digitFive, 30, 50, null);
+                g.drawImage(digitFive, (int) (getWidth() * 0.10), 50, null);
                 break;
             case 6:
-                g.drawImage(digitSix, 30, 50, null);
+                g.drawImage(digitSix, (int) (getWidth() * 0.10), 50, null);
                 break;
             case 7:
-                g.drawImage(digitSeven, 30, 50, null);
+                g.drawImage(digitSeven, (int) (getWidth() * 0.10), 50, null);
                 break;
             case 8:
-                g.drawImage(digitEight, 30, 50, null);
+                g.drawImage(digitEight, (int) (getWidth() * 0.10), 50, null);
                 break;
             case 9:
-                g.drawImage(digitNine, 30, 50, null);
+                g.drawImage(digitNine, (int) (getWidth() * 0.10), 50, null);
                 break;
             default:
-                g.drawImage(digitZero, 30, 50, null);
+                g.drawImage(digitZero, (int) (getWidth() * 0.10), 50, null);
         }
     }
 
@@ -437,84 +442,86 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
      */
     private void showFlagNumbers(Graphics g) {
         int ones, tens = 0;
+        game.setNumMarked(game.getMineCounter());
         int numMarked = game.getNumMarked();
 
-        if (numMarked < 10) {
-            String number = "" + numMarked;
-            char tOnes = number.charAt(0);
-            String tOnes2 = "" + tOnes;
-            ones = Integer.parseInt(tOnes2);
-            switch (ones) {
-                case 1:
-                    g.drawImage(digitOne, 270, 50, null);
-                    break;
-                case 2:
-                    g.drawImage(digitTwo, 270, 50, null);
-                    break;
-                case 3:
-                    g.drawImage(digitThree, 270, 50, null);
-                    break;
-                case 4:
-                    g.drawImage(digitFour, 270, 50, null);
-                    break;
-                case 5:
-                    g.drawImage(digitFive, 270, 50, null);
-                    break;
-                case 6:
-                    g.drawImage(digitSix, 270, 50, null);
-                    break;
-                case 7:
-                    g.drawImage(digitSeven, 270, 50, null);
-                    break;
-                case 8:
-                    g.drawImage(digitEight, 270, 50, null);
-                    break;
-                case 9:
-                    g.drawImage(digitNine, 270, 50, null);
-                    break;
-                default:
-                    g.drawImage(digitZero, 270, 50, null);
-            }
-            g.drawImage(digitZero, 250, 50, null); //draw the tens place
-
-        } else if (numMarked < 0) //if marked is negative
+        if (numMarked < 0) //if marked is negative
         {
             String number = "" + numMarked;
+            char tOnes = number.charAt(1);
+            String tOnes2 = "" + tOnes;
+            ones = Integer.parseInt(tOnes2);
+            switch (ones) {
+                case 1:
+                    g.drawImage(digitOne, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 2:
+                    g.drawImage(digitTwo, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 3:
+                    g.drawImage(digitThree, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 4:
+                    g.drawImage(digitFour, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 5:
+                    g.drawImage(digitFive, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 6:
+                    g.drawImage(digitSix, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 7:
+                    g.drawImage(digitSeven, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 8:
+                    g.drawImage(digitEight, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 9:
+                    g.drawImage(digitNine, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                default:
+                    g.drawImage(digitZero, (int) (getWidth() * 0.80), 50, null);
+            }
+            g.drawImage(digitHyphen, (int) (getWidth() * 0.70), 50, null); //draw the negative place
+
+        } else if (numMarked < 10) {
+            String number = "" + numMarked;
             char tOnes = number.charAt(0);
             String tOnes2 = "" + tOnes;
             ones = Integer.parseInt(tOnes2);
             switch (ones) {
                 case 1:
-                    g.drawImage(digitOne, 270, 50, null);
+                    g.drawImage(digitOne, (int) (getWidth() * 0.80), 50, null);
                     break;
                 case 2:
-                    g.drawImage(digitTwo, 270, 50, null);
+                    g.drawImage(digitTwo, (int) (getWidth() * 0.80), 50, null);
                     break;
                 case 3:
-                    g.drawImage(digitThree, 270, 50, null);
+                    g.drawImage(digitThree, (int) (getWidth() * 0.80), 50, null);
                     break;
                 case 4:
-                    g.drawImage(digitFour, 270, 50, null);
+                    g.drawImage(digitFour, (int) (getWidth() * 0.80), 50, null);
                     break;
                 case 5:
-                    g.drawImage(digitFive, 270, 50, null);
+                    g.drawImage(digitFive, (int) (getWidth() * 0.80), 50, null);
                     break;
                 case 6:
-                    g.drawImage(digitSix, 270, 50, null);
+                    g.drawImage(digitSix, (int) (getWidth() * 0.80), 50, null);
                     break;
                 case 7:
-                    g.drawImage(digitSeven, 270, 50, null);
+                    g.drawImage(digitSeven, (int) (getWidth() * 0.80), 50, null);
                     break;
                 case 8:
-                    g.drawImage(digitEight, 270, 50, null);
+                    g.drawImage(digitEight, (int) (getWidth() * 0.80), 50, null);
                     break;
                 case 9:
-                    g.drawImage(digitNine, 270, 50, null);
+                    g.drawImage(digitNine, (int) (getWidth() * 0.80), 50, null);
                     break;
                 default:
-                    g.drawImage(digitZero, 270, 50, null);
+                    g.drawImage(digitZero, (int) (getWidth() * 0.80), 50, null);
             }
-            g.drawImage(digitHyphen, 250, 50, null); //draw the negative place
+            g.drawImage(digitZero, (int) (getWidth() * 0.70), 50, null); //draw the tens place
+
         } else { //if above 10 - you gotta do what you gotta do. Int to char, to string, and back to int. such hack
             String number = "" + numMarked;
             char tTens = number.charAt(0);
@@ -524,68 +531,69 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
             ones = Integer.parseInt(tOnes2);
             tens = Integer.parseInt(tTens2);
-        }
-        switch (ones) {
-            case 1:
-                g.drawImage(digitOne, 270, 50, null);
-                break;
-            case 2:
-                g.drawImage(digitTwo, 270, 50, null);
-                break;
-            case 3:
-                g.drawImage(digitThree, 270, 50, null);
-                break;
-            case 4:
-                g.drawImage(digitFour, 270, 50, null);
-                break;
-            case 5:
-                g.drawImage(digitFive, 270, 50, null);
-                break;
-            case 6:
-                g.drawImage(digitSix, 270, 50, null);
-                break;
-            case 7:
-                g.drawImage(digitSeven, 270, 50, null);
-                break;
-            case 8:
-                g.drawImage(digitEight, 270, 50, null);
-                break;
-            case 9:
-                g.drawImage(digitNine, 270, 50, null);
-                break;
-            default:
-                g.drawImage(digitZero, 270, 50, null);
-        }
-        switch (tens) {
-            case 1:
-                g.drawImage(digitOne, 250, 50, null);
-                break;
-            case 2:
-                g.drawImage(digitTwo, 250, 50, null);
-                break;
-            case 3:
-                g.drawImage(digitThree, 250, 50, null);
-                break;
-            case 4:
-                g.drawImage(digitFour, 250, 50, null);
-                break;
-            case 5:
-                g.drawImage(digitFive, 250, 50, null);
-                break;
-            case 6:
-                g.drawImage(digitSix, 250, 50, null);
-                break;
-            case 7:
-                g.drawImage(digitSeven, 250, 50, null);
-                break;
-            case 8:
-                g.drawImage(digitEight, 250, 50, null);
-                break;
-            case 9:
-                g.drawImage(digitNine, 250, 50, null);
-                break;
-            default:
-                g.drawImage(digitZero, 250, 50, null);
+
+            switch (ones) {
+                case 1:
+                    g.drawImage(digitOne, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 2:
+                    g.drawImage(digitTwo, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 3:
+                    g.drawImage(digitThree, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 4:
+                    g.drawImage(digitFour, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 5:
+                    g.drawImage(digitFive, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 6:
+                    g.drawImage(digitSix, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 7:
+                    g.drawImage(digitSeven, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 8:
+                    g.drawImage(digitEight, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                case 9:
+                    g.drawImage(digitNine, (int) (getWidth() * 0.80), 50, null);
+                    break;
+                default:
+                    g.drawImage(digitZero, (int) (getWidth() * 0.80), 50, null);
+            }
+            switch (tens) {
+                case 1:
+                    g.drawImage(digitOne, (int) (getWidth() * 0.70), 50, null);
+                    break;
+                case 2:
+                    g.drawImage(digitTwo, (int) (getWidth() * 0.70), 50, null);
+                    break;
+                case 3:
+                    g.drawImage(digitThree, (int) (getWidth() * 0.70), 50, null);
+                    break;
+                case 4:
+                    g.drawImage(digitFour, (int) (getWidth() * 0.70), 50, null);
+                    break;
+                case 5:
+                    g.drawImage(digitFive, (int) (getWidth() * 0.70), 50, null);
+                    break;
+                case 6:
+                    g.drawImage(digitSix, (int) (getWidth() * 0.70), 50, null);
+                    break;
+                case 7:
+                    g.drawImage(digitSeven, (int) (getWidth() * 0.70), 50, null);
+                    break;
+                case 8:
+                    g.drawImage(digitEight, (int) (getWidth() * 0.70), 50, null);
+                    break;
+                case 9:
+                    g.drawImage(digitNine, (int) (getWidth() * 0.70), 50, null);
+                    break;
+                default:
+                    g.drawImage(digitZero, (int) (getWidth() * 0.70), 50, null);
+            }
         }
     }
 

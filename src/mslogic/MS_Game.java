@@ -84,7 +84,7 @@ public class MS_Game {
      *
      * @return amt of mines unmarked.
      */
-    int getMineCounter() {
+    public int getMineCounter() {
         int amtFlagged = 0;
         for (int r = 0; r < numRowsG; r++) {
             for (int c = 0; c < numColsG; c++) {
