@@ -303,9 +303,9 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         //unused
     }
 
-    @Deprecated
+    
     public void mouseDragged(MouseEvent e) {
-        if (game.getState() == (MS_Game.LOSE)) {
+        if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN || !faceClicked) {
             //do nothing
         } else if (e.getButton() == MouseEvent.BUTTON1) {
             mouseDown = true;
