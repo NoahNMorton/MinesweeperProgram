@@ -42,7 +42,6 @@ public class MS_Map {
      * @return returns if the provided coords are within the grid.
      */
     public boolean isInGrid(int x, int y) {
-        //todo check
         return (x < numColsM && x >= 0) && (y < numRowsM && y >= 0);
     }
 

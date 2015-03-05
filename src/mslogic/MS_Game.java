@@ -11,7 +11,7 @@ public class MS_Game {
     public static final int PLAYING = 0, WIN = 1, LOSE = 2, NOT_STARTED = 3;
     MS_Map map;
     private int numRowsG, numColsG, numMinesG, numMarked, state;
-    private long startTime = System.nanoTime();
+    private long startTime;
     private int deadSeconds; //todo stores time of stop
 
     public MS_Game(int numCols, int numRows, int numMines) {
@@ -19,8 +19,8 @@ public class MS_Game {
         this.numRowsG = numRows;
         this.numMinesG = numMines;
         numMarked = 0;
-        state = NOT_STARTED; //todo might need to set to playing. >ask teach
-        startTime = System.nanoTime();
+        state = NOT_STARTED;
+        startTime = 0;
         makeGame(numCols, numRows);
 
     }
@@ -49,8 +49,10 @@ public class MS_Game {
         return state;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setState(int newState) {
+        if (newState == MS_Game.PLAYING)
+            startTime = System.nanoTime();
+        this.state = newState;
     }
 
 
@@ -73,6 +75,10 @@ public class MS_Game {
 
     public int getDeadSeconds() {
         return deadSeconds;
+    }
+
+    public void setDeadSeconds(int deadSeconds) {
+        this.deadSeconds = deadSeconds;
     }
 
     public MS_Map getMap() {
@@ -133,13 +139,8 @@ public class MS_Game {
     void makeGame(int c, int r) {
         map = new MS_Map(numColsG, numRowsG, numMinesG, c, r); //makes the game, does not set mine at provided
     }
-
-    void check() {
-        //todo updates game >seems unused
-
-
-    }
 }
+
 
 
 
