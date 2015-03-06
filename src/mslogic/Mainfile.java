@@ -55,16 +55,16 @@ public class Mainfile {
             Logger.logUserMessage("Cols: " + cols);
             System.out.println("Please enter the number of rows. 10-20");
             rows = scanner.nextByte();
-            if (rows < 10) rows = 10;
+            if (rows < 10) rows = 10; //validity checking
             if (rows > 20) rows = 20;
             Logger.logUserMessage("Rows: " + rows);
             System.out.println("Please enter the number of mines. ");
             mines = scanner.nextByte();
             Logger.logUserMessage("Mines: " + mines);
-            if (cols != rows) {
+            if (cols != rows) { //the board must be a square for it to render properly.
                 System.err.println("Shape of board is rectangular. Setting cols equal to rows.");
                 Logger.logErrorMessage("Shape of board was rectangular, fixing...");
-                if (cols < rows)
+                if (cols < rows) //tries to round up to the biggest.
                     cols = rows;
                 else
                     rows = cols;

@@ -20,19 +20,20 @@ import java.io.File;
  *         Part of Project: MineSweeper
  */
 
-
+//I can safely say this is the most complicated file I've written to this date. Grand total of 648 lines.
 public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener, Runnable {
 
     private static final int GUIEXTRAHEIGHT = 130;
+    public static int flaggedMines; //number of currently accurately flagged mines.
     private static boolean showAll = false;
-    public boolean mouseDown = false;
+    public boolean mouseDown = false; //used for dragging.
     int numColsP, numRowsP, columnP = -1, rowP = -1;
     Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
             digitFour, digitThree, digitHyphen, digitTwo, digitOne, digitZero, eight, seven, six, five, four, three,
             two, one, empty, unclicked, flag, question, mine, incorrectFlag, exploded;
-    private int faceX, faceY;
+    private int faceX, faceY; //the location to display the face.
     private MS_Game game;
-    private boolean faceClicked = false;
+    private boolean faceClicked = false; //if the face is being clicked.
 
     public MS_Panel(int numCols, int numRows, int numMines) {
         setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT);
@@ -150,7 +151,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                 g.drawImage(happy, faceX, faceY, null);
                 break;
         }
-
+        //show the timer and flags left
         showNumbers(g, time);
         showFlagNumbers(g);
 
@@ -220,32 +221,32 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mousePressed(MouseEvent e) {
-        if (game.getState() == MS_Game.NOT_STARTED && (e.getX() >= faceX && e.getX() <= faceX + 16) && (e.getY() >= faceY
-                && e.getY() <= faceY + 16) && e.getButton() == MouseEvent.BUTTON1) {
+        if (game.getState() == MS_Game.NOT_STARTED && (e.getX() >= faceX && e.getX() <= faceX + 24) && (e.getY() >= faceY
+                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) { //start the game
 
             game.setState(MS_Game.PLAYING);
             faceClicked = true;
 
             Logger.logCodeMessage("Starting Game.");
-        } else if (game.getState() == MS_Game.LOSE && (e.getX() >= faceX && e.getX() <= faceX + 16) && (e.getY() >= faceY
-                && e.getY() <= faceY + 16) && e.getButton() == MouseEvent.BUTTON1) {
+        } else if (game.getState() == MS_Game.LOSE && (e.getX() >= faceX && e.getX() <= faceX + 24) && (e.getY() >= faceY
+                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) { //restart the game >not properly implemented. shhh
 
             game.setState(MS_Game.PLAYING);
             faceClicked = true;
 
             Logger.logCodeMessage("Restarting Game, after a loss.");
-        } else if (game.getState() == MS_Game.WIN && (e.getX() >= faceX && e.getX() <= faceX + 16) && (e.getY() >= faceY
-                && e.getY() <= faceY + 16) && e.getButton() == MouseEvent.BUTTON1) {
+        } else if (game.getState() == MS_Game.WIN && (e.getX() >= faceX && e.getX() <= faceX + 24) && (e.getY() >= faceY
+                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) {
 
             game.setState(MS_Game.PLAYING);
             faceClicked = true;
 
             Logger.logCodeMessage("Restarting Game, after a win.");
         }
-        if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN || !faceClicked) {
-            //do nothing
+        if (game.getState() != MS_Game.PLAYING || !faceClicked) {
+            //do nothing, don't allow interaction until game is playing.
             Logger.logUserMessage("Disallowing clicking as game is over/not started.");
-        } else if (e.getButton() == MouseEvent.BUTTON1) {
+        } else if (e.getButton() == MouseEvent.BUTTON1) { //left click
 
             mouseDown = true;
             columnP = getColumnOffCoord(e);
@@ -273,13 +274,19 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             }
         } else if (e.getButton() == MouseEvent.BUTTON3) {
 
-            if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP)
+            if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP) {
+                if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if the flagged square is a mine
+                    flaggedMines++;
                 game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.FLAG);
+            }
             else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.FLAG) {
                 game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.QUESTION);
             } else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.QUESTION) {
                 game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.UP);
+                if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if they unflag a mine, free it back up
+                    flaggedMines--;
             }
+            checkForWin(); //check to see if the last mine was flagged.
         }
     }
 
@@ -303,7 +310,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         //unused
     }
 
-    
+
     public void mouseDragged(MouseEvent e) {
         if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN || !faceClicked) {
             //do nothing
@@ -320,6 +327,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
      * @param s an MS_Square to analyse.
      * @return the image to be displayed for the square.
      */
+    @Deprecated
     public Image getSquare(MS_Square s) {
         //get square image
 
@@ -629,8 +637,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     private void checkForWin() {
         //todo check for win
+        if (flaggedMines == game.getNumMinesG()) //if all mines have been flagged
+        {
+            game.setState(MS_Game.WIN);
+        }
     }
-
 
 
 }

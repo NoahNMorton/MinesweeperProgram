@@ -9,7 +9,7 @@ package mslogic;
 public class MS_Map {
 
     private int numRowsM, numColsM, numMinesM;
-    private MS_Square[][] grid;
+    private MS_Square[][] grid; //the grid of squares that everything runs off of.
 
     public MS_Map(int numCols, int numRows, int numMines, int clickedCol, int clickedRow) {
         this.numColsM = numCols;

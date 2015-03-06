@@ -12,7 +12,6 @@ public class MS_Game {
     MS_Map map;
     private int numRowsG, numColsG, numMinesG, numMarked, state;
     private long startTime;
-    private int deadSeconds; //todo stores time of stop
 
     public MS_Game(int numCols, int numRows, int numMines) {
         this.numColsG = numCols;
@@ -21,7 +20,7 @@ public class MS_Game {
         numMarked = 0;
         state = NOT_STARTED;
         startTime = 0;
-        makeGame(numCols, numRows);
+        makeGame(numCols, numRows); //makes the game.
 
     }
 
@@ -51,7 +50,7 @@ public class MS_Game {
 
     public void setState(int newState) {
         if (newState == MS_Game.PLAYING)
-            startTime = System.nanoTime();
+            startTime = System.nanoTime(); //used for timer
         this.state = newState;
     }
 
@@ -73,22 +72,14 @@ public class MS_Game {
         return startTime;
     }
 
-    public int getDeadSeconds() {
-        return deadSeconds;
-    }
-
-    public void setDeadSeconds(int deadSeconds) {
-        this.deadSeconds = deadSeconds;
-    }
-
     public MS_Map getMap() {
         return map;
     }
 
     /**
-     * Method to determine how many mines are unmarked.
+     * Method to determine how many flags are remaining.
      *
-     * @return amt of mines unmarked.
+     * @return amt of flags remaining.
      */
     public int getMineCounter() {
         int amtFlagged = 0;
@@ -110,15 +101,10 @@ public class MS_Game {
      */
     public void reveal(int c, int r) {
 
-        /*if valid spot and not revealed
-                change to true
-                if not number
-                call rev on eight nearby by spots*/
-
         if (map.isInGrid(c, r) && map.getSquare(c, r).getState() == MS_Square.UP) { //if valid, and not revealed
             map.getSquare(c, r).setState(MS_Square.SHOWN); //set to be shown
             if (map.getSquare(c, r).getNumber() == 0) { //if not number
-                reveal(c - 1, r - 1);
+                reveal(c - 1, r - 1); //call reveal on the 8 squares around the origin.
                 reveal(c, r - 1);
                 reveal(c + 1, r - 1);
                 reveal(c - 1, r);
