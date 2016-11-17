@@ -266,20 +266,23 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
             game.reveal(columnR, rowR); //call reveal to start revealing squares
 
-            if (game.getMap().getSquare(columnR, rowR).isMine()) { //if they clicked on a mine
-                game.setState(MS_Game.LOSE);
-                showAll = true;
-                Logger.logUserMessage("User has lost.");
-                faceClicked = false;
+            try {
+                if (game.getMap().getSquare(columnR, rowR).isMine()) { //if they clicked on a mine
+                    game.setState(MS_Game.LOSE);
+                    showAll = true;
+                    Logger.logUserMessage("User has lost.");
+                    faceClicked = false;
+                }
+            } catch (Exception ignored) {
             }
+            
         } else if (e.getButton() == MouseEvent.BUTTON3) {
 
             if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP) {
                 if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if the flagged square is a mine
                     flaggedMines++;
                 game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.FLAG);
-            }
-            else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.FLAG) {
+            } else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.FLAG) {
                 game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.QUESTION);
             } else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.QUESTION) {
                 game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.UP);
