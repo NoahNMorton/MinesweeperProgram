@@ -122,8 +122,12 @@ public class MS_Game {
      * @param c number of columns selected
      * @param r number of rows selected
      */
-    void makeGame(int c, int r) {
+    public void makeGame(int c, int r) {
         map = new MS_Map(numColsG, numRowsG, numMinesG, c, r); //makes the game, does not set mine at provided
+    }
+
+    public void regenMap() {
+
     }
 }
 

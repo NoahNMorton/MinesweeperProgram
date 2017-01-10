@@ -20,7 +20,6 @@ import java.io.File;
  *         Part of Project: MineSweeper
  */
 
-//I can safely say this is the most complicated file I've written to this date. Grand total of 648 lines.
 public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener, Runnable {
 
     private static final int GUIEXTRAHEIGHT = 130;
@@ -28,7 +27,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     private static boolean showAll = false;
     public boolean mouseDown = false; //used for dragging.
     int numColsP, numRowsP, columnP = -1, rowP = -1;
-    Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
+    private Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
             digitFour, digitThree, digitHyphen, digitTwo, digitOne, digitZero, eight, seven, six, five, four, three,
             two, one, empty, unclicked, flag, question, mine, incorrectFlag, exploded;
     private int faceX, faceY; //the location to display the face.
@@ -44,7 +43,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         //determines place of face
         faceX = (getWidth() / 2) - 11;
         faceY = (GUIEXTRAHEIGHT / 2) - 10;
-        //todo test comment
 
         try {
 
@@ -131,7 +129,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
         //paint game
         g.setColor(Color.WHITE);
-
 
         //GUI ---------------------------------
 
@@ -230,10 +227,20 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
             Logger.logCodeMessage("Starting Game.");
         } else if (game.getState() == MS_Game.LOSE && (e.getX() >= faceX && e.getX() <= faceX + 24) && (e.getY() >= faceY
-                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) { //restart the game >not properly implemented. shhh
+                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) {
 
             game.setState(MS_Game.PLAYING);
             faceClicked = true;
+
+            for (int y = 0; y < numRowsP; y++) { //set all squares back to hidden
+                for (int x = 0; x < numColsP; x++) {
+                    game.getMap().getGrid()[y][x].setState(MS_Square.UP);
+                }
+            }
+            showAll = false;
+            faceClicked = true;
+            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e)); //Remake the map >not properly implemented. shhh
+            repaint();
 
             Logger.logCodeMessage("Restarting Game, after a loss.");
         } else if (game.getState() == MS_Game.WIN && (e.getX() >= faceX && e.getX() <= faceX + 24) && (e.getY() >= faceY
@@ -241,6 +248,16 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
             game.setState(MS_Game.PLAYING);
             faceClicked = true;
+
+            for (int y = 0; y < numRowsP; y++) { //set all squares back to hidden
+                for (int x = 0; x < numColsP; x++) {
+                    game.getMap().getGrid()[y][x].setState(MS_Square.UP);
+                }
+            }
+            showAll = false;
+            faceClicked = true;
+            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e)); //Remake the map >not properly implemented. shhh
+            repaint();
 
             Logger.logCodeMessage("Restarting Game, after a win.");
         }
@@ -259,6 +276,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mouseReleased(MouseEvent e) {
+        //noinspection StatementWithEmptyBody
         if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN || !faceClicked) {
             //do nothing
         } else if (e.getButton() == MouseEvent.BUTTON1) {
@@ -316,6 +334,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
 
     public void mouseDragged(MouseEvent e) {
+        //noinspection StatementWithEmptyBody
         if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN || !faceClicked) {
             //do nothing
         } else if (e.getButton() == MouseEvent.BUTTON1) {
@@ -483,7 +502,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
      * @param g graphics from paint method
      */
     private void showFlagNumbers(Graphics g) {
-        int ones, tens = 0;
+        int ones, tens;
         game.setNumMarked(game.getMineCounter());
         int numMarked = game.getNumMarked();
 
