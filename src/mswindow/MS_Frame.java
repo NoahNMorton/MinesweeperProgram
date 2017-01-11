@@ -14,11 +14,42 @@ import java.awt.*;
 public class MS_Frame extends JFrame {
 
     public MS_Frame(int rows, int cols, int mines) {
-
-
         super("MineSweeper");
 
+        //Menu bar ------------------------------------------------
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
 
+        //File menu
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+        JMenu newGameMenu = new JMenu("New Game");
+        fileMenu.add(newGameMenu);
+        JMenuItem easyMap = new JMenuItem("Easy");
+        newGameMenu.add(easyMap);
+        JMenuItem mediumMap = new JMenuItem("Medium");
+        newGameMenu.add(mediumMap);
+        JMenuItem hardMap = new JMenuItem("Hard");
+        newGameMenu.add(hardMap);
+
+        JMenuItem highScores = new JMenuItem("View Scores");
+        fileMenu.add(highScores);
+
+        JMenuItem exitItem = new JMenuItem("Exit");
+        fileMenu.add(exitItem);
+
+        //Help menu
+        JMenu help = new JMenu("Help");
+        menuBar.add(help);
+        JMenuItem rules = new JMenuItem("Rules");
+        help.add(rules);
+        JMenuItem about = new JMenuItem("About");
+        help.add(about);
+
+        //Menu Actions ----------------------------------------------
+
+
+        //Frame handling -------------------------------
         // Sets the close button to exit the program
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

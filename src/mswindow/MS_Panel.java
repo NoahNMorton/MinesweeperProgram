@@ -214,6 +214,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     public void addNotify() {
         super.addNotify();
         Thread a = new Thread(this);
+        requestFocus();
         a.start();
         Logger.logCodeMessage("Thread Created Successfully.");
     }
@@ -270,8 +271,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             columnP = getColumnOffCoord(e);
             rowP = getRowOffCoord(e);
 
-            System.out.println("User Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
-            Logger.logUserMessage("Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
+            //System.out.println("User Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
+            //Logger.logUserMessage("Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
         }
     }
 
@@ -281,8 +282,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             //do nothing
         } else if (e.getButton() == MouseEvent.BUTTON1) {
             int columnR = getColumnOffCoord(e), rowR = getRowOffCoord(e);
-            System.out.println("User Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
-            Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
+            //System.out.println("User Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
+            //Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
             game.reveal(columnR, rowR); //call reveal to start revealing squares
 
             try {
@@ -331,7 +332,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     public void mouseMoved(MouseEvent e) {
         //unused
     }
-
 
     public void mouseDragged(MouseEvent e) {
         //noinspection StatementWithEmptyBody
