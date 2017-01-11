@@ -47,7 +47,23 @@ public class MS_Frame extends JFrame {
         help.add(about);
 
         //Menu Actions ----------------------------------------------
+        //Help menu
+        rules.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "The game is played by revealing squares of the grid by clicking or \n" +
+                    "otherwise indicating each square. If a square containing a mine is revealed, the player loses the \n" +
+                    "game. If no mine is revealed, a digit is instead displayed in the square, indicating how many \n" +
+                    "adjacent squares contain mines; if no mines are adjacent, the square becomes blank, and all \n" +
+                    "adjacent squares will be recursively revealed. The player uses this information to deduce the \n" +
+                    "contents of other squares, and may either safely reveal each square or mark the square as \n" +
+                    "containing a mine.");
+        });
+        about.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "Version 2.0 of Minesweeper.\nCreated by Noah Morton, 2015-17.\nThis " +
+                    "software is licenced using the MIT licence. All rights reserved.");
+        });
 
+        //File menu - NewGame
+        //todo make game with menu instead of asking.
 
         //Frame handling -------------------------------
         // Sets the close button to exit the program
