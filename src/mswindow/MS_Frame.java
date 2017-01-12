@@ -11,7 +11,7 @@ import java.awt.*;
  *         Part of Project: MineSweeper
  */
 
-public class MS_Frame extends JFrame {
+public class MS_Frame extends JFrame implements Runnable {
 
     public MS_Frame(int rows, int cols, int mines) {
         super("MineSweeper");
@@ -63,7 +63,10 @@ public class MS_Frame extends JFrame {
         });
 
         //File menu - NewGame
-        //todo make game with menu instead of asking.
+        easyMap.addActionListener(e -> {
+            System.out.println("Creating a new easy map...");
+            Logger.logUserMessage("User chose to create a new easy map.");
+        });
 
         //Frame handling -------------------------------
         // Sets the close button to exit the program
@@ -98,5 +101,26 @@ public class MS_Frame extends JFrame {
 
     }
 
+    public void run() {
+        //noinspection InfiniteLoopStatement
+        while (true) {
+            //paint(this.getGraphics());
+            repaint();
+            try {
+                Thread.sleep(35);
+            } catch (Exception e) {
+                System.err.println("Error Sleeping.");
+                Logger.logErrorMessage("Error Sleeping Thread.");
+            }
+        }
+    }
+
+    public void addNotify() {
+        super.addNotify();
+        Thread a = new Thread(this);
+        requestFocus();
+        a.start();
+        Logger.logCodeMessage("Thread Created Successfully.");
+    }
 
 }

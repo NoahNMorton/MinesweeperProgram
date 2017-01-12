@@ -21,7 +21,7 @@ import java.io.File;
  *         Part of Project: MineSweeper
  */
 
-public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener, Runnable {
+public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener {
 
     private static final int GUIEXTRAHEIGHT = 130;
     public static int flaggedMines; //number of currently accurately flagged mines.
@@ -113,28 +113,13 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         return (e.getY() - GUIEXTRAHEIGHT) / 16;
     }
 
-    public void run() {
-        //noinspection InfiniteLoopStatement
-        while (true) {
-            paint(this.getGraphics());
-            try {
-                Thread.sleep(35);
-            } catch (Exception e) {
-                System.err.println("Error Sleeping.");
-                Logger.logErrorMessage("Error Sleeping Thread.");
-            }
-        }
-    }
-
     public void paint(Graphics g) {
         Graphics bg = buffer.getGraphics();
 
         long time = game.getSeconds(game.getStartTime());
 
-
         bg.setColor(Color.white);
         bg.fillRect(0, 0, getWidth(), getHeight());
-
 
         //paint game
         bg.setColor(Color.WHITE);
@@ -218,14 +203,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             }
         }
         g.drawImage(buffer, 0, 0, null);
-    }
-
-    public void addNotify() {
-        super.addNotify();
-        Thread a = new Thread(this);
-        requestFocus();
-        a.start();
-        Logger.logCodeMessage("Thread Created Successfully.");
     }
 
     public void mousePressed(MouseEvent e) {
