@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 
@@ -27,6 +28,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     private static boolean showAll = false;
     public boolean mouseDown = false; //used for dragging.
     int numColsP, numRowsP, columnP = -1, rowP = -1;
+    BufferedImage buffer;
     private Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
             digitFour, digitThree, digitHyphen, digitTwo, digitOne, digitZero, eight, seven, six, five, four, three,
             two, one, empty, unclicked, flag, question, mine, incorrectFlag, exploded;
@@ -36,6 +38,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     public MS_Panel(int numCols, int numRows, int numMines) {
         setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT);
+        buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
         this.numColsP = numCols;
         this.numRowsP = numRows;
         game = new MS_Game(numRows, numCols, numMines);
@@ -124,35 +127,40 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void paint(Graphics g) {
+        Graphics bg = buffer.getGraphics();
 
         long time = game.getSeconds(game.getStartTime());
 
+
+        bg.setColor(Color.white);
+        bg.fillRect(0, 0, getWidth(), getHeight());
+
+
         //paint game
-        g.setColor(Color.WHITE);
+        bg.setColor(Color.WHITE);
 
         //GUI ---------------------------------
 
-        g.drawRect(0, 0, getWidth(), GUIEXTRAHEIGHT);
+        bg.drawRect(0, 0, getWidth(), GUIEXTRAHEIGHT);
         //draw the face in the gui
         switch (game.getState()) {
             case MS_Game.LOSE:
 
-                g.drawImage(dead, faceX, faceY, null);
+                bg.drawImage(dead, faceX, faceY, null);
                 break;
             case MS_Game.WIN:
-                g.drawImage(shades, faceX, faceY, null);
+                bg.drawImage(shades, faceX, faceY, null);
                 break;
             case MS_Game.NOT_STARTED:
-                g.drawImage(oh, faceX, faceY, null);
+                bg.drawImage(oh, faceX, faceY, null);
                 break;
             default:
-                g.drawImage(happy, faceX, faceY, null);
+                bg.drawImage(happy, faceX, faceY, null);
                 break;
         }
         //show the timer and flags left
-        showNumbers(g, time);
-        showFlagNumbers(g);
-
+        showNumbers(bg, time);
+        showFlagNumbers(bg);
 
         //Items -------------------------
         //Numbers -------------------------
@@ -161,54 +169,55 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                 MS_Map m = game.getMap();
 
                 if (r == rowP && c == columnP && m.getSquare(c, r).getState() == MS_Square.UP) { //draw the square being clicked as down
-                    g.drawImage(down, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                    bg.drawImage(down, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                 } else {
                     //noinspection ConstantConditions,PointlessBooleanExpression
                     if (m.getSquare(c, r).getState() == MS_Square.UP && !showAll) {
-                        g.drawImage(unclicked, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                        bg.drawImage(unclicked, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else if (m.getSquare(c, r).getState() == MS_Square.FLAG) {
-                        g.drawImage(flag, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                        bg.drawImage(flag, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else if (m.getSquare(c, r).getState() == MS_Square.QUESTION) {
-                        g.drawImage(question, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                        bg.drawImage(question, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else if (m.getSquare(c, r).isMine()) {
                         if (game.getState() == MS_Game.LOSE)
-                            g.drawImage(exploded, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            bg.drawImage(exploded, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                         else
-                            g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            bg.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else {
                         switch (m.getSquare(c, r).getNumber()) {
                             case 1:
-                                g.drawImage(one, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                bg.drawImage(one, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                                 break;
                             case 2:
-                                g.drawImage(two, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                bg.drawImage(two, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                                 break;
                             case 3:
-                                g.drawImage(three, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                bg.drawImage(three, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                                 break;
                             case 4:
-                                g.drawImage(four, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                bg.drawImage(four, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                                 break;
                             case 5:
-                                g.drawImage(five, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                bg.drawImage(five, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                                 break;
                             case 6:
-                                g.drawImage(six, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                bg.drawImage(six, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                                 break;
                             case 7:
-                                g.drawImage(seven, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                bg.drawImage(seven, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                                 break;
                             case 8:
-                                g.drawImage(eight, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                bg.drawImage(eight, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                                 break;
                             default:
-                                g.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                                bg.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                                 break;
                         }
                     }
                 }
             }
         }
+        g.drawImage(buffer, 0, 0, null);
     }
 
     public void addNotify() {
@@ -240,7 +249,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             }
             showAll = false;
             faceClicked = true;
-            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e)); //Remake the map >not properly implemented. shhh
+            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e));
             repaint();
 
             Logger.logCodeMessage("Restarting Game, after a loss.");
@@ -257,7 +266,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             }
             showAll = false;
             faceClicked = true;
-            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e)); //Remake the map >not properly implemented. shhh
+            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e));
             repaint();
 
             Logger.logCodeMessage("Restarting Game, after a win.");
