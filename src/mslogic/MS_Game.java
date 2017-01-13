@@ -8,20 +8,30 @@ package mslogic;
 
 public class MS_Game {
 
-    public static final int PLAYING = 0, WIN = 1, LOSE = 2, NOT_STARTED = 3;
+    public static final int PLAYING = 0, WIN = 1, LOSE = 2, NOT_STARTED = 3, EASY = 0, MEDIUM = 1, HARD = 2;
     MS_Map map;
     private int numRowsG, numColsG, numMinesG, numMarked, state;
     private long startTime;
+    private int difficulty;
 
     public MS_Game(int numCols, int numRows, int numMines) {
         this.numColsG = numCols;
         this.numRowsG = numRows;
         this.numMinesG = numMines;
+        difficulty = MEDIUM;
         numMarked = 0;
         state = NOT_STARTED;
         startTime = 0;
         makeGame(numCols, numRows); //makes the game.
 
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 
     public int getNumRowsG() {
@@ -53,7 +63,6 @@ public class MS_Game {
             startTime = System.nanoTime(); //used for timer
         this.state = newState;
     }
-
 
     /**
      * Method to return current time in seconds

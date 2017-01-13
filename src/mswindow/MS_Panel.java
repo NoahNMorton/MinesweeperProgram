@@ -13,6 +13,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 /**
@@ -673,6 +675,23 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         if (flaggedMines == game.getNumMinesG()) //if all mines have been flagged
         {
             game.setState(MS_Game.WIN);
+            //code to set high score
+            //todo if to check if high score was made
+            if (game.getDifficulty() == game.EASY) {
+                try {
+                    FileWriter fileWriter = new FileWriter("easy.txt", true);
+
+
+                    fileWriter.write("");
+                    fileWriter.close();
+                } catch (IOException e) {
+                    System.out.println("Issue with writing scores file.");
+                }
+            } else if (game.getDifficulty() == game.MEDIUM) {
+
+            } else if (game.getDifficulty() == game.HARD) {
+
+            }
         }
     }
 
