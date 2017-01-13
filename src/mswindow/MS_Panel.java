@@ -23,7 +23,7 @@ import java.io.File;
 
 public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener {
 
-    private static final int GUIEXTRAHEIGHT = 130;
+    public static final int GUIEXTRAHEIGHT = 110;
     public static int flaggedMines; //number of currently accurately flagged mines.
     private static boolean showAll = false;
     public boolean mouseDown = false; //used for dragging.
@@ -37,7 +37,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     private boolean faceClicked = false; //if the face is being clicked.
 
     public MS_Panel(int numCols, int numRows, int numMines) {
-        setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT);
+        setSize(numCols * 16, numRows * 17 + GUIEXTRAHEIGHT + 15);
         buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
         this.numColsP = numCols;
         this.numRowsP = numRows;
@@ -111,6 +111,30 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
      */
     public static int getRowOffCoord(MouseEvent e) {
         return (e.getY() - GUIEXTRAHEIGHT) / 16;
+    }
+
+    /**
+     * Recreates the panel for a resize.
+     *
+     * @param numCols  number of columns to create with
+     * @param numRows  number of rows to create with
+     * @param numMines number of mines to create
+     */
+    public void recreate(int numCols, int numRows, int numMines) {
+        setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT);
+        buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+        this.numColsP = numCols;
+        this.numRowsP = numRows;
+        game = new MS_Game(numRows, numCols, numMines);
+        game.setState(MS_Game.NOT_STARTED);
+        //determines place of face
+        faceX = (getWidth() / 2) - 11;
+        faceY = (GUIEXTRAHEIGHT / 2) - 10;
+        repaint();
+    }
+
+    public MS_Game getGame() {
+        return game;
     }
 
     public void paint(Graphics g) {

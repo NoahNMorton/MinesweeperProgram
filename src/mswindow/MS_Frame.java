@@ -13,6 +13,8 @@ import java.awt.*;
 
 public class MS_Frame extends JFrame implements Runnable {
 
+    private MS_Panel p;
+
     public MS_Frame(int rows, int cols, int mines) {
         super("MineSweeper");
 
@@ -66,7 +68,33 @@ public class MS_Frame extends JFrame implements Runnable {
         easyMap.addActionListener(e -> {
             System.out.println("Creating a new easy map...");
             Logger.logUserMessage("User chose to create a new easy map.");
+
+            int numCols = 10, numRows = 10, numMines = 10;
+            setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
+            p.recreate(numCols, numRows, numMines);
         });
+        mediumMap.addActionListener(e -> {
+            System.out.println("Creating a new medium map...");
+            Logger.logUserMessage("User chose to create a new medium map.");
+
+            int numCols = 15, numRows = 15, numMines = 30;
+            setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
+            p.recreate(numCols, numRows, numMines);
+        });
+        hardMap.addActionListener(e -> {
+            System.out.println("Creating a new hard map...");
+            Logger.logUserMessage("User chose to create a new hard map.");
+
+            int numCols = 20, numRows = 20, numMines = 100;
+            setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
+            p.recreate(numCols, numRows, numMines);
+        });
+        // view scores
+        highScores.addActionListener(e -> {
+
+
+        });
+
 
         //Frame handling -------------------------------
         // Sets the close button to exit the program
@@ -77,7 +105,7 @@ public class MS_Frame extends JFrame implements Runnable {
         // creates the window
         pack();
         // creates the panel
-        MS_Panel p = new MS_Panel(rows, cols, mines);
+        p = new MS_Panel(rows, cols, mines);
         // gets the frames insets
         Insets frameInsets = getInsets();
         // calculates panel size
