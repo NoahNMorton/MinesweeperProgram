@@ -69,29 +69,31 @@ public class MS_Frame extends JFrame implements Runnable {
             System.out.println("Creating a new easy map...");
             Logger.logUserMessage("User chose to create a new easy map.");
 
-            int numCols = 10, numRows = 10, numMines = 10;
+            int numCols = 10, numRows = 10, numMines = 3;
             setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
-            p.recreate(numCols, numRows, numMines);
+            p.recreate(numCols, numRows, numMines, p.getGame().EASY);
         });
         mediumMap.addActionListener(e -> {
             System.out.println("Creating a new medium map...");
             Logger.logUserMessage("User chose to create a new medium map.");
+            p.getGame().setDifficulty(p.getGame().MEDIUM);
 
             int numCols = 15, numRows = 15, numMines = 30;
             setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
-            p.recreate(numCols, numRows, numMines);
+            p.recreate(numCols, numRows, numMines, p.getGame().MEDIUM);
         });
         hardMap.addActionListener(e -> {
             System.out.println("Creating a new hard map...");
             Logger.logUserMessage("User chose to create a new hard map.");
+            p.getGame().setDifficulty(p.getGame().HARD);
 
             int numCols = 20, numRows = 20, numMines = 100;
             setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
-            p.recreate(numCols, numRows, numMines);
+            p.recreate(numCols, numRows, numMines, p.getGame().HARD);
         });
         // view scores
         highScores.addActionListener(e -> {
-
+            //todo view scores
 
         });
 

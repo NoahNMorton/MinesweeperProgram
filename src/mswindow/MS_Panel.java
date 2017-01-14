@@ -122,13 +122,14 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
      * @param numRows  number of rows to create with
      * @param numMines number of mines to create
      */
-    public void recreate(int numCols, int numRows, int numMines) {
+    public void recreate(int numCols, int numRows, int numMines, int newDifficulty) {
         setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT);
         buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
         this.numColsP = numCols;
         this.numRowsP = numRows;
         game = new MS_Game(numRows, numCols, numMines);
         game.setState(MS_Game.NOT_STARTED);
+        game.setDifficulty(newDifficulty);
         //determines place of face
         faceX = (getWidth() / 2) - 11;
         faceY = (GUIEXTRAHEIGHT / 2) - 10;
@@ -253,6 +254,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             showAll = false;
             faceClicked = true;
             game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e));
+            flaggedMines = 0;
             repaint();
 
             Logger.logCodeMessage("Restarting Game, after a loss.");
@@ -304,6 +306,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                     showAll = true;
                     Logger.logUserMessage("User has lost.");
                     faceClicked = false;
+                    flaggedMines = 0;
                 }
             } catch (Exception ignored) {
             }
@@ -626,26 +629,44 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     private void checkForWin() {
-        //todo check for win and write scores
         if (flaggedMines == game.getNumMinesG()) //if all mines have been flagged
         {
+            System.out.println("User has won.");
+            flaggedMines = 0; //reset after a win
             game.setState(MS_Game.WIN);
             //code to set high score
-            //todo if to check if high score was made
+            //todo if to check if high score was made, only keep 5 entries >help
             if (game.getDifficulty() == game.EASY) {
                 try {
                     FileWriter fileWriter = new FileWriter("easy_scores.txt", true);
+                    String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
 
-
-                    fileWriter.write("");
+                    fileWriter.write(username + " - " + game.getWinTime() + "\n");
                     fileWriter.close();
                 } catch (IOException e) {
-                    System.out.println("Issue with writing scores file.");
+                    System.out.println("Issue with writing scores file, " + e.getMessage());
                 }
             } else if (game.getDifficulty() == game.MEDIUM) {
+                try {
+                    FileWriter fileWriter = new FileWriter("medium_scores.txt", true);
+                    String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
+
+                    fileWriter.write(username + " - " + game.getWinTime() + "\n");
+                    fileWriter.close();
+                } catch (IOException e) {
+                    System.out.println("Issue with writing scores file, " + e.getMessage());
+                }
 
             } else if (game.getDifficulty() == game.HARD) {
+                try {
+                    FileWriter fileWriter = new FileWriter("hard_scores.txt", true);
+                    String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
 
+                    fileWriter.write(username + " - " + game.getWinTime() + "\n");
+                    fileWriter.close();
+                } catch (IOException e) {
+                    System.out.println("Issue with writing scores file, " + e.getMessage());
+                }
             }
         }
     }

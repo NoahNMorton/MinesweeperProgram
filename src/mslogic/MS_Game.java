@@ -10,7 +10,7 @@ public class MS_Game {
 
     public static final int PLAYING = 0, WIN = 1, LOSE = 2, NOT_STARTED = 3, EASY = 0, MEDIUM = 1, HARD = 2;
     MS_Map map;
-    private int numRowsG, numColsG, numMinesG, numMarked, state;
+    private int numRowsG, numColsG, numMinesG, numMarked, state, winTime = 0;
     private long startTime;
     private int difficulty;
 
@@ -24,6 +24,10 @@ public class MS_Game {
         startTime = 0;
         makeGame(numCols, numRows); //makes the game.
 
+    }
+
+    public int getWinTime() {
+        return winTime;
     }
 
     public int getDifficulty() {
@@ -61,6 +65,8 @@ public class MS_Game {
     public void setState(int newState) {
         if (newState == MS_Game.PLAYING)
             startTime = System.nanoTime(); //used for timer
+        else if (newState == MS_Game.WIN)
+            winTime = (int) getSeconds(startTime); //used for saving scores
         this.state = newState;
     }
 
@@ -71,9 +77,9 @@ public class MS_Game {
      * @return seconds in long format.
      */
     public long getSeconds(long startTime) {
-        if (getState() == PLAYING) {
+        if (getState() == PLAYING)
             return (System.nanoTime() - startTime) / 1000000000; //divide by 1000000000
-        } else
+        else
             return 0;
     }
 
