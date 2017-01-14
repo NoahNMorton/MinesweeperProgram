@@ -29,8 +29,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     public static int flaggedMines; //number of currently accurately flagged mines.
     private static boolean showAll = false;
     public boolean mouseDown = false; //used for dragging.
-    int numColsP, numRowsP, columnP = -1, rowP = -1;
-    BufferedImage buffer;
+    private int numColsP, numRowsP, columnP = -1, rowP = -1;
+    private BufferedImage buffer;
     private Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
             digitFour, digitThree, digitHyphen, digitTwo, digitOne, digitZero, eight, seven, six, five, four, three,
             two, one, empty, unclicked, flag, question, mine, incorrectFlag, exploded;
@@ -357,51 +357,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     /**
-     * Analyses the provided square for what image to display.
-     *
-     * @param s an MS_Square to analyse.
-     * @return the image to be displayed for the square.
-     */
-    @Deprecated
-    public Image getSquare(MS_Square s) {
-        //get square image
-
-        if (s.getState() == MS_Square.FLAG)
-            return flag;
-        else if (s.getState() == MS_Square.QUESTION)
-            return question;
-        else if (s.getState() == MS_Square.UP)
-            return unclicked;
-        else if (s.getState() == MS_Square.SHOWN) {
-            if (s.isMine()) {
-                return mine;
-            }
-            switch (s.getNumber()) { //returns images if the object is a number
-                case 0:
-                    return empty;
-                case 1:
-                    return one;
-                case 2:
-                    return two;
-                case 3:
-                    return three;
-                case 4:
-                    return four;
-                case 5:
-                    return five;
-                case 6:
-                    return six;
-                case 7:
-                    return seven;
-                case 8:
-                    return eight;
-            }
-
-        }
-        return null;
-    }
-
-    /**
      * Method to show the timer.
      *
      * @param g    Graphics from paint
@@ -671,7 +626,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     private void checkForWin() {
-        //todo check for win
+        //todo check for win and write scores
         if (flaggedMines == game.getNumMinesG()) //if all mines have been flagged
         {
             game.setState(MS_Game.WIN);
@@ -679,7 +634,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             //todo if to check if high score was made
             if (game.getDifficulty() == game.EASY) {
                 try {
-                    FileWriter fileWriter = new FileWriter("easy.txt", true);
+                    FileWriter fileWriter = new FileWriter("easy_scores.txt", true);
 
 
                     fileWriter.write("");
