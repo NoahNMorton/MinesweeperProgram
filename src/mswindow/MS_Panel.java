@@ -1,9 +1,6 @@
 package mswindow;
 
-import mslogic.Logger;
-import mslogic.MS_Game;
-import mslogic.MS_Map;
-import mslogic.MS_Square;
+import mslogic.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,9 +9,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 
 /**
@@ -29,6 +26,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     public static int flaggedMines; //number of currently accurately flagged mines.
     private static boolean showAll = false;
     public boolean mouseDown = false; //used for dragging.
+    ArrayList<ScoreEntry> easyArrayList, mediumArrayList, hardArrayList;
     private int numColsP, numRowsP, columnP = -1, rowP = -1;
     private BufferedImage buffer;
     private Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
@@ -39,12 +37,17 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     private boolean faceClicked = false; //if the face is being clicked.
 
     public MS_Panel(int numCols, int numRows, int numMines) {
+        //init
         setSize(numCols * 16, numRows * 17 + GUIEXTRAHEIGHT + 15);
         buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
         this.numColsP = numCols;
         this.numRowsP = numRows;
         game = new MS_Game(numRows, numCols, numMines);
         game.setState(MS_Game.NOT_STARTED);
+        easyArrayList = new ArrayList<>();
+        mediumArrayList = new ArrayList<>(); //arrays used for storing scores
+        hardArrayList = new ArrayList<>();
+
         //determines place of face
         faceX = (getWidth() / 2) - 11;
         faceY = (GUIEXTRAHEIGHT / 2) - 10;
@@ -92,6 +95,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         }
         addMouseListener(this);
         addMouseMotionListener(this);
+        readAllScores(); //read all scores from the scores file into the 3 arraylists.
 
     }
 
@@ -641,7 +645,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                     FileWriter fileWriter = new FileWriter("easy_scores.txt", true);
                     String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
 
-                    fileWriter.write(username + " - " + game.getWinTime() + "\n");
+                    fileWriter.write(username + "-" + game.getWinTime() + "\n");
                     fileWriter.close();
                 } catch (IOException e) {
                     System.out.println("Issue with writing scores file, " + e.getMessage());
@@ -651,7 +655,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                     FileWriter fileWriter = new FileWriter("medium_scores.txt", true);
                     String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
 
-                    fileWriter.write(username + " - " + game.getWinTime() + "\n");
+                    fileWriter.write(username + "-" + game.getWinTime() + "\n");
                     fileWriter.close();
                 } catch (IOException e) {
                     System.out.println("Issue with writing scores file, " + e.getMessage());
@@ -662,13 +666,34 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                     FileWriter fileWriter = new FileWriter("hard_scores.txt", true);
                     String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
 
-                    fileWriter.write(username + " - " + game.getWinTime() + "\n");
+                    fileWriter.write(username + "-" + game.getWinTime() + "\n");
                     fileWriter.close();
                 } catch (IOException e) {
                     System.out.println("Issue with writing scores file, " + e.getMessage());
                 }
             }
         }
+    }
+
+    private void readAllScores() {
+        FileReader easyFileReader, mediumFileReader, hardFileReader;
+        //check existence of files
+        File easyFile = new File("easy_scores.txt");
+        File mediumFile = new File("medium_scores.txt");
+        File hardFile = new File("hard_scores.txt");
+        if (!easyFile.exists() || !mediumFile.exists() || !hardFile.exists()) {
+            return; //files should exist
+        }
+
+        try {
+            Scanner easyFileScanner = new Scanner(new FileReader(easyFile));
+            Scanner mediumFileScanner = new Scanner(new FileReader(mediumFile));
+            Scanner hardFileScanner = new Scanner(new FileReader(hardFile));
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        //todo while to read files into arraylists.
+
     }
 
 
