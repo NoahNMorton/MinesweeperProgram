@@ -78,7 +78,7 @@ public class MS_Frame extends JFrame implements Runnable {
             Logger.logUserMessage("User chose to create a new medium map.");
             p.getGame().setDifficulty(p.getGame().MEDIUM);
 
-            int numCols = 15, numRows = 15, numMines = 30;
+            int numCols = 15, numRows = 15, numMines = 3;
             setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
             p.recreate(numCols, numRows, numMines, p.getGame().MEDIUM);
         });
@@ -87,14 +87,35 @@ public class MS_Frame extends JFrame implements Runnable {
             Logger.logUserMessage("User chose to create a new hard map.");
             p.getGame().setDifficulty(p.getGame().HARD);
 
-            int numCols = 20, numRows = 20, numMines = 100;
+            int numCols = 20, numRows = 20, numMines = 3;
             setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
             p.recreate(numCols, numRows, numMines, p.getGame().HARD);
         });
         // view scores
         highScores.addActionListener(e -> {
-            //todo view scores
+            String easyScores = "";
+            for (int i = 0; i < p.easyArrayList.size(); i++) {
+                try {
+                    easyScores += p.easyArrayList.get(i).toString() + "\n";
+                } catch (Exception ignored) {
+                } //no scores in file
 
+            }
+            String mediumScores = "";
+            for (int i = 0; i < p.easyArrayList.size(); i++) {
+                try {
+                    mediumScores += p.mediumArrayList.get(i).toString() + "\n";
+                } catch (Exception ignored) {
+                } //no scores in the file
+            }
+            String hardScores = "";
+            for (int i = 0; i < p.easyArrayList.size(); i++) {
+                try {
+                    hardScores += p.hardArrayList.get(i).toString() + "\n";
+                } catch (Exception ignored) {
+                } //no scores in file
+            }
+            Logger.messageWindow("Easy:\n" + easyScores + "\nMedium:\n" + mediumScores + "\nHard:\n" + hardScores);
         });
 
 

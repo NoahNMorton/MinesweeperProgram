@@ -17,6 +17,11 @@ public class ScoreEntry implements Comparable {
         this.username = username;
     }
 
+    @Override
+    public String toString() {
+        return username + "-" + score;
+    }
+
     public String getUsername() {
         return username;
     }

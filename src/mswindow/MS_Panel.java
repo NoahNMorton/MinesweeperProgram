@@ -96,7 +96,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         addMouseListener(this);
         addMouseMotionListener(this);
         readAllScores(); //read all scores from the scores file into the 3 arraylists.
-
     }
 
     /**
@@ -639,23 +638,34 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             flaggedMines = 0; //reset after a win
             game.setState(MS_Game.WIN);
             //code to set high score
-            //todo if to check if high score was made, only keep 5 entries >help
+            //todo change to write arraylists not file directly
             if (game.getDifficulty() == game.EASY) {
                 try {
-                    FileWriter fileWriter = new FileWriter("easy_scores.txt", true);
+                    FileWriter fileWriter = new FileWriter("easy_scores.txt");
                     String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
+                    ScoreEntry entry = new ScoreEntry(username, game.getWinTime());
 
-                    fileWriter.write(username + "-" + game.getWinTime() + "\n");
+                    for (int i = 0; i < easyArrayList.size(); i++) {
+                        fileWriter.write(easyArrayList.get(i).toString() + "\n"); // write the data back into the file from the arraylists
+                    }
+
+                    fileWriter.write(entry + "\n");
                     fileWriter.close();
+
                 } catch (IOException e) {
                     System.out.println("Issue with writing scores file, " + e.getMessage());
                 }
             } else if (game.getDifficulty() == game.MEDIUM) {
                 try {
-                    FileWriter fileWriter = new FileWriter("medium_scores.txt", true);
+                    FileWriter fileWriter = new FileWriter("medium_scores.txt");
                     String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
+                    ScoreEntry entry = new ScoreEntry(username, game.getWinTime());
 
-                    fileWriter.write(username + "-" + game.getWinTime() + "\n");
+                    for (int i = 0; i < mediumArrayList.size(); i++) {
+                        fileWriter.write(mediumArrayList.get(i).toString() + "\n"); // write the data back into the file from the arraylists
+                    }
+
+                    fileWriter.write(entry + "\n"); //write the winning entry
                     fileWriter.close();
                 } catch (IOException e) {
                     System.out.println("Issue with writing scores file, " + e.getMessage());
@@ -663,10 +673,15 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
             } else if (game.getDifficulty() == game.HARD) {
                 try {
-                    FileWriter fileWriter = new FileWriter("hard_scores.txt", true);
+                    FileWriter fileWriter = new FileWriter("hard_scores.txt");
                     String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
+                    ScoreEntry entry = new ScoreEntry(username, game.getWinTime());
 
-                    fileWriter.write(username + "-" + game.getWinTime() + "\n");
+                    for (int i = 0; i < hardArrayList.size(); i++) {
+                        fileWriter.write(hardArrayList.get(i).toString() + "\n"); // write the data back into the file from the arraylists
+                    }
+
+                    fileWriter.write(entry + "\n");
                     fileWriter.close();
                 } catch (IOException e) {
                     System.out.println("Issue with writing scores file, " + e.getMessage());
@@ -676,23 +691,86 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     private void readAllScores() {
-        FileReader easyFileReader, mediumFileReader, hardFileReader;
+        Scanner easyFileScanner;
+        Scanner mediumFileScanner;
+        Scanner hardFileScanner;
+
         //check existence of files
         File easyFile = new File("easy_scores.txt");
         File mediumFile = new File("medium_scores.txt");
         File hardFile = new File("hard_scores.txt");
         if (!easyFile.exists() || !mediumFile.exists() || !hardFile.exists()) {
-            return; //files should exist
+            System.out.println("Files don't exist, creating...");
+            Logger.logCodeMessage("Files don't exist, creating...");
+            try {
+                easyFile.createNewFile();
+                mediumFile.createNewFile();
+                hardFile.createNewFile();
+            } catch (IOException ignored) {
+            }
         }
 
         try {
-            Scanner easyFileScanner = new Scanner(new FileReader(easyFile));
-            Scanner mediumFileScanner = new Scanner(new FileReader(mediumFile));
-            Scanner hardFileScanner = new Scanner(new FileReader(hardFile));
+            easyFileScanner = new Scanner(new FileReader(easyFile));
+            mediumFileScanner = new Scanner(new FileReader(mediumFile));
+            hardFileScanner = new Scanner(new FileReader(hardFile));
         } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Issues with reading files. " + e.getMessage());
+            Logger.logErrorMessage("Cannot read score files.");
+            return;
         }
-        //todo while to read files into arraylists.
+
+        //Easy difficulty
+        int linesRead = 0; //ensure no more than 5 scores are read.
+        try {
+            while (easyFileScanner.hasNext() && linesRead < 6) {
+                linesRead++;
+                String line = easyFileScanner.nextLine();
+                String name = line.split("[-]")[0];
+                int score = Integer.parseInt(line.split("[-]")[1]);
+                easyArrayList.add(new ScoreEntry(name, score));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage()); //todo remove after test
+            System.out.println("No values in easy file.");
+        }
+
+        linesRead = 0; //reset the counter
+        //Medium difficulty
+        try {
+            while (mediumFileScanner.hasNext() && linesRead < 6) {
+                linesRead++;
+                String line = easyFileScanner.nextLine();
+                String name = line.split("[-]")[0];
+                int score = Integer.parseInt(line.split("[-]")[1]);
+                mediumArrayList.add(new ScoreEntry(name, score));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage()); //todo remove after test
+            System.out.println("No values in medium file.");
+        }
+        linesRead = 0;
+        //Hard difficulty
+        try {
+            while (hardFileScanner.hasNext() && linesRead < 6) {
+                linesRead++;
+                String line = easyFileScanner.nextLine();
+                String name = line.split("[-]")[0];
+                int score = Integer.parseInt(line.split("[-]")[1]);
+                hardArrayList.add(new ScoreEntry(name, score));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage()); //todo remove after test
+            System.out.println("No values in hard file.");
+        }
+
+        easyFileScanner.close();
+        mediumFileScanner.close();
+        hardFileScanner.close();
+
+        easyArrayList.sort(null);
+        mediumArrayList.sort(null); //sort all the arraylists
+        hardArrayList.sort(null);
 
     }
 
