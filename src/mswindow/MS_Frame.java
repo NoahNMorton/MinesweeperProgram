@@ -11,10 +11,12 @@ import java.awt.*;
  *         Part of Project: MineSweeper
  */
 
+@SuppressWarnings("AccessStaticViaInstance")
 public class MS_Frame extends JFrame implements Runnable {
 
     private MS_Panel p;
 
+    @SuppressWarnings("SameParameterValue")
     public MS_Frame(int rows, int cols, int mines) {
         super("MineSweeper");
 
@@ -50,26 +52,22 @@ public class MS_Frame extends JFrame implements Runnable {
 
         //Menu Actions ----------------------------------------------
         //Help menu
-        rules.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "The game is played by revealing squares of the grid by clicking or \n" +
-                    "otherwise indicating each square. If a square containing a mine is revealed, the player loses the \n" +
-                    "game. If no mine is revealed, a digit is instead displayed in the square, indicating how many \n" +
-                    "adjacent squares contain mines; if no mines are adjacent, the square becomes blank, and all \n" +
-                    "adjacent squares will be recursively revealed. The player uses this information to deduce the \n" +
-                    "contents of other squares, and may either safely reveal each square or mark the square as \n" +
-                    "containing a mine.");
-        });
-        about.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "Version 2.0 of Minesweeper.\nCreated by Noah Morton, 2015-17.\nThis " +
-                    "software is licenced using the MIT licence. All rights reserved.");
-        });
+        rules.addActionListener(e -> JOptionPane.showMessageDialog(null, "The game is played by revealing squares of the grid by clicking or \n" +
+                "otherwise indicating each square. If a square containing a mine is revealed, the player loses the \n" +
+                "game. If no mine is revealed, a digit is instead displayed in the square, indicating how many \n" +
+                "adjacent squares contain mines; if no mines are adjacent, the square becomes blank, and all \n" +
+                "adjacent squares will be recursively revealed. The player uses this information to deduce the \n" +
+                "contents of other squares, and may either safely reveal each square or mark the square as \n" +
+                "containing a mine."));
+        about.addActionListener(e -> JOptionPane.showMessageDialog(null, "Version 2.0 of Minesweeper.\nCreated by Noah Morton, 2015-17.\nThis " +
+                "software is licenced using the MIT licence. All rights reserved."));
 
         //File menu - NewGame
         easyMap.addActionListener(e -> {
             System.out.println("Creating a new easy map...");
             Logger.logUserMessage("User chose to create a new easy map.");
 
-            int numCols = 10, numRows = 10, numMines = 3;
+            int numCols = 10, numRows = 10, numMines = 15;
             setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
             p.recreate(numCols, numRows, numMines, p.getGame().EASY);
         });
@@ -78,7 +76,7 @@ public class MS_Frame extends JFrame implements Runnable {
             Logger.logUserMessage("User chose to create a new medium map.");
             p.getGame().setDifficulty(p.getGame().MEDIUM);
 
-            int numCols = 15, numRows = 15, numMines = 3;
+            int numCols = 15, numRows = 15, numMines = 30;
             setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
             p.recreate(numCols, numRows, numMines, p.getGame().MEDIUM);
         });
@@ -87,7 +85,7 @@ public class MS_Frame extends JFrame implements Runnable {
             Logger.logUserMessage("User chose to create a new hard map.");
             p.getGame().setDifficulty(p.getGame().HARD);
 
-            int numCols = 20, numRows = 20, numMines = 3;
+            int numCols = 20, numRows = 20, numMines = 60;
             setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
             p.recreate(numCols, numRows, numMines, p.getGame().HARD);
         });

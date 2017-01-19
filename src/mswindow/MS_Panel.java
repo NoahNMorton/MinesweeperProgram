@@ -23,10 +23,10 @@ import java.util.Scanner;
 public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener {
 
     public static final int GUIEXTRAHEIGHT = 110;
-    public static int flaggedMines; //number of currently accurately flagged mines.
+    private static int flaggedMines; //number of currently accurately flagged mines.
     private static boolean showAll = false;
-    public boolean mouseDown = false; //used for dragging.
     ArrayList<ScoreEntry> easyArrayList, mediumArrayList, hardArrayList;
+    private boolean mouseDown = false; //used for dragging.
     private int numColsP, numRowsP, columnP = -1, rowP = -1;
     private BufferedImage buffer;
     private Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
@@ -104,7 +104,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
      * @param e used for getting x.
      * @return the column clicked.
      */
-    public static int getColumnOffCoord(MouseEvent e) {
+    private static int getColumnOffCoord(MouseEvent e) {
         return (e.getX()) / 16;
     }
 
@@ -114,7 +114,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
      * @param e used for getting y.
      * @return the row clicked.
      */
-    public static int getRowOffCoord(MouseEvent e) {
+    private static int getRowOffCoord(MouseEvent e) {
         return (e.getY() - GUIEXTRAHEIGHT) / 16;
     }
 
@@ -631,6 +631,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         }
     }
 
+    @SuppressWarnings("AccessStaticViaInstance")
     private void checkForWin() {
         if (flaggedMines == game.getNumMinesG()) //if all mines have been flagged
         {
@@ -638,18 +639,15 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             flaggedMines = 0; //reset after a win
             game.setState(MS_Game.WIN);
             //code to set high score
-            //todo change to write arraylists not file directly
             if (game.getDifficulty() == game.EASY) {
                 try {
                     FileWriter fileWriter = new FileWriter("easy_scores.txt");
                     String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
-                    ScoreEntry entry = new ScoreEntry(username, game.getWinTime());
+                    easyArrayList.add(new ScoreEntry(username, game.getWinTime()));
 
-                    for (int i = 0; i < easyArrayList.size(); i++) {
-                        fileWriter.write(easyArrayList.get(i).toString() + "\n"); // write the data back into the file from the arraylists
+                    for (ScoreEntry anEasyArrayList : easyArrayList) {
+                        fileWriter.write(anEasyArrayList.toString() + "\n"); // write the data back into the file from the arraylists
                     }
-
-                    fileWriter.write(entry + "\n");
                     fileWriter.close();
 
                 } catch (IOException e) {
@@ -659,13 +657,12 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                 try {
                     FileWriter fileWriter = new FileWriter("medium_scores.txt");
                     String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
-                    ScoreEntry entry = new ScoreEntry(username, game.getWinTime());
+                    mediumArrayList.add(new ScoreEntry(username, game.getWinTime()));
 
-                    for (int i = 0; i < mediumArrayList.size(); i++) {
-                        fileWriter.write(mediumArrayList.get(i).toString() + "\n"); // write the data back into the file from the arraylists
+                    for (ScoreEntry aMediumArrayList : mediumArrayList) {
+                        fileWriter.write(aMediumArrayList.toString() + "\n"); // write the data back into the file from the arraylists
                     }
 
-                    fileWriter.write(entry + "\n"); //write the winning entry
                     fileWriter.close();
                 } catch (IOException e) {
                     System.out.println("Issue with writing scores file, " + e.getMessage());
@@ -675,13 +672,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                 try {
                     FileWriter fileWriter = new FileWriter("hard_scores.txt");
                     String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
-                    ScoreEntry entry = new ScoreEntry(username, game.getWinTime());
+                    hardArrayList.add(new ScoreEntry(username, game.getWinTime()));
 
-                    for (int i = 0; i < hardArrayList.size(); i++) {
-                        fileWriter.write(hardArrayList.get(i).toString() + "\n"); // write the data back into the file from the arraylists
+                    for (ScoreEntry aHardArrayList : hardArrayList) {
+                        fileWriter.write(aHardArrayList.toString() + "\n"); // write the data back into the file from the arraylists
                     }
-
-                    fileWriter.write(entry + "\n");
                     fileWriter.close();
                 } catch (IOException e) {
                     System.out.println("Issue with writing scores file, " + e.getMessage());
@@ -690,6 +685,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         }
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void readAllScores() {
         Scanner easyFileScanner;
         Scanner mediumFileScanner;
@@ -715,7 +711,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             mediumFileScanner = new Scanner(new FileReader(mediumFile));
             hardFileScanner = new Scanner(new FileReader(hardFile));
         } catch (FileNotFoundException e) {
-            System.out.println("Issues with reading files. " + e.getMessage());
+            System.err.println("Issues with reading files. " + e.getMessage());
             Logger.logErrorMessage("Cannot read score files.");
             return;
         }
@@ -723,7 +719,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         //Easy difficulty
         int linesRead = 0; //ensure no more than 5 scores are read.
         try {
-            while (easyFileScanner.hasNext() && linesRead < 6) {
+            while (easyFileScanner.hasNextLine() && linesRead < 6) {
                 linesRead++;
                 String line = easyFileScanner.nextLine();
                 String name = line.split("[-]")[0];
@@ -731,7 +727,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                 easyArrayList.add(new ScoreEntry(name, score));
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage()); //todo remove after test
             System.out.println("No values in easy file.");
         }
 
@@ -740,13 +735,12 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         try {
             while (mediumFileScanner.hasNext() && linesRead < 6) {
                 linesRead++;
-                String line = easyFileScanner.nextLine();
+                String line = mediumFileScanner.nextLine();
                 String name = line.split("[-]")[0];
                 int score = Integer.parseInt(line.split("[-]")[1]);
                 mediumArrayList.add(new ScoreEntry(name, score));
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage()); //todo remove after test
             System.out.println("No values in medium file.");
         }
         linesRead = 0;
@@ -754,13 +748,12 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         try {
             while (hardFileScanner.hasNext() && linesRead < 6) {
                 linesRead++;
-                String line = easyFileScanner.nextLine();
+                String line = hardFileScanner.nextLine();
                 String name = line.split("[-]")[0];
                 int score = Integer.parseInt(line.split("[-]")[1]);
                 hardArrayList.add(new ScoreEntry(name, score));
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage()); //todo remove after test
             System.out.println("No values in hard file.");
         }
 

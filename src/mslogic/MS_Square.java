@@ -11,7 +11,7 @@ public class MS_Square {
 
     private boolean mine; //if the square is a mine.
 
-    private int numRowsS, numColsS, numMinesS, state, number; //todo num rows and cols might not be needed.
+    private int state, number;
 
 
     public MS_Square() {
@@ -25,6 +25,7 @@ public class MS_Square {
         return mine;
     }
 
+    @SuppressWarnings("SameParameterValue")
     public void setMine(boolean mine) {
         this.mine = mine;
     }

@@ -9,7 +9,7 @@ package mslogic;
 public class MS_Game {
 
     public static final int PLAYING = 0, WIN = 1, LOSE = 2, NOT_STARTED = 3, EASY = 0, MEDIUM = 1, HARD = 2;
-    MS_Map map;
+    private MS_Map map;
     private int numRowsG, numColsG, numMinesG, numMarked, state, winTime = 0;
     private long startTime;
     private int difficulty;
@@ -137,7 +137,7 @@ public class MS_Game {
      * @param c number of columns selected
      * @param r number of rows selected
      */
-    public void makeGame(int c, int r) {
+    private void makeGame(int c, int r) {
         map = new MS_Map(numColsG, numRowsG, numMinesG, c, r); //makes the game, does not set mine at provided
     }
 }

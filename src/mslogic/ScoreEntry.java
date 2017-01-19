@@ -30,7 +30,7 @@ public class ScoreEntry implements Comparable {
         this.username = username;
     }
 
-    public int getScore() {
+    private int getScore() {
         return score;
     }
 
@@ -38,8 +38,15 @@ public class ScoreEntry implements Comparable {
         this.score = score;
     }
 
+
     @Override
     public int compareTo(Object o) {
-        return (this.score < (int) o) ? -1 : ((this.score == (int) o) ? 0 : 1);
+        ScoreEntry other = (ScoreEntry) o;
+        if (this.score < other.getScore())
+            return -1;
+        else if (this.score > other.getScore())
+            return 1;
+        else
+            return 0;
     }
 }
