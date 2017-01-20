@@ -157,7 +157,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         showFlagNumbers(g);
 
 
-        //Items -------------------------
+        //Items --------------------------
         //Numbers -------------------------
         for (int r = 0; r < game.getNumRowsG(); r++) {
             for (int c = 0; c < game.getNumColsG(); c++) {
