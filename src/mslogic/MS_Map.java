@@ -52,7 +52,7 @@ public class MS_Map {
      * @param clickedRow the row that was clicked on.
      * @param clickedCol the col that was clicked on.
      */
-    private void createMap(int clickedRow, int clickedCol) {
+    public void createMap(int clickedRow, int clickedCol) {
         Logger.logCodeMessage("Creating map. Number of cols is " + numColsM + " Number of rows is " + numRowsM);
 
         //make the array
@@ -118,5 +118,7 @@ public class MS_Map {
         Logger.logCodeMessage("Map creation success.");
     }
 
-
+    public MS_Square[][] getGrid() {
+        return grid;
+    }
 }
