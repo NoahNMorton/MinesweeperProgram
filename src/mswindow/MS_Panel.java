@@ -175,8 +175,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                         if (game.getState() == MS_Game.LOSE) {
                             g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                             g.drawImage(exploded, (int) clickedSquare.getX() * 16, (int) clickedSquare.getY() * 16 + GUIEXTRAHEIGHT, null);
-                        }
-                        else
+                        } else
                             g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else {
                         switch (m.getSquare(c, r).getNumber()) {
@@ -221,6 +220,26 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         Logger.logCodeMessage("Thread Created Successfully.");
     }
 
+    /**
+     * +     * Recreates the panel for a resize.
+     * +     *
+     * +     * @param numCols  number of columns to create with
+     * +     * @param numRows  number of rows to create with
+     * +     * @param numMines number of mines to create
+     * +
+     */
+    private void recreate(int numCols, int numRows, int numMines) {
+        setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT);
+        this.numColsP = numCols;
+        this.numRowsP = numRows;
+        game = new MS_Game(numRows, numCols, numMines);
+        game.setState(MS_Game.NOT_STARTED);
+        //determines place of face
+        faceX = (getWidth() / 2) - 11;
+        faceY = (GUIEXTRAHEIGHT / 2) - 10;
+        repaint();
+    }
+
     public void mousePressed(MouseEvent e) {
         if (game.getState() == MS_Game.NOT_STARTED && (e.getX() >= faceX && e.getX() <= faceX + 24) && (e.getY() >= faceY
                 && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) { //start the game if face clicked
@@ -242,8 +261,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             }
             showAll = false;
             faceClicked = true;
-            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e)); //Remake the map >not properly implemented. shhh
-            repaint();
+            recreate(numColsP, numRowsP, game.getNumMinesG());
 
             Logger.logCodeMessage("Restarting Game, after a loss.");
         } else if (game.getState() == MS_Game.WIN && (e.getX() >= faceX && e.getX() <= faceX + 24) && (e.getY() >= faceY
@@ -260,8 +278,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             showAll = false;
             faceClicked = true;
             game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e)); //Remake the map >not properly implemented. shhh
-            repaint();
-
+            recreate(numColsP, numRowsP, game.getNumMinesG());
             Logger.logCodeMessage("Restarting Game, after a win.");
         }
         if (game.getState() != MS_Game.PLAYING || !faceClicked) {
@@ -298,7 +315,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                 }
             } catch (Exception ignored) {
             }
-            
+
         } else if (e.getButton() == MouseEvent.BUTTON3) {
 
             if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP) {

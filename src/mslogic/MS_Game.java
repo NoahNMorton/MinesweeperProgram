@@ -126,9 +126,6 @@ public class MS_Game {
         map = new MS_Map(numColsG, numRowsG, numMinesG, c, r); //makes the game, does not set mine at provided
     }
 
-    public void regenMap() {
-
-    }
 }
 
 
