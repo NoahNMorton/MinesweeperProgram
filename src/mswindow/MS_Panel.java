@@ -196,10 +196,10 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                         bg.drawImage(question, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else if (m.getSquare(c, r).isMine()) {
                         if (game.getState() == MS_Game.LOSE) {
-                            g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            g.drawImage(exploded, (int) clickedSquare.getX() * 16, (int) clickedSquare.getY() * 16 + GUIEXTRAHEIGHT, null);
+                            bg.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            bg.drawImage(exploded, (int) clickedSquare.getX() * 16, (int) clickedSquare.getY() * 16 + GUIEXTRAHEIGHT, null);
                         } else
-                            g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            bg.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else {
                         switch (m.getSquare(c, r).getNumber()) {
                             case 1:
