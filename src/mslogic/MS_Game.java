@@ -140,6 +140,7 @@ public class MS_Game {
     private void makeGame(int c, int r) {
         map = new MS_Map(numColsG, numRowsG, numMinesG, c, r); //makes the game, does not set mine at provided
     }
+
 }
 
 

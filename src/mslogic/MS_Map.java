@@ -68,7 +68,7 @@ public class MS_Map {
         for (int m = 0; m < numMinesM; m++) {
             int randomY = (int) (Math.random() * numRowsM), randomX = (int) (Math.random() * numColsM);
 
-            if (randomX != clickedCol && randomY != clickedRow)  //does not allow clicked to be a mine
+            if (!getSquare(randomX, randomY).isMine() && (randomX != clickedCol && randomY != clickedRow))  //does not allow clicked to be a mine
                 grid[randomY][randomX].setMine(true);
             else
                 m--;

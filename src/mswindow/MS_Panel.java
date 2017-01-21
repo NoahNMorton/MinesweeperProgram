@@ -35,6 +35,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     private int faceX, faceY; //the location to display the face.
     private MS_Game game;
     private boolean faceClicked = false; //if the face is being clicked.
+    private Point clickedSquare;
 
     public MS_Panel(int numCols, int numRows, int numMines) {
         //init
@@ -177,7 +178,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         showNumbers(bg, time);
         showFlagNumbers(bg);
 
-        //Items -------------------------
+        //Items --------------------------
         //Numbers -------------------------
         for (int r = 0; r < game.getNumRowsG(); r++) {
             for (int c = 0; c < game.getNumColsG(); c++) {
@@ -194,10 +195,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                     } else if (m.getSquare(c, r).getState() == MS_Square.QUESTION) {
                         bg.drawImage(question, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else if (m.getSquare(c, r).isMine()) {
-                        if (game.getState() == MS_Game.LOSE)
-                            bg.drawImage(exploded, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                        else
-                            bg.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                        if (game.getState() == MS_Game.LOSE) {
+                            g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            g.drawImage(exploded, (int) clickedSquare.getX() * 16, (int) clickedSquare.getY() * 16 + GUIEXTRAHEIGHT, null);
+                        } else
+                            g.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                     } else {
                         switch (m.getSquare(c, r).getNumber()) {
                             case 1:
@@ -235,9 +237,29 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         g.drawImage(buffer, 0, 0, null);
     }
 
+    /**
+     * +     * Recreates the panel for a resize.
+     * +     *
+     * +     * @param numCols  number of columns to create with
+     * +     * @param numRows  number of rows to create with
+     * +     * @param numMines number of mines to create
+     * +
+     */
+    private void recreate(int numCols, int numRows, int numMines) {
+        setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT);
+        this.numColsP = numCols;
+        this.numRowsP = numRows;
+        game = new MS_Game(numRows, numCols, numMines);
+        game.setState(MS_Game.NOT_STARTED);
+        //determines place of face
+        faceX = (getWidth() / 2) - 11;
+        faceY = (GUIEXTRAHEIGHT / 2) - 10;
+        repaint();
+    }
+
     public void mousePressed(MouseEvent e) {
         if (game.getState() == MS_Game.NOT_STARTED && (e.getX() >= faceX && e.getX() <= faceX + 24) && (e.getY() >= faceY
-                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) { //start the game
+                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) { //start the game if face clicked
 
             game.setState(MS_Game.PLAYING);
             faceClicked = true;
@@ -276,7 +298,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             faceClicked = true;
             game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e));
             repaint();
-
             Logger.logCodeMessage("Restarting Game, after a win.");
         }
         if (game.getState() != MS_Game.PLAYING || !faceClicked) {
@@ -306,6 +327,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             try {
                 if (game.getMap().getSquare(columnR, rowR).isMine()) { //if they clicked on a mine
                     game.setState(MS_Game.LOSE);
+                    clickedSquare = new Point(getColumnOffCoord(e), getRowOffCoord(e));
                     showAll = true;
                     Logger.logUserMessage("User has lost.");
                     faceClicked = false;
@@ -313,7 +335,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                 }
             } catch (Exception ignored) {
             }
-            
+
         } else if (e.getButton() == MouseEvent.BUTTON3) {
 
             if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP) {
