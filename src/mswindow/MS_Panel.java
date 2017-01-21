@@ -184,77 +184,58 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             for (int c = 0; c < game.getNumColsG(); c++) {
                 MS_Map m = game.getMap();
 
-                if (r == rowP && c == columnP && m.getSquare(c, r).getState() == MS_Square.UP) { //draw the square being clicked as down
-                    bg.drawImage(down, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                //noinspection ConstantConditions,PointlessBooleanExpression
+                if (m.getSquare(c, r).getState() == MS_Square.UP && !showAll) {
+                    bg.drawImage(unclicked, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                } else if (m.getSquare(c, r).getState() == MS_Square.FLAG) {
+                    bg.drawImage(flag, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                } else if (m.getSquare(c, r).getState() == MS_Square.QUESTION) {
+                    bg.drawImage(question, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                } else if (m.getSquare(c, r).isMine()) {
+                    if (game.getState() == MS_Game.LOSE) {
+                        bg.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                        bg.drawImage(exploded, (int) clickedSquare.getX() * 16, (int) clickedSquare.getY() * 16 + GUIEXTRAHEIGHT, null);
+                    } else
+                        bg.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                 } else {
-                    //noinspection ConstantConditions,PointlessBooleanExpression
-                    if (m.getSquare(c, r).getState() == MS_Square.UP && !showAll) {
-                        bg.drawImage(unclicked, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                    } else if (m.getSquare(c, r).getState() == MS_Square.FLAG) {
-                        bg.drawImage(flag, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                    } else if (m.getSquare(c, r).getState() == MS_Square.QUESTION) {
-                        bg.drawImage(question, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                    } else if (m.getSquare(c, r).isMine()) {
-                        if (game.getState() == MS_Game.LOSE) {
-                            bg.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                            bg.drawImage(exploded, (int) clickedSquare.getX() * 16, (int) clickedSquare.getY() * 16 + GUIEXTRAHEIGHT, null);
-                        } else
-                            bg.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                    } else {
-                        switch (m.getSquare(c, r).getNumber()) {
-                            case 1:
-                                bg.drawImage(one, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                                break;
-                            case 2:
-                                bg.drawImage(two, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                                break;
-                            case 3:
-                                bg.drawImage(three, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                                break;
-                            case 4:
-                                bg.drawImage(four, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                                break;
-                            case 5:
-                                bg.drawImage(five, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                                break;
-                            case 6:
-                                bg.drawImage(six, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                                break;
-                            case 7:
-                                bg.drawImage(seven, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                                break;
-                            case 8:
-                                bg.drawImage(eight, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                                break;
-                            default:
-                                bg.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
-                                break;
-                        }
+                    switch (m.getSquare(c, r).getNumber()) {
+                        case 1:
+                            bg.drawImage(one, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 2:
+                            bg.drawImage(two, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 3:
+                            bg.drawImage(three, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 4:
+                            bg.drawImage(four, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 5:
+                            bg.drawImage(five, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 6:
+                            bg.drawImage(six, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 7:
+                            bg.drawImage(seven, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        case 8:
+                            bg.drawImage(eight, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
+                        default:
+                            bg.drawImage(empty, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                            break;
                     }
                 }
             }
         }
-        g.drawImage(buffer, 0, 0, null);
-    }
 
-    /**
-     * +     * Recreates the panel for a resize.
-     * +     *
-     * +     * @param numCols  number of columns to create with
-     * +     * @param numRows  number of rows to create with
-     * +     * @param numMines number of mines to create
-     * +
-     */
-    private void recreate(int numCols, int numRows, int numMines) {
-        setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT);
-        this.numColsP = numCols;
-        this.numRowsP = numRows;
-        game = new MS_Game(numRows, numCols, numMines);
-        game.setState(MS_Game.NOT_STARTED);
-        //determines place of face
-        faceX = (getWidth() / 2) - 11;
-        faceY = (GUIEXTRAHEIGHT / 2) - 10;
-        repaint();
+        if (mouseDown && rowP >= 0) { //draw the square being clicked as down
+            bg.drawImage(down, columnP * 16, (rowP * 16) + GUIEXTRAHEIGHT, null);
+        }
+
+        g.drawImage(buffer, 0, 0, null);
     }
 
     public void mousePressed(MouseEvent e) {
@@ -315,6 +296,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mouseReleased(MouseEvent e) {
+        mouseDown = false;
         //noinspection StatementWithEmptyBody
         if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN || !faceClicked) {
             //do nothing
@@ -375,12 +357,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     public void mouseDragged(MouseEvent e) {
         //noinspection StatementWithEmptyBody
-        if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN || !faceClicked) {
-            //do nothing
-        } else if (e.getButton() == MouseEvent.BUTTON1) {
+        if (game.getState() == game.PLAYING) { //if playing
             mouseDown = true;
             columnP = getColumnOffCoord(e);
             rowP = getRowOffCoord(e);
+            System.out.println(columnP + "," + rowP);
         }
     }
 
