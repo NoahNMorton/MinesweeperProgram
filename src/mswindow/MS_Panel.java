@@ -223,7 +223,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
     public void mousePressed(MouseEvent e) {
         if (game.getState() == MS_Game.NOT_STARTED && (e.getX() >= faceX && e.getX() <= faceX + 24) && (e.getY() >= faceY
-                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) { //start the game
+                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) { //start the game if face clicked
 
             game.setState(MS_Game.PLAYING);
             faceClicked = true;
