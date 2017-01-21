@@ -15,8 +15,4 @@ hs_err_pid*
 *.iml
 .idea/*
 *.log
-<<<<<<< HEAD
 *_scores.txt
-=======
-*_scores.txt
->>>>>>> master
