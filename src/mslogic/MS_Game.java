@@ -77,10 +77,7 @@ public class MS_Game {
      * @return seconds in long format.
      */
     public long getSeconds(long startTime) {
-        if (getState() == PLAYING)
-            return (System.nanoTime() - startTime) / 1000000000; //divide by 1000000000
-        else
-            return 0;
+        return (state == PLAYING) ? (System.nanoTime() - startTime) / 1000000000 : 0; //divide by 1000000000
     }
 
     public long getStartTime() {

@@ -8,6 +8,7 @@ package mslogic;
 
 public class MS_Map {
 
+    @SuppressWarnings("CanBeFinal")
     private int numRowsM, numColsM, numMinesM;
     private MS_Square[][] grid; //the grid of squares that everything runs off of.
 
@@ -25,7 +26,7 @@ public class MS_Map {
      *
      * @param c the column to check
      * @param r the row to check
-     * @return data at the provided coord.
+     * @return data at the provided coordinate.
      */
     public MS_Square getSquare(int c, int r) {
         if ((c < numColsM && c >= 0) && (r < numRowsM && r >= 0))
@@ -35,11 +36,11 @@ public class MS_Map {
     }
 
     /**
-     * Method to determine if the provided coords are within the user-set grid size.
+     * Method to determine if the provided coordinates are within the user-set grid size.
      *
      * @param x column
      * @param y row
-     * @return returns if the provided coords are within the grid.
+     * @return returns if the provided coordinates are within the grid.
      */
     public boolean isInGrid(int x, int y) {
         return (x < numColsM && x >= 0) && (y < numRowsM && y >= 0);

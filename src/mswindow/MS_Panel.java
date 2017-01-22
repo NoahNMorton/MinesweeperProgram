@@ -25,6 +25,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     public static final int GUIEXTRAHEIGHT = 110;
     private static int flaggedMines; //number of currently accurately flagged mines.
     private static boolean showAll = false;
+    @SuppressWarnings("CanBeFinal")
     ArrayList<ScoreEntry> easyArrayList, mediumArrayList, hardArrayList;
     private boolean leftMouseDown = false, rightMouseDown = false; //used for dragging.
     private int numColsP, numRowsP, columnP = -1, rowP = -1;
@@ -125,19 +126,20 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
      * @param numCols  number of columns to create with
      * @param numRows  number of rows to create with
      * @param numMines number of mines to create
+     * @param newDifficulty the difficulty to create the game with.
      */
     public void recreate(int numCols, int numRows, int numMines, int newDifficulty) {
         setSize(numCols * 16, numRows * 16 + GUIEXTRAHEIGHT);
-        buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+        buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR); //regenerates the buffer to match the height
         this.numColsP = numCols;
         this.numRowsP = numRows;
-        game = new MS_Game(numRows, numCols, numMines);
+        game = new MS_Game(numRows, numCols, numMines); //makes a new game and sets variables
         game.setState(MS_Game.NOT_STARTED);
         game.setDifficulty(newDifficulty);
-        //determines place of face
+        //determines place of face off new size
         faceX = (getWidth() / 2) - 11;
         faceY = (GUIEXTRAHEIGHT / 2) - 10;
-        repaint();
+        repaint(); //repaints for good measure
     }
 
     public MS_Game getGame() {
@@ -378,11 +380,9 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mouseDragged(MouseEvent e) {
-        //noinspection StatementWithEmptyBody
-        if (game.getState() == game.PLAYING) { //if playing
+        if (game.getState() == MS_Game.PLAYING) { //if playing
             columnP = getColumnOffCoord(e);
             rowP = getRowOffCoord(e);
-            //System.out.println(columnP + "," + rowP);
         }
     }
 

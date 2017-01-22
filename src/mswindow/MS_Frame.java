@@ -67,7 +67,7 @@ public class MS_Frame extends JFrame implements Runnable {
             System.out.println("Creating a new easy map...");
             Logger.logUserMessage("User chose to create a new easy map.");
 
-            int numCols = 10, numRows = 10, numMines = 15;
+            int numCols = 10, numRows = 10, numMines = 2;
             setSize((numCols * 16) + 10, (numRows * 17 + p.GUIEXTRAHEIGHT) + 45);
             p.recreate(numCols, numRows, numMines, p.getGame().EASY);
         });
@@ -121,7 +121,7 @@ public class MS_Frame extends JFrame implements Runnable {
         // Sets the close button to exit the program
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        // makes the window not able to be resized
+        // makes the window not able to be re-sized
         setResizable(false);
         // creates the window
         pack();
