@@ -231,8 +231,9 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             }
         }
 
-        if (mouseDown && rowP >= 0) { //draw the square being clicked as down
+        if (mouseDown && rowP >= 0) { //draw the square being clicked as down, and draw face surprised
             bg.drawImage(down, columnP * 16, (rowP * 16) + GUIEXTRAHEIGHT, null);
+            bg.drawImage(oh, faceX, faceY, null);
         }
 
         g.drawImage(buffer, 0, 0, null);
@@ -247,7 +248,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
             Logger.logCodeMessage("Starting Game.");
         } else if (game.getState() == MS_Game.LOSE && (e.getX() >= faceX && e.getX() <= faceX + 24) && (e.getY() >= faceY
-                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) {
+                && e.getY() <= faceY + 24) && e.getButton() == MouseEvent.BUTTON1) { //if user clicked on the face to restart
 
             game.setState(MS_Game.PLAYING);
             faceClicked = true;
@@ -257,9 +258,9 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                     game.getMap().getGrid()[y][x].setState(MS_Square.UP);
                 }
             }
-            showAll = false;
+            showAll = false; //hide the board
             faceClicked = true;
-            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e));
+            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e)); //recreate the map
             flaggedMines = 0;
             repaint();
 
@@ -275,23 +276,21 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                     game.getMap().getGrid()[y][x].setState(MS_Square.UP);
                 }
             }
-            showAll = false;
+            showAll = false; //hide the board
             faceClicked = true;
-            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e));
+            game.getMap().createMap(getColumnOffCoord(e), getRowOffCoord(e)); //recreate the map
             repaint();
             Logger.logCodeMessage("Restarting Game, after a win.");
         }
         if (game.getState() != MS_Game.PLAYING || !faceClicked) {
             //do nothing, don't allow interaction until game is playing.
             Logger.logUserMessage("Disallowing clicking as game is over/not started.");
-        } else if (e.getButton() == MouseEvent.BUTTON1) { //left click
+        } else if (e.getButton() == MouseEvent.BUTTON1) { //left click, this is used for dragging
 
             mouseDown = true;
             columnP = getColumnOffCoord(e);
             rowP = getRowOffCoord(e);
 
-            //System.out.println("User Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
-            //Logger.logUserMessage("Pressed the mouse at " + e.getX() + "," + e.getY() + " at col " + columnP + "," + rowP);
         }
     }
 
@@ -302,19 +301,18 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             //do nothing
         } else if (e.getButton() == MouseEvent.BUTTON1) {
             int columnR = getColumnOffCoord(e), rowR = getRowOffCoord(e);
-            //System.out.println("User Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
-            //Logger.logUserMessage("Released the mouse at " + e.getX() + "," + e.getY() + " at col " + columnR + "," + rowR);
+
             game.reveal(columnR, rowR); //call reveal to start revealing squares
 
             try {
                 if (game.getMap().getSquare(columnR, rowR).isMine() &&
                         game.getMap().getSquare(columnR, rowR).getState() != MS_Square.FLAG) { //if they clicked on an un-flagged mine
                     game.setState(MS_Game.LOSE);
-                    clickedSquare = new Point(getColumnOffCoord(e), getRowOffCoord(e));
-                    showAll = true;
+                    clickedSquare = new Point(getColumnOffCoord(e), getRowOffCoord(e)); //get the clicked square, this is used for painting the exploded mine
+                    showAll = true; //reveal the whole board
                     Logger.logUserMessage("User has lost.");
                     faceClicked = false;
-                    flaggedMines = 0;
+                    flaggedMines = 0; //reset the flagged mines counter
                 }
             } catch (Exception ignored) {
             }
@@ -635,6 +633,9 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         }
     }
 
+    /**
+     * Checks the board for a win, gets the username of the player and writes it to the scores file.
+     */
     @SuppressWarnings("AccessStaticViaInstance")
     private void checkForWin() {
         if (flaggedMines == game.getNumMinesG()) //if all mines have been flagged
@@ -689,6 +690,9 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         }
     }
 
+    /**
+     * Reads all the scores from the score files into the score entry arrayLists.
+     */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void readAllScores() {
         Scanner easyFileScanner;
@@ -710,7 +714,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             }
         }
 
-        try {
+        try { //set up the scanners for the 3 files
             easyFileScanner = new Scanner(new FileReader(easyFile));
             mediumFileScanner = new Scanner(new FileReader(mediumFile));
             hardFileScanner = new Scanner(new FileReader(hardFile));
@@ -762,11 +766,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         }
 
         easyFileScanner.close();
-        mediumFileScanner.close();
+        mediumFileScanner.close(); //close all the files
         hardFileScanner.close();
 
         easyArrayList.sort(null);
-        mediumArrayList.sort(null); //sort all the arraylists
+        mediumArrayList.sort(null); //sort all the arrayLists
         hardArrayList.sort(null);
 
     }
