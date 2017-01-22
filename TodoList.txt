@@ -1,3 +1,2 @@
 Things to fix before final check
-- Dual click drag
 - Die to first click

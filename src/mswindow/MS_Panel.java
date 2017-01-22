@@ -26,7 +26,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     private static int flaggedMines; //number of currently accurately flagged mines.
     private static boolean showAll = false;
     ArrayList<ScoreEntry> easyArrayList, mediumArrayList, hardArrayList;
-    private boolean mouseDown = false; //used for dragging.
+    private boolean leftMouseDown = false, rightMouseDown = false; //used for dragging.
     private int numColsP, numRowsP, columnP = -1, rowP = -1;
     private BufferedImage buffer;
     private Image digitEmpty, dead, oh, down, happy, happyDown, shades, digitNine, digitEight, digitSeven, digitSix, digitFive,
@@ -231,9 +231,24 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             }
         }
 
-        if (mouseDown && rowP >= 0) { //draw the square being clicked as down, and draw face surprised
+        if ((leftMouseDown ^ rightMouseDown) && rowP >= 0) { //draw the square being clicked as down, and draw face surprised
             bg.drawImage(down, columnP * 16, (rowP * 16) + GUIEXTRAHEIGHT, null);
             bg.drawImage(oh, faceX, faceY, null);
+        } else if (rightMouseDown && leftMouseDown && rowP >= 0) { //dual click drag, should draw all 8 down as well
+            //draw the 8 squares around the mouse as down
+            bg.drawImage(down, columnP * 16, (rowP * 16) + GUIEXTRAHEIGHT, null); //center
+
+            //draw the remaining clockwise, starting at the top left corner
+            bg.drawImage(down, (columnP - 1) * 16, ((rowP - 1) * 16) + GUIEXTRAHEIGHT, null);
+            bg.drawImage(down, (columnP) * 16, ((rowP - 1) * 16) + GUIEXTRAHEIGHT, null);
+            bg.drawImage(down, (columnP + 1) * 16, ((rowP - 1) * 16) + GUIEXTRAHEIGHT, null);
+            bg.drawImage(down, (columnP + 1) * 16, ((rowP) * 16) + GUIEXTRAHEIGHT, null);
+            bg.drawImage(down, (columnP + 1) * 16, ((rowP + 1) * 16) + GUIEXTRAHEIGHT, null);
+            bg.drawImage(down, (columnP) * 16, ((rowP + 1) * 16) + GUIEXTRAHEIGHT, null);
+            bg.drawImage(down, (columnP - 1) * 16, ((rowP + 1) * 16) + GUIEXTRAHEIGHT, null);
+            bg.drawImage(down, (columnP - 1) * 16, ((rowP) * 16) + GUIEXTRAHEIGHT, null);
+
+            bg.drawImage(oh, faceX, faceY, null); //draw the face surprised
         }
 
         g.drawImage(buffer, 0, 0, null);
@@ -287,15 +302,23 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             Logger.logUserMessage("Disallowing clicking as game is over/not started.");
         } else if (e.getButton() == MouseEvent.BUTTON1) { //left click, this is used for dragging
 
-            mouseDown = true;
+            leftMouseDown = true;
             columnP = getColumnOffCoord(e);
             rowP = getRowOffCoord(e);
 
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
+            rightMouseDown = true;
+            columnP = getColumnOffCoord(e);
+            rowP = getRowOffCoord(e);
         }
     }
 
     public void mouseReleased(MouseEvent e) {
-        mouseDown = false;
+        if (e.getButton() == MouseEvent.BUTTON1)
+            leftMouseDown = false;
+        else if (e.getButton() == MouseEvent.BUTTON3)
+            rightMouseDown = false;
+
         //noinspection StatementWithEmptyBody
         if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN || !faceClicked) {
             //do nothing
@@ -357,10 +380,9 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     public void mouseDragged(MouseEvent e) {
         //noinspection StatementWithEmptyBody
         if (game.getState() == game.PLAYING) { //if playing
-            mouseDown = true;
             columnP = getColumnOffCoord(e);
             rowP = getRowOffCoord(e);
-            System.out.println(columnP + "," + rowP);
+            //System.out.println(columnP + "," + rowP);
         }
     }
 
