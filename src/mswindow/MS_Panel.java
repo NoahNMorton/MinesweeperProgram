@@ -307,7 +307,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             game.reveal(columnR, rowR); //call reveal to start revealing squares
 
             try {
-                if (game.getMap().getSquare(columnR, rowR).isMine()) { //if they clicked on a mine
+                if (game.getMap().getSquare(columnR, rowR).isMine() &&
+                        game.getMap().getSquare(columnR, rowR).getState() != MS_Square.FLAG) { //if they clicked on an un-flagged mine
                     game.setState(MS_Game.LOSE);
                     clickedSquare = new Point(getColumnOffCoord(e), getRowOffCoord(e));
                     showAll = true;
