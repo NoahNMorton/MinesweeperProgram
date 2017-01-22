@@ -16,3 +16,7 @@ hs_err_pid*
 .idea/*
 *.log
 *_scores.txt
+/build/
+manifest.mf
+nbproject/*
+*.xml

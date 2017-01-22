@@ -1,11 +1,9 @@
 package mslogic;
 
 /**
- * @author othscs120
- *         Created on: 11/4/2014 , Time is :  1:36 PM
- *         Part of Project: MineSweeper
+ * @author othscs120 Created on: 11/4/2014 , Time is : 1:36 PM Part of Project:
+ * MineSweeper
  */
-
 public class MS_Game {
 
     public static final int PLAYING = 0, WIN = 1, LOSE = 2, NOT_STARTED = 3, EASY = 0, MEDIUM = 1, HARD = 2;
@@ -63,10 +61,11 @@ public class MS_Game {
     }
 
     public void setState(int newState) {
-        if (newState == MS_Game.PLAYING)
+        if (newState == MS_Game.PLAYING) {
             startTime = System.nanoTime(); //used for timer
-        else if (newState == MS_Game.WIN)
+        } else if (newState == MS_Game.WIN) {
             winTime = (int) getSeconds(startTime); //used for saving scores
+        }
         this.state = newState;
     }
 
@@ -139,10 +138,3 @@ public class MS_Game {
     }
 
 }
-
-
-
-
-
-
-

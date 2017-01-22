@@ -5,15 +5,16 @@ import java.io.File;
 import java.io.FileWriter;
 
 /**
- * This is a logging class written to log basic events within my code, for debug purposes. Everything
- * should theoretically work, with a few tweaks here and there.
+ * This is a logging class written to log basic events within my code, for debug
+ * purposes. Everything should theoretically work, with a few tweaks here and
+ * there.
  *
  * @author Noah Morton
  * @version 0.2
  */
-
 @SuppressWarnings("ALL")
 public class Logger {
+
     private static File f;
 
     public Logger() {
@@ -72,7 +73,7 @@ public class Logger {
     /**
      * logs other messages, that don't fit into a category.
      *
-     * @param type    The message to be displayed inside brackets, eg. [Window]
+     * @param type The message to be displayed inside brackets, eg. [Window]
      * @param message The message to be written after the brackets.
      */
     public static void logOtherMessage(String type, String message) {
@@ -99,7 +100,7 @@ public class Logger {
     /**
      * Displays a error window.
      *
-     * @param title   The title of the error window.
+     * @param title The title of the error window.
      * @param message The error message to be displayed.
      */
     public static void errorWindow(String title, String message) {

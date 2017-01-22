@@ -1,11 +1,9 @@
 package mslogic;
 
 /**
- * @author othscs120
- *         Created on: 11/5/2014 , Time is :  1:07 PM
- *         Part of Project: MineSweeper
+ * @author othscs120 Created on: 11/5/2014 , Time is : 1:07 PM Part of Project:
+ * MineSweeper
  */
-
 public class MS_Map {
 
     @SuppressWarnings("CanBeFinal")
@@ -20,7 +18,6 @@ public class MS_Map {
         createMap(clickedRow, clickedCol);
     }
 
-
     /**
      * Method to get the value of the provided location.
      *
@@ -29,14 +26,16 @@ public class MS_Map {
      * @return data at the provided coordinate.
      */
     public MS_Square getSquare(int c, int r) {
-        if ((c < numColsM && c >= 0) && (r < numRowsM && r >= 0))
+        if ((c < numColsM && c >= 0) && (r < numRowsM && r >= 0)) {
             return grid[r][c];
-        else
+        } else {
             return null;
+        }
     }
 
     /**
-     * Method to determine if the provided coordinates are within the user-set grid size.
+     * Method to determine if the provided coordinates are within the user-set
+     * grid size.
      *
      * @param x column
      * @param y row
@@ -45,7 +44,6 @@ public class MS_Map {
     public boolean isInGrid(int x, int y) {
         return (x < numColsM && x >= 0) && (y < numRowsM && y >= 0);
     }
-
 
     /**
      * Method to generate the game map.
@@ -69,17 +67,18 @@ public class MS_Map {
         for (int m = 0; m < numMinesM; m++) {
             int randomY = (int) (Math.random() * numRowsM), randomX = (int) (Math.random() * numColsM);
 
-            if (!getSquare(randomX, randomY).isMine() && (randomX != clickedCol && randomY != clickedRow))  //does not allow clicked to be a mine
+            if (!getSquare(randomX, randomY).isMine() && (randomX != clickedCol && randomY != clickedRow)) //does not allow clicked to be a mine
+            {
                 grid[randomY][randomX].setMine(true);
-            else
+            } else {
                 m--;
+            }
         }
         Logger.logCodeMessage("Mines set Success. Number of mines is " + numMinesM);
 
         //set numbers -----------------------
         Logger.logCodeMessage("Setting numbers...");
         int numOfMines = 0;
-
 
         for (int y1 = 0; y1 < numRowsM; y1++) {
             for (int x1 = 0; x1 < numColsM; x1++) {

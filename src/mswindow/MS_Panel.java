@@ -13,13 +13,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 /**
- * @author othscs120
- *         Created on: 11/4/2014 , Time is :  1:31 PM
- *         Part of Project: MineSweeper
+ * @author othscs120 Created on: 11/4/2014 , Time is : 1:31 PM Part of Project:
+ * MineSweeper
  */
-
 public class MS_Panel extends JPanel implements MouseListener, MouseMotionListener {
 
     public static final int GUIEXTRAHEIGHT = 110;
@@ -123,8 +120,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     /**
      * Recreates the panel for a resize.
      *
-     * @param numCols  number of columns to create with
-     * @param numRows  number of rows to create with
+     * @param numCols number of columns to create with
+     * @param numRows number of rows to create with
      * @param numMines number of mines to create
      * @param newDifficulty the difficulty to create the game with.
      */
@@ -158,7 +155,6 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         bg.setColor(Color.WHITE);
 
         //GUI ---------------------------------
-
         bg.drawRect(0, 0, getWidth(), GUIEXTRAHEIGHT);
         //draw the face in the gui
         switch (game.getState()) {
@@ -197,8 +193,9 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                     if (game.getState() == MS_Game.LOSE) {
                         bg.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                         bg.drawImage(exploded, (int) clickedSquare.getX() * 16, (int) clickedSquare.getY() * 16 + GUIEXTRAHEIGHT, null);
-                    } else
+                    } else {
                         bg.drawImage(mine, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
+                    }
                 } else {
                     switch (m.getSquare(c, r).getNumber()) {
                         case 1:
@@ -316,10 +313,11 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mouseReleased(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1)
+        if (e.getButton() == MouseEvent.BUTTON1) {
             leftMouseDown = false;
-        else if (e.getButton() == MouseEvent.BUTTON3)
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
             rightMouseDown = false;
+        }
 
         //noinspection StatementWithEmptyBody
         if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN || !faceClicked) {
@@ -330,8 +328,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             game.reveal(columnR, rowR); //call reveal to start revealing squares
 
             try {
-                if (game.getMap().getSquare(columnR, rowR).isMine() &&
-                        game.getMap().getSquare(columnR, rowR).getState() != MS_Square.FLAG) { //if they clicked on an un-flagged mine
+                if (game.getMap().getSquare(columnR, rowR).isMine()
+                        && game.getMap().getSquare(columnR, rowR).getState() != MS_Square.FLAG) { //if they clicked on an un-flagged mine
                     game.setState(MS_Game.LOSE);
                     clickedSquare = new Point(getColumnOffCoord(e), getRowOffCoord(e)); //get the clicked square, this is used for painting the exploded mine
                     showAll = true; //reveal the whole board
@@ -346,14 +344,18 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
             if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP) {
                 if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if the flagged square is a mine
+                {
                     flaggedMines++;
+                }
                 game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.FLAG);
             } else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.FLAG) {
                 game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.QUESTION);
             } else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.QUESTION) {
                 game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.UP);
                 if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if they unflag a mine, free it back up
+                {
                     flaggedMines--;
+                }
             }
             checkForWin(); //check to see if the last mine was flagged.
         }
@@ -389,7 +391,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     /**
      * Method to show the timer.
      *
-     * @param g    Graphics from paint
+     * @param g Graphics from paint
      * @param time current game time.
      */
     private void showNumbers(Graphics g, /*love you*/ long time) {
@@ -656,7 +658,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     /**
-     * Checks the board for a win, gets the username of the player and writes it to the scores file.
+     * Checks the board for a win, gets the username of the player and writes it
+     * to the scores file.
      */
     @SuppressWarnings("AccessStaticViaInstance")
     private void checkForWin() {
@@ -713,7 +716,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
     }
 
     /**
-     * Reads all the scores from the score files into the score entry arrayLists.
+     * Reads all the scores from the score files into the score entry
+     * arrayLists.
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void readAllScores() {
@@ -796,6 +800,5 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         hardArrayList.sort(null);
 
     }
-
 
 }

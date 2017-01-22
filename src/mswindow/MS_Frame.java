@@ -6,11 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * @author othscs120
- *         Created on: 11/4/2014 , Time is :  1:28 PM
- *         Part of Project: MineSweeper
+ * @author othscs120 Created on: 11/4/2014 , Time is : 1:28 PM Part of Project:
+ * MineSweeper
  */
-
 @SuppressWarnings("AccessStaticViaInstance")
 public class MS_Frame extends JFrame implements Runnable {
 
@@ -52,15 +50,15 @@ public class MS_Frame extends JFrame implements Runnable {
 
         //Menu Actions ----------------------------------------------
         //Help menu
-        rules.addActionListener(e -> JOptionPane.showMessageDialog(null, "The game is played by revealing squares of the grid by clicking or \n" +
-                "otherwise indicating each square. If a square containing a mine is revealed, the player loses the \n" +
-                "game. If no mine is revealed, a digit is instead displayed in the square, indicating how many \n" +
-                "adjacent squares contain mines; if no mines are adjacent, the square becomes blank, and all \n" +
-                "adjacent squares will be recursively revealed. The player uses this information to deduce the \n" +
-                "contents of other squares, and may either safely reveal each square or mark the square as \n" +
-                "containing a mine."));
-        about.addActionListener(e -> JOptionPane.showMessageDialog(null, "Version 2.0 of Minesweeper.\nCreated by Noah Morton, 2015-17.\nThis " +
-                "software is licenced using the MIT licence. All rights reserved."));
+        rules.addActionListener(e -> JOptionPane.showMessageDialog(null, "The game is played by revealing squares of the grid by clicking or \n"
+                + "otherwise indicating each square. If a square containing a mine is revealed, the player loses the \n"
+                + "game. If no mine is revealed, a digit is instead displayed in the square, indicating how many \n"
+                + "adjacent squares contain mines; if no mines are adjacent, the square becomes blank, and all \n"
+                + "adjacent squares will be recursively revealed. The player uses this information to deduce the \n"
+                + "contents of other squares, and may either safely reveal each square or mark the square as \n"
+                + "containing a mine."));
+        about.addActionListener(e -> JOptionPane.showMessageDialog(null, "Version 2.0 of Minesweeper.\nCreated by Noah Morton, 2015-17.\nThis "
+                + "software is licenced using the MIT licence. All rights reserved."));
 
         //File menu - NewGame
         easyMap.addActionListener(e -> {
@@ -116,7 +114,6 @@ public class MS_Frame extends JFrame implements Runnable {
             Logger.messageWindow("Easy:\n" + easyScores + "\nMedium:\n" + mediumScores + "\nHard:\n" + hardScores);
         });
 
-
         //Frame handling -------------------------------
         // Sets the close button to exit the program
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -144,7 +141,6 @@ public class MS_Frame extends JFrame implements Runnable {
         pack();
         // shows the frame
         setVisible(true);
-
 
         Logger.logOtherMessage("Window", "Window Created.");
 

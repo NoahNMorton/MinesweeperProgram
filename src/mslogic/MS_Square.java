@@ -1,25 +1,22 @@
 package mslogic;
 
 /**
- * @author othscs120
- *         Created on: 11/5/2014 , Time is :  1:06 PM
- *         Part of Project: MineSweeper
+ * @author othscs120 Created on: 11/5/2014 , Time is : 1:06 PM Part of Project:
+ * MineSweeper
  */
-
 public class MS_Square {
+
     public static final int SHOWN = 0, UP = 1, FLAG = 2, QUESTION = 3;
 
     private boolean mine; //if the square is a mine.
 
     private int state, number;
 
-
     public MS_Square() {
         mine = false;
         number = 0;
         state = UP;
     }
-
 
     public boolean isMine() {
         return mine;
@@ -46,6 +43,3 @@ public class MS_Square {
         this.state = state;
     }
 }
-
-
-

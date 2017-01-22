@@ -3,12 +3,10 @@ package mslogic;
 /**
  * Created on 1/17/2017, 2:03 PM
  *
- * @author Noah Morton
- *         Tully 7th period
- *         Part of project MinesweeperProject
+ * @author Noah Morton Tully 7th period Part of project MinesweeperProject
  */
-
 public class ScoreEntry implements Comparable {
+
     private String username;
     private int score;
 
@@ -38,15 +36,15 @@ public class ScoreEntry implements Comparable {
         this.score = score;
     }
 
-
     @Override
     public int compareTo(Object o) {
         ScoreEntry other = (ScoreEntry) o;
-        if (this.score < other.getScore())
+        if (this.score < other.getScore()) {
             return -1;
-        else if (this.score > other.getScore())
+        } else if (this.score > other.getScore()) {
             return 1;
-        else
+        } else {
             return 0;
+        }
     }
 }
