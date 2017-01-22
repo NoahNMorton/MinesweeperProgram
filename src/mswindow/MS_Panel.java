@@ -1,17 +1,15 @@
 package mswindow;
 
-import mslogic.*;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import mslogic.*;
 
 /**
  * @author othscs120 Created on: 11/4/2014 , Time is : 1:31 PM Part of Project:
@@ -178,12 +176,12 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
         //Items --------------------------
         //Numbers -------------------------
-        for (int r = 0; r < game.getNumRowsG(); r++) {
-            for (int c = 0; c < game.getNumColsG(); c++) {
+        for (int r = 0; r < game.getNumRowsG(); r ++) {
+            for (int c = 0; c < game.getNumColsG(); c ++) {
                 MS_Map m = game.getMap();
 
                 //noinspection ConstantConditions,PointlessBooleanExpression
-                if (m.getSquare(c, r).getState() == MS_Square.UP && !showAll) {
+                if (m.getSquare(c, r).getState() == MS_Square.UP &&  ! showAll) {
                     bg.drawImage(unclicked, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
                 } else if (m.getSquare(c, r).getState() == MS_Square.FLAG) {
                     bg.drawImage(flag, c * 16, r * 16 + GUIEXTRAHEIGHT, null);
@@ -267,8 +265,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             game.setState(MS_Game.PLAYING);
             faceClicked = true;
 
-            for (int y = 0; y < numRowsP; y++) { //set all squares back to hidden
-                for (int x = 0; x < numColsP; x++) {
+            for (int y = 0; y < numRowsP; y ++) { //set all squares back to hidden
+                for (int x = 0; x < numColsP; x ++) {
                     game.getMap().getGrid()[y][x].setState(MS_Square.UP);
                 }
             }
@@ -285,8 +283,8 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             game.setState(MS_Game.PLAYING);
             faceClicked = true;
 
-            for (int y = 0; y < numRowsP; y++) { //set all squares back to hidden
-                for (int x = 0; x < numColsP; x++) {
+            for (int y = 0; y < numRowsP; y ++) { //set all squares back to hidden
+                for (int x = 0; x < numColsP; x ++) {
                     game.getMap().getGrid()[y][x].setState(MS_Square.UP);
                 }
             }
@@ -296,7 +294,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             repaint();
             Logger.logCodeMessage("Restarting Game, after a win.");
         }
-        if (game.getState() != MS_Game.PLAYING || !faceClicked) {
+        if (game.getState() != MS_Game.PLAYING ||  ! faceClicked) {
             //do nothing, don't allow interaction until game is playing.
             Logger.logUserMessage("Disallowing clicking as game is over/not started.");
         } else if (e.getButton() == MouseEvent.BUTTON1) { //left click, this is used for dragging
@@ -320,7 +318,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         }
 
         //noinspection StatementWithEmptyBody
-        if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN || !faceClicked) {
+        if (game.getState() == MS_Game.LOSE || game.getState() == MS_Game.NOT_STARTED || game.getState() == MS_Game.WIN ||  ! faceClicked) {
             //do nothing
         } else if (e.getButton() == MouseEvent.BUTTON1) {
             int columnR = getColumnOffCoord(e), rowR = getRowOffCoord(e);
@@ -346,7 +344,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                 case MS_Square.UP:
                     if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if the flagged square is a mine
                     {
-                        flaggedMines++;
+                        flaggedMines ++;
                     }
                     game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.FLAG);
                     break;
@@ -357,7 +355,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
                     game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.UP);
                     if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if they unflag a mine, free it back up
                     {
-                        flaggedMines--;
+                        flaggedMines --;
                     }
                     break;
                 default:
@@ -742,7 +740,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         File easyFile = new File("easy_scores.txt");
         File mediumFile = new File("medium_scores.txt");
         File hardFile = new File("hard_scores.txt");
-        if (!easyFile.exists() || !mediumFile.exists() || !hardFile.exists()) {
+        if ( ! easyFile.exists() ||  ! mediumFile.exists() ||  ! hardFile.exists()) {
             System.out.println("Files don't exist, creating...");
             Logger.logCodeMessage("Files don't exist, creating...");
             try {
@@ -767,7 +765,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         int linesRead = 0; //ensure no more than 5 scores are read.
         try {
             while (easyFileScanner.hasNextLine() && linesRead < 6) {
-                linesRead++;
+                linesRead ++;
                 String line = easyFileScanner.nextLine();
                 String name = line.split("[-]")[0];
                 int score = Integer.parseInt(line.split("[-]")[1]);
@@ -781,7 +779,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         //Medium difficulty
         try {
             while (mediumFileScanner.hasNext() && linesRead < 6) {
-                linesRead++;
+                linesRead ++;
                 String line = mediumFileScanner.nextLine();
                 String name = line.split("[-]")[0];
                 int score = Integer.parseInt(line.split("[-]")[1]);
@@ -794,7 +792,7 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
         //Hard difficulty
         try {
             while (hardFileScanner.hasNext() && linesRead < 6) {
-                linesRead++;
+                linesRead ++;
                 String line = hardFileScanner.nextLine();
                 String name = line.split("[-]")[0];
                 int score = Integer.parseInt(line.split("[-]")[1]);

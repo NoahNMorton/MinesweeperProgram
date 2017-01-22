@@ -94,10 +94,10 @@ public class MS_Game {
      */
     public int getMineCounter() {
         int amtFlagged = 0;
-        for (int r = 0; r < numRowsG; r++) {
-            for (int c = 0; c < numColsG; c++) {
+        for (int r = 0; r < numRowsG; r ++) {
+            for (int c = 0; c < numColsG; c ++) {
                 if (map.getSquare(c, r).getState() == MS_Square.FLAG) {
-                    amtFlagged++;
+                    amtFlagged ++;
                 }
             }
         }

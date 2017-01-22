@@ -1,9 +1,9 @@
 package mswindow;
 
-import mslogic.Logger;
-
+import java.awt.Dimension;
+import java.awt.Insets;
 import javax.swing.*;
-import java.awt.*;
+import mslogic.Logger;
 
 /**
  * @author othscs120 Created on: 11/4/2014 , Time is : 1:28 PM Part of Project:
@@ -90,7 +90,7 @@ public class MS_Frame extends JFrame implements Runnable {
         // view scores
         highScores.addActionListener(e -> {
             String easyScores = "";
-            for (int i = 0; i < p.easyArrayList.size(); i++) {
+            for (int i = 0; i < p.easyArrayList.size(); i ++) {
                 try {
                     easyScores += p.easyArrayList.get(i).toString() + "\n";
                 } catch (Exception ignored) {
@@ -98,14 +98,14 @@ public class MS_Frame extends JFrame implements Runnable {
 
             }
             String mediumScores = "";
-            for (int i = 0; i < p.easyArrayList.size(); i++) {
+            for (int i = 0; i < p.easyArrayList.size(); i ++) {
                 try {
                     mediumScores += p.mediumArrayList.get(i).toString() + "\n";
                 } catch (Exception ignored) {
                 } //no scores in the file
             }
             String hardScores = "";
-            for (int i = 0; i < p.easyArrayList.size(); i++) {
+            for (int i = 0; i < p.easyArrayList.size(); i ++) {
                 try {
                     hardScores += p.hardArrayList.get(i).toString() + "\n";
                 } catch (Exception ignored) {
