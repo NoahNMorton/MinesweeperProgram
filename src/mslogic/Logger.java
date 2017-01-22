@@ -29,9 +29,10 @@ public class Logger {
      */
     public static void logCodeMessage(String message) {
         try {
-            FileWriter fw = new FileWriter(f, true); //the true will append the new data
-            fw.write("\n[Code] " + message);
-            fw.close();
+            try (FileWriter fw = new FileWriter(f, true) //the true will append the new data
+                    ) {
+                fw.write("\n[Code] " + message);
+            }
         } catch (Exception e) {
             System.err.println("Error with writing logging file. " + e.getMessage());
         }
@@ -44,9 +45,10 @@ public class Logger {
      */
     public static void logUserMessage(String message) {
         try {
-            FileWriter fw = new FileWriter(f, true); //the true will append the new data
-            fw.write("\n[User] " + message);
-            fw.close();
+            try (FileWriter fw = new FileWriter(f, true) //the true will append the new data
+                    ) {
+                fw.write("\n[User] " + message);
+            }
         } catch (Exception e) {
             System.err.println("Error with writing logging file. " + e.getMessage());
         }
@@ -60,12 +62,12 @@ public class Logger {
      */
     public static void logErrorMessage(String message) {
         try {
-            FileWriter fw = new FileWriter(f, true); //the true will append the new data
-            fw.write("\n[Error] " + message);
-            fw.close();
+            try (FileWriter fw = new FileWriter(f, true) //the true will append the new data
+                    ) {
+                fw.write("\n[Error] " + message);
+            }
         } catch (Exception e) {
             System.err.println("Error with writing logging file. " + e.getMessage());
-
         }
 
     }
@@ -79,9 +81,10 @@ public class Logger {
     public static void logOtherMessage(String type, String message) {
 
         try {
-            FileWriter fw = new FileWriter(f, true); //the true will append the new data
-            fw.write("\n[" + type + "] " + message);
-            fw.close();
+            try (FileWriter fw = new FileWriter(f, true) //the true will append the new data
+                    ) {
+                fw.write("\n[" + type + "] " + message);
+            }
         } catch (Exception e) {
             System.err.println("Error with writing logging file. " + e.getMessage());
         }

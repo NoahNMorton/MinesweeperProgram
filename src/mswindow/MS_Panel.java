@@ -342,20 +342,26 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
 
         } else if (e.getButton() == MouseEvent.BUTTON3) {
 
-            if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.UP) {
-                if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if the flagged square is a mine
-                {
-                    flaggedMines++;
-                }
-                game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.FLAG);
-            } else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.FLAG) {
-                game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.QUESTION);
-            } else if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState() == MS_Square.QUESTION) {
-                game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.UP);
-                if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if they unflag a mine, free it back up
-                {
-                    flaggedMines--;
-                }
+            switch (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).getState()) {
+                case MS_Square.UP:
+                    if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if the flagged square is a mine
+                    {
+                        flaggedMines++;
+                    }
+                    game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.FLAG);
+                    break;
+                case MS_Square.FLAG:
+                    game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.QUESTION);
+                    break;
+                case MS_Square.QUESTION:
+                    game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).setState(MS_Square.UP);
+                    if (game.getMap().getSquare(getColumnOffCoord(e), getRowOffCoord(e)).isMine()) //if they unflag a mine, free it back up
+                    {
+                        flaggedMines--;
+                    }
+                    break;
+                default:
+                    break;
             }
             checkForWin(); //check to see if the last mine was flagged.
         }
@@ -669,49 +675,56 @@ public class MS_Panel extends JPanel implements MouseListener, MouseMotionListen
             flaggedMines = 0; //reset after a win
             game.setState(MS_Game.WIN);
             //code to set high score
-            if (game.getDifficulty() == game.EASY) {
-                try {
-                    FileWriter fileWriter = new FileWriter("easy_scores.txt");
-                    String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
-                    easyArrayList.add(new ScoreEntry(username, game.getWinTime()));
+            switch (game.getDifficulty()) {
+                case MS_Game.EASY:
+                    try {
+                        try (FileWriter fileWriter = new FileWriter("easy_scores.txt")) {
+                            String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
+                            easyArrayList.add(new ScoreEntry(username, game.getWinTime()));
 
-                    for (ScoreEntry anEasyArrayList : easyArrayList) {
-                        fileWriter.write(anEasyArrayList.toString() + "\n"); // write the data back into the file from the arraylists
+                            for (ScoreEntry anEasyArrayList : easyArrayList) {
+                                fileWriter.write(anEasyArrayList.toString() + "\n"); // write the data back into the file from the arraylists
+                            }
+                        }
+
+                    } catch (IOException e) {
+                        System.out.println("Issue with writing scores file, " + e.getMessage());
                     }
-                    fileWriter.close();
+                    break;
+                case MS_Game.MEDIUM:
+                    try {
+                        try (FileWriter fileWriter = new FileWriter("medium_scores.txt")) {
+                            String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
+                            mediumArrayList.add(new ScoreEntry(username, game.getWinTime()));
 
-                } catch (IOException e) {
-                    System.out.println("Issue with writing scores file, " + e.getMessage());
-                }
-            } else if (game.getDifficulty() == game.MEDIUM) {
-                try {
-                    FileWriter fileWriter = new FileWriter("medium_scores.txt");
-                    String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
-                    mediumArrayList.add(new ScoreEntry(username, game.getWinTime()));
-
-                    for (ScoreEntry aMediumArrayList : mediumArrayList) {
-                        fileWriter.write(aMediumArrayList.toString() + "\n"); // write the data back into the file from the arraylists
+                            for (ScoreEntry aMediumArrayList : mediumArrayList) {
+                                fileWriter.write(aMediumArrayList.toString() + "\n"); // write the data back into the file from the arraylists
+                            }
+                        }
+                    } catch (IOException e) {
+                        System.out.println("Issue with writing scores file, " + e.getMessage());
                     }
+                    break;
+                case MS_Game.HARD:
+                    try {
+                        try (FileWriter fileWriter = new FileWriter("hard_scores.txt")) {
+                            String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
+                            hardArrayList.add(new ScoreEntry(username, game.getWinTime()));
 
-                    fileWriter.close();
-                } catch (IOException e) {
-                    System.out.println("Issue with writing scores file, " + e.getMessage());
-                }
-
-            } else if (game.getDifficulty() == game.HARD) {
-                try {
-                    FileWriter fileWriter = new FileWriter("hard_scores.txt");
-                    String username = JOptionPane.showInputDialog(null, "New high score! Username to enter: ");
-                    hardArrayList.add(new ScoreEntry(username, game.getWinTime()));
-
-                    for (ScoreEntry aHardArrayList : hardArrayList) {
-                        fileWriter.write(aHardArrayList.toString() + "\n"); // write the data back into the file from the arraylists
+                            for (ScoreEntry aHardArrayList : hardArrayList) {
+                                fileWriter.write(aHardArrayList.toString() + "\n"); // write the data back into the file from the arraylists
+                            }
+                        }
+                    } catch (IOException e) {
+                        System.out.println("Issue with writing scores file, " + e.getMessage());
                     }
-                    fileWriter.close();
-                } catch (IOException e) {
-                    System.out.println("Issue with writing scores file, " + e.getMessage());
-                }
+                    break;
+                default:
+                    break;
             }
+            easyArrayList.sort(null);
+            mediumArrayList.sort(null); //sort all the arrayLists
+            hardArrayList.sort(null);
         }
     }
 
