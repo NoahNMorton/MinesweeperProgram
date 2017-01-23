@@ -57,21 +57,21 @@ public class MS_Map {
         //make the array
         grid = new MS_Square[numRowsM][numColsM];
 
-        for (int y = 0; y < numRowsM; y ++) {
-            for (int x = 0; x < numColsM; x ++) {
+        for (int y = 0; y < numRowsM; y++) {
+            for (int x = 0; x < numColsM; x++) {
                 grid[y][x] = new MS_Square();
             }
         }
         //set mines ---------------------
         Logger.logCodeMessage("Setting mines...");
-        for (int m = 0; m < numMinesM; m ++) {
+        for (int m = 0; m < numMinesM; m++) {
             int randomY = (int) (Math.random() * numRowsM), randomX = (int) (Math.random() * numColsM);
 
-            if ( ! getSquare(randomX, randomY).isMine() && (randomX != clickedCol && randomY != clickedRow)) //does not allow clicked to be a mine
+            if (!getSquare(randomX, randomY).isMine() && (randomX != clickedCol && randomY != clickedRow)) //does not allow clicked to be a mine
             {
                 grid[randomY][randomX].setMine(true);
             } else {
-                m --;
+                m--;
             }
         }
         Logger.logCodeMessage("Mines set Success. Number of mines is " + numMinesM);
@@ -80,31 +80,31 @@ public class MS_Map {
         Logger.logCodeMessage("Setting numbers...");
         int numOfMines = 0;
 
-        for (int y1 = 0; y1 < numRowsM; y1 ++) {
-            for (int x1 = 0; x1 < numColsM; x1 ++) {
+        for (int y1 = 0; y1 < numRowsM; y1++) {
+            for (int x1 = 0; x1 < numColsM; x1++) {
                 if (isInGrid(x1 - 1, y1 - 1) && grid[y1 - 1][x1 - 1].isMine()) { //top left
-                    numOfMines ++;
+                    numOfMines++;
                 }
                 if (isInGrid(x1, y1 - 1) && grid[y1 - 1][x1].isMine()) {
-                    numOfMines ++;
+                    numOfMines++;
                 }
                 if (isInGrid(x1 + 1, y1 - 1) && grid[y1 - 1][x1 + 1].isMine()) {
-                    numOfMines ++;
+                    numOfMines++;
                 }
                 if (isInGrid(x1 - 1, y1) && grid[y1][x1 - 1].isMine()) {
-                    numOfMines ++;
+                    numOfMines++;
                 }
                 if (isInGrid(x1 + 1, y1) && grid[y1][x1 + 1].isMine()) {
-                    numOfMines ++;
+                    numOfMines++;
                 }
                 if (isInGrid(x1 - 1, y1 + 1) && grid[y1 + 1][x1 - 1].isMine()) {
-                    numOfMines ++;
+                    numOfMines++;
                 }
                 if (isInGrid(x1, y1 + 1) && grid[y1 + 1][x1].isMine()) {
-                    numOfMines ++;
+                    numOfMines++;
                 }
                 if (isInGrid(x1 + 1, y1 + 1) && grid[y1 + 1][x1 + 1].isMine()) {
-                    numOfMines ++;
+                    numOfMines++;
                 }
 
                 if (numOfMines > 0) {

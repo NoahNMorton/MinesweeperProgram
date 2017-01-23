@@ -1,8 +1,8 @@
 package mslogic;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
+import javax.swing.JOptionPane;
 
 /**
  * This is a logging class written to log basic events within my code, for debug

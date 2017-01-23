@@ -90,7 +90,7 @@ public class MS_Frame extends JFrame implements Runnable {
         // view scores
         highScores.addActionListener(e -> {
             String easyScores = "";
-            for (int i = 0; i < p.easyArrayList.size(); i ++) {
+            for (int i = 0; i < p.easyArrayList.size(); i++) {
                 try {
                     easyScores += p.easyArrayList.get(i).toString() + "\n";
                 } catch (Exception ignored) {
@@ -98,14 +98,14 @@ public class MS_Frame extends JFrame implements Runnable {
 
             }
             String mediumScores = "";
-            for (int i = 0; i < p.easyArrayList.size(); i ++) {
+            for (int i = 0; i < p.easyArrayList.size(); i++) {
                 try {
                     mediumScores += p.mediumArrayList.get(i).toString() + "\n";
                 } catch (Exception ignored) {
                 } //no scores in the file
             }
             String hardScores = "";
-            for (int i = 0; i < p.easyArrayList.size(); i ++) {
+            for (int i = 0; i < p.easyArrayList.size(); i++) {
                 try {
                     hardScores += p.hardArrayList.get(i).toString() + "\n";
                 } catch (Exception ignored) {
