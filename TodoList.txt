@@ -1,2 +1,0 @@
-Things to fix before final check
-- Die to first click
